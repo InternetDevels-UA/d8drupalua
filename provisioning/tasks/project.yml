@@ -32,7 +32,7 @@
 - name: "Deploy settings.php file"
   template:
     src=templates/drupal/sites/default/settings.php.j2
-    dest=/var/www/htdocs/sites/default/settings.php
+    dest=/var/www/sites/default/settings.php
 
 - name: "Create services.yml file"
   command: touch /var/www/sites/default/services.yml
@@ -41,7 +41,7 @@
 - name: "Deploy services.yml file"
   template:
     src=templates/drupal/sites/default/services.yml.j2
-    dest=/var/www/htdocs/sites/default/services.yml
+    dest=/var/www/sites/default/services.yml
 
 - name: "Execute drush commands and fix file permissions"
   shell: "{{ item }} chdir=/var/www/htdocs/"
