@@ -1,0 +1,18 @@
+- name: "Install php"
+  when: ansible_distribution in [ 'Debian', 'Ubuntu' ]
+  apt:
+    pkg: "{{ item }}"
+    update_cache: true
+  with_items:
+    - php5-fpm
+
+- name: "Copy fpm configuration in place."
+  template:
+    src=templates/etc/php5/fpm/pool.d/www.conf.j2
+    dest=/etc/php5/fpm/pool.d/www.conf
+    owner=root group=root mode=644
+  notify:
+    - Restart PHP-FPM
+
+- name: "Ensure fpm is started and enabled to start at boot."
+  service: name=php5-fpm state=started enabled=yes

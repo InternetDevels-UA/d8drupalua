@@ -1,0 +1,455 @@
+limit_conn_zone $binary_remote_addr zone=arbeit:10m;
+
+server {
+    listen 8080 default_server; # IPv4
+    server_name _;
+    return 444;
+}
+
+server {
+    listen 8080; # IPv4
+    server_name www.{{ nginx_vhost_server_name }};
+    return 301 $scheme://{{ nginx_vhost_server_name }}$request_uri;
+}
+
+server {
+    # listen port
+    listen 8080;
+    #listen *:443 ssl;
+    # site domain
+    server_name  {{ nginx_vhost_server_name }};
+    # connlimit
+    limit_conn arbeit 32;
+    # disable nginx version
+    server_tokens off;
+    # upload max filesize
+    client_max_body_size 10M;
+    # roto directory
+    root {{ nginx_vhost_root_directory }};
+    # index file
+    index index.html index.htm index.php index.cgi index.pl index.xhtml;
+    # keep connections open
+    fastcgi_keep_conn on;
+    # logs
+    # disables logging of errors about not found files into error_log
+    log_not_found off;
+    access_log /var/log/nginx/example.com.access.log;
+    error_log /var/log/nginx/example.com.error.log;
+	# if the site is behind a proxy
+	#set_real_ip_from X.X.X.X;
+	#real_ip_header X-Forwarded-For;
+	
+    # iframe block
+    #add_header X-Frame-Options SAMEORIGIN;
+    # content security, Allow execution of JavaScript, loaded only with our domain, Do not run embedded (inline) JavaScript
+    #add_header X-Content-Security-Policy "allow 'self';"; 
+    # iexplorer xss enable
+    add_header X-XSS-Protection "1; mode=block"; 
+
+    # ssl conf
+	#ssl_certificate /etc/nginx/ssl/example.com.crt;
+    #ssl_certificate_key /etc/nginx/ssl/example.com.key;
+    #ssl_session_timeout         5m;
+	#ssl_protocols               SSLv2 SSLv3 TLSv1;
+    #ssl_ciphers                 HIGH:!aNULL:!MD5;
+    #ssl_prefer_server_ciphers   on;
+
+	# htpass
+	#auth_basic              "Login";
+	#auth_basic_user_file    /etc/nginx/htpasswd;
+
+    # Deny access based on the User-Agent header
+    if ($http_user_agent ~ (httrack|htmlparser|libwww|inktomi.com|avastye.com|H010818|ODI3|FunWebProducts|looksmart.net|i.love.teh.cock|googlebawt.com|Microsoft-WebDAV-MiniRedir|JoeDog|Siege|curl|AB|ApacheBench) ) {
+        return 444;
+    }
+
+    # Deny access based on the Referer header
+    #if ($http_referer ~ (adult|babes|click|diamond|forsale|girl|jewelry|love|nudit|organic|poker|porn|poweroversoftware|sex|teen|webcam|zippo|casino|replica) ) {
+    #    return 444;
+    #}
+
+    # Protection against illegal HTTP methods. Out of the box only HEAD
+    if ( $request_method !~ ^(?:GET|HEAD|POST|PUT|DELETE|OPTIONS)$ ) {
+        return 405;
+    }
+
+    #drupal rewrite
+    location @rewrite {
+                rewrite ^/(.*)$ /index.php?q=$1;
+        }
+
+	#nginx status minitoring
+	location = /nginx-stats {
+		stub_status on;
+        access_log off;
+        allow 127.0.0.1;
+        deny all;
+    }
+
+    # alias to folder with php files locate outside site directory
+    #location /folder {
+    # aliases to another folder
+    #    alias /var/www/folder/;
+
+    #    location ~ \.php$ {
+    #        fastcgi_settings.....
+    #    }
+    #}
+    
+    location ~ \..*/.*\.php$ {
+        return 403;
+        #rewrite ^/(.*)$ /index.php?q=$1;
+    }    
+
+    # Disable .htaccess git and other and other hidden files
+    location ~ /\. {
+        return 404;
+    }
+
+    location ^~ /backup$ {
+        return 404;
+    }
+
+    location ^~ /patches$ {
+        return 404;
+    }
+
+    location ^~ /private$ {
+        return 404;
+    }
+
+    location ^~ /tmp$ {
+        return 404;
+    }
+
+    location ^~ /temp$ {
+        return 404;
+    }
+
+    location ~* ^/sites/.*/files/backup_migrate/ {
+        return 404;
+    }
+
+    location = /favicon.ico {
+        log_not_found off;
+        access_log off;
+    }
+
+    
+    # rewrite robots.txt to php file
+    #location = /robots.txt {rewrite  /robots.txt  /cdn/index.php;}
+
+    # rewrite robots txt to autside site directory
+    #location = /robots.txt {
+    #    alias /var/www/default/robots.txt ;
+    #}
+
+    # acces to robots
+    location = /robots.txt {
+        allow all;
+        log_not_found off;
+        access_log off;
+    }
+
+    location ~* ^(?:.+\.(?:htaccess|make|txt|engine|inc|info|install|module|profile|po|pot|sh|.*sql|test|theme|tpl(?:\.php)?|xtmpl)|code-style\.pl|/Entries.*|/Repository|/Root|/Tag|/Template)$ {
+        return 404;
+    }
+
+    location / { 
+
+        ## Advanced Aggregation module CSS
+        ## support. http://drupal.org/project/advagg.
+        location ^~ /sites/default/files/advagg_css/ {
+            location ~* /sites/default/files/advagg_css/css_[[:alnum:]]+\.css$ {
+                access_log off;
+                add_header Pragma '';
+                add_header Cache-Control 'public, max-age=946080000';
+                add_header Accept-Ranges '';
+            }
+        }
+
+        ## Advanced Aggregation module JS
+        ## support. http://drupal.org/project/advagg.
+        location ^~ /sites/default/files/advagg_js/ {
+            location ~* /sites/default/files/advagg_js/js_[\w|-]+.js$ {
+                access_log off;
+                add_header Pragma '';
+                add_header Cache-Control 'public, max-age=946080000';
+                add_header Accept-Ranges '';
+            }
+        }
+
+	try_files $uri @rewrite;
+    }
+
+    location ~* /system/files/ {
+        try_files $uri @rewrite;
+        expires 7d;
+        access_log off;
+    }
+
+    location ^~ /sites/default/files/ {
+        try_files $uri @rewrite;
+        # block php files
+        location ~* ^.+\.php$ {
+            return 404;
+	    }
+	   expires max;
+    }
+    
+    ### Serve & no-log static files & images directly,
+    location ~* ^.+\.(?:jpe?g|gif|png|ico|bmp|svg|swf|pdf|docx?|xlsx?|pptx?|tiff?|txt|rtf|cgi|bat|pl|dll|aspx?|class|otf|ttf|woff|eot|less)$ {
+    expires       max;
+    tcp_nodelay   off;
+    access_log    off;
+    log_not_found off;
+    sendfile      on;
+    tcp_nopush    on; 
+    #directio 10m; #for big files
+    #limit_rate  196K; #limit download speed in one flow
+    #set $limit_rate 196K; #limit download speed in one client
+    #limit_rate_after 1m; #limit download speed after...
+    keepalive_timeout 30;
+    output_buffers 1 512k;
+    add_header  Access-Control-Allow-Origin *;
+    }
+
+    location = /index.php {
+        fastcgi_pass   127.0.0.1:9000;
+        fastcgi_index  index.php;
+        fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;
+        include fastcgi_params;
+        fastcgi_ignore_client_abort     off;
+        fastcgi_connect_timeout 75;
+        fastcgi_send_timeout 240;
+        fastcgi_read_timeout 3600;
+        fastcgi_buffer_size 16M;
+        fastcgi_buffers 4 32M;
+        fastcgi_busy_buffers_size 64M;
+        fastcgi_temp_file_write_size 64M;
+        fastcgi_hide_header 'X-Drupal-Cache';
+        fastcgi_hide_header 'X-Generator';
+        fastcgi_hide_header 'X-Powered-By';
+    }
+
+    location = /cron.php {
+        fastcgi_pass   127.0.0.1:9000;
+        fastcgi_index  index.php;
+        fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;
+        include fastcgi_params;
+        fastcgi_ignore_client_abort     off;
+        fastcgi_connect_timeout 75;
+        fastcgi_send_timeout 240;
+        fastcgi_read_timeout 3600;
+        fastcgi_buffer_size 16M;
+        fastcgi_buffers 4 32M;
+        fastcgi_busy_buffers_size 64M;
+        fastcgi_temp_file_write_size 64M;
+        fastcgi_hide_header 'X-Drupal-Cache';
+        fastcgi_hide_header 'X-Generator';
+        fastcgi_hide_header 'X-Powered-By';
+    }
+
+    location = /xmlrpc.php {
+        fastcgi_pass   127.0.0.1:9000;
+        fastcgi_index  index.php;
+        fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;
+        include fastcgi_params;
+        fastcgi_ignore_client_abort     off;
+        fastcgi_connect_timeout 75;
+        fastcgi_send_timeout 240;
+        fastcgi_read_timeout 3600;
+        fastcgi_buffer_size 16M;
+        fastcgi_buffers 4 32M;
+        fastcgi_busy_buffers_size 64M;
+        fastcgi_temp_file_write_size 64M;
+        fastcgi_hide_header 'X-Drupal-Cache';
+        fastcgi_hide_header 'X-Generator';
+        fastcgi_hide_header 'X-Powered-By';
+    }
+        
+    location = /update.php {
+        fastcgi_pass   127.0.0.1:9000;
+        fastcgi_index  index.php;
+        fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;
+        include fastcgi_params;
+        fastcgi_ignore_client_abort     off;
+        fastcgi_connect_timeout 75;
+        fastcgi_send_timeout 240;
+        fastcgi_read_timeout 3600;
+        fastcgi_buffer_size 16M;
+        fastcgi_buffers 4 32M;
+        fastcgi_busy_buffers_size 64M;
+        fastcgi_temp_file_write_size 64M;
+        fastcgi_hide_header 'X-Drupal-Cache';
+        fastcgi_hide_header 'X-Generator';
+        fastcgi_hide_header 'X-Powered-By';
+    }
+
+    # drupal6 ad module
+    location = /sites/all/modules/ad/serve.php {
+        fastcgi_pass   127.0.0.1:9000;
+        fastcgi_index  index.php;
+        fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;
+        include fastcgi_params;
+        fastcgi_ignore_client_abort     off;
+        fastcgi_connect_timeout 75;
+        fastcgi_send_timeout 240;
+        fastcgi_read_timeout 3600;
+        fastcgi_buffer_size 16M;
+        fastcgi_buffers 4 32M;
+        fastcgi_busy_buffers_size 64M;
+        fastcgi_temp_file_write_size 64M;
+        fastcgi_hide_header 'X-Drupal-Cache';
+        fastcgi_hide_header 'X-Generator';
+        fastcgi_hide_header 'X-Powered-By';
+    }
+
+    location = /install.php {
+        fastcgi_pass   127.0.0.1:9000;
+        fastcgi_index  index.php;
+        fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;
+        include fastcgi_params;
+        fastcgi_ignore_client_abort     off;
+        fastcgi_connect_timeout 75;
+        fastcgi_send_timeout 240;
+        fastcgi_read_timeout 3600;
+        fastcgi_buffer_size 16M;
+        fastcgi_buffers 4 32M;
+        fastcgi_busy_buffers_size 64M;
+        fastcgi_temp_file_write_size 64M;
+        fastcgi_hide_header 'X-Drupal-Cache';
+        fastcgi_hide_header 'X-Generator';
+        fastcgi_hide_header 'X-Powered-By';
+    }
+    
+    # drupal8 
+    location = /core/install.php {
+        fastcgi_pass   127.0.0.1:9000;
+        fastcgi_index  index.php;
+        fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;
+        include fastcgi_params;
+        fastcgi_ignore_client_abort     off;
+        fastcgi_connect_timeout 75;
+        fastcgi_send_timeout 240;
+        fastcgi_read_timeout 3600;
+        fastcgi_buffer_size 16M;
+        fastcgi_buffers 4 32M;
+        fastcgi_busy_buffers_size 64M;
+        fastcgi_temp_file_write_size 64M;
+        fastcgi_hide_header 'X-Drupal-Cache';
+        fastcgi_hide_header 'X-Generator';
+        fastcgi_hide_header 'X-Powered-By';
+    }
+
+    # drupal8 
+    location = /core/authorize.php {
+        fastcgi_pass   127.0.0.1:9000;
+        fastcgi_index  index.php;
+        fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;
+        include fastcgi_params;
+        fastcgi_ignore_client_abort     off;
+        fastcgi_connect_timeout 75;
+        fastcgi_send_timeout 240;
+        fastcgi_read_timeout 3600;
+        fastcgi_buffer_size 16M;
+        fastcgi_buffers 4 32M;
+        fastcgi_busy_buffers_size 64M;
+        fastcgi_temp_file_write_size 64M;
+        fastcgi_hide_header 'X-Drupal-Cache';
+        fastcgi_hide_header 'X-Generator';
+        fastcgi_hide_header 'X-Powered-By';
+    }
+
+    # drupal8 
+    location = /core/rebuild.php {
+        fastcgi_pass   127.0.0.1:9000;
+        fastcgi_index  index.php;
+        fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;
+        include fastcgi_params;
+        fastcgi_ignore_client_abort     off;
+        fastcgi_connect_timeout 75;
+        fastcgi_send_timeout 240;
+        fastcgi_read_timeout 3600;
+        fastcgi_buffer_size 16M;
+        fastcgi_buffers 4 32M;
+        fastcgi_busy_buffers_size 64M;
+        fastcgi_temp_file_write_size 64M;
+        fastcgi_hide_header 'X-Drupal-Cache';
+        fastcgi_hide_header 'X-Generator';
+        fastcgi_hide_header 'X-Powered-By';
+    }
+
+    # block php files
+    location ~* ^.+\.php$ {
+		#rewrite ^/(.*)$ /index.php?q=$1;
+        return 404;
+    }
+
+    location /phpmyadmin {
+        allow all;
+        root /usr/share/;
+        index index.php index.html index.htm;
+
+        location ~ ^/phpmyadmin/(.+\.php)$ {
+            try_files $uri =404;
+            root /usr/share/;
+            fastcgi_pass 127.0.0.1:9000;
+            fastcgi_index index.php;
+            fastcgi_param SCRIPT_FILENAME $request_filename;
+            include /etc/nginx/fastcgi_params;
+        }
+
+        location ~* ^/phpmyadmin/(.+\.(jpg|jpeg|gif|css|png|js|ico|html|xml|txt))$ {
+            root /usr/share/;
+        }
+    }
+
+    location /phpMyAdmin {
+        rewrite ^/* /phpmyadmin last;
+    }
+
+
+
+    location ^~ /xhprof {
+        root /var/www/;
+        allow all;
+
+        location ~ \.php$ {
+            fastcgi_pass   127.0.0.1:9000;
+            fastcgi_index  index.php;
+            fastcgi_param  SCRIPT_FILENAME  $request_filename;
+            include fastcgi_params;
+            fastcgi_ignore_client_abort     off;
+            fastcgi_connect_timeout 500;
+            fastcgi_read_timeout 500;
+            fastcgi_buffer_size 160M;
+            fastcgi_buffers 4 320M;
+            fastcgi_busy_buffers_size 640M;
+            fastcgi_temp_file_write_size 640M;
+        }
+
+    }
+}
+
+server {
+        listen              8084;
+        server_name         _;
+        allow all;
+
+        location / {
+                proxy_pass     http://192.168.33.3:8083;
+                expires       0s;
+                gzip on;
+                gzip_http_version 1.0;
+                gzip_disable "msie6";
+                gzip_vary on;
+                gzip_proxied any;
+                gzip_types text/plain text/css application/json application/x-javascript text/xml application/xml application/xml+rss text/javascript application/javascript;
+                proxy_http_version 1.1;
+                proxy_set_header Upgrade $http_upgrade;
+                proxy_set_header Connection "upgrade";
+
+
+        }
+}

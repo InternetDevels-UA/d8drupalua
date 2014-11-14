@@ -1,0 +1,26 @@
+- name: "Add nginx key"
+  apt_key: url=http://nginx.org/keys/nginx_signing.key state=present
+  when: ansible_distribution in [ 'Debian', 'Ubuntu' ]
+
+- name: "Add apt nginx repo"
+  apt_repository: repo='deb http://nginx.org/packages/debian/ {{ ansible_lsb['codename'] }} nginx' state=present
+  when: ansible_distribution in [ 'Debian', 'Ubuntu' ]
+
+- name: "Install system nginx"
+  when: ansible_distribution in [ 'Debian', 'Ubuntu' ]
+  apt:
+    pkg: "{{ item }}"
+    update_cache: true
+  with_items:
+    - nginx
+
+- name: "Copy nginx configuration in place."
+  template:
+    src=templates/etc/nginx/nginx.conf.j2
+    dest=/etc/nginx/nginx.conf
+    owner=root group=root mode=644
+  notify:
+    - Restart Nginx
+
+- name: "Ensure nginx is started and enabled to start at boot."
+  service: name=nginx state=started enabled=yes

@@ -1,0 +1,59 @@
+
+# variables
+# ntp
+ntp_timezone: "Europe/Kiev"
+
+# firevall
+firewall_allowed_tcp_ports:
+  - "22"
+  - "80"
+  - "443"
+
+# mysql
+root_db_password: "root"
+mysql_drupal_user: "drupalua"
+mysql_drupal_password: "drupalua"
+mysql_drupal_database: "drupalua"
+
+# drush
+drush_install_path: "/usr/local/share/drush"
+drush_path: "/usr/local/bin/drush"
+drush_version: "master"
+composer_path: "/usr/local/bin/composer"
+
+# nginx
+nginx_user: "vagrant"
+nginx_worker_processes: "{{ansible_processor_cores}}"
+nginx_worker_connections: "8192"
+nginx_client_max_body_size: "64m"
+nginx_keepalive_timeout: "65"
+
+# nginx vhosts
+nginx_vhost_server_name: "drupalua.local"
+nginx_vhost_root_directory: "/var/www/htdocs"
+
+# xhprof
+xhprof_install_path: "/var/www/xhprof"
+xhprof_version: "master"
+
+# mailcatcher
+mailcatcher_ip: 0.0.0.0       # Set the ip address of both servers
+mailcatcher_smtp_ip: 0.0.0.0  # Set the ip address of the smtp server
+mailcatcher_smtp_port: 1025   # Set the ip address of the smtp server
+mailcatcher_http_ip: 0.0.0.0  # Set the ip address of the http server
+mailcatcher_http_port: 1080   # Set the port address of the http server
+
+# varnish
+varnish_version: 3.0
+varnish_identity: varnish
+varnish_instance_name: "{{varnish_identity}}"
+varnish_conf_dir: "/etc/{{varnish_instance_name}}"
+varnish_conf_file: "/etc/default/{{varnish_instance_name}}"  # FIXME: This is only valid for debians!
+varnish_vcl_dir: "{{varnish_conf_dir}}"
+varbish_vcl_file: "/etc/{{varnish_instance_name}}/default.vcl"
+varnish_http_server_listen_on: 0.0.0.0:80
+varnish_management_console_listen_on: localhost:6082
+varnish_management_console_secret_file: /etc/varnish/secret
+varnish_malloc: 256m
+varnish_backend: 127.0.0.1
+varnish_backend_port: 8080
