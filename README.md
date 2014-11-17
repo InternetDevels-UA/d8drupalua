@@ -25,7 +25,7 @@ Once all of that is done, you can simply type in `vagrant up`, and Vagrant will 
 Once the new VM is up and running (after `vagrant up` is complete and you're back at the command prompt), you can log into it via SSH if you'd like by typing in `vagrant ssh`.
 
 You should be able to access your new Drupal site at either the  http://drupalua.local/ if you add the line `192.168.33.5  drupalua.local` to your `/etc/hosts` file.
- site http://druoalua.local/
+ site http://drupalua.local/
  phpmyadmin http://drupalua.local/phpmyadmin
  xhprof http://drupalua.local/?debug=all
  mail http://drupalua.local:1080
