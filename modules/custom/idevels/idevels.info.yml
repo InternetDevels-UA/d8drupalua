@@ -1,0 +1,8 @@
+name: Idevels
+description: Main module
+package: dev
+type: module
+dependencies:
+  - node
+core: '8.x'
+version: 8.x-1.1.

@@ -1,0 +1,78 @@
+<?php
+/**
+ * Implement hook_install().
+ */
+function idevels_install() {
+  $function = 'batch_idevels';
+  $batch = $function();
+  batch_set($batch);
+}
+
+/**
+ * Created batch.
+ */
+function batch_idevels() {
+  $countries = file(drupal_get_path('module', 'idevels') . '/cities.txt', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+  $parts = array_chunk($countries, 50);
+  $max = count($parts);
+  $operations = array();
+  foreach ($parts as $key => $chunk) {
+    $operations[] = array(
+      'batch_idevels_process',
+      array(
+        $chunk,
+        $max,
+      )
+    );
+  }
+  $batch = array(
+    'operations' => $operations,
+    'finished' => 'batch_idevels_finished',
+    'title' => t('Processing idevels batch'),
+    'init_message' => t('Idevels  batch is starting.'),
+    'progress_message' => t('Processed @current out of @total.'),
+    'error_message' => t('Idevels  batch has encountered an error.'),
+    'file' => drupal_get_path('module', 'idevels') . '/idevels.install',
+  );
+
+  batch_set($batch);
+}
+
+/**
+ * Batch operation for batch_idevels: save >50 terms
+ *
+ * This is the function that is called on each operation in batch_idevels.
+ */
+function batch_idevels_process($items, $max, &$context) {
+  if (empty($context['sandbox']['max'])) {
+    $context['sandbox']['max'] = $max;
+  }
+
+  if (!isset($context['sandbox']['progress'])) {
+    $context['sandbox']['progress'] = 1;
+    $context['sandbox']['max'] = count($context['sandbox']['$countries']);
+  }
+  foreach ($items as $item) {
+    entity_create('taxonomy_term', array(
+      'name' => $item,
+      'vid' => 'city',
+    ))->save();
+  }
+
+  $context['sandbox']['progress']++;
+  if ($context['sandbox']['progress'] != $context['sandbox']['max']) {
+    $context['finished'] = ($context['sandbox']['progress'] >= $context['sandbox']['max']);
+  }
+
+}
+/**
+ * Batch 'finished' callback used by batch_idevels.
+ */
+function batch_idevels_finished($success) {
+  if ($success) {
+    drupal_set_message(t('All terms taxonomy imported successfully'));
+  }
+  else {
+    drupal_set_message(t('Terms taxonomy imported with error'));
+  }
+}

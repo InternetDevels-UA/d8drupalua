@@ -1,0 +1,73 @@
+<?php
+
+/**
+ * @file
+ * idevels_events module file.
+ */
+use Drupal\Core\Form\FormStateInterface;
+
+/**
+ *  Implements hook_form_alter().
+ */
+function idevels_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
+  if ($form_id == 'events_node_edit_form' || $form_id == 'events_node_form') {
+    $form['field_select_price'] = array(
+      '#type' => 'select',
+      '#title' => t('Cost of event'),
+      '#options' => array(
+        0 => t('Free event'),
+        1 => t('Paid event'),
+      ),
+      '#default_value' => 1,
+      '#weight' => 10,
+    );
+    $field_event_price_values = $form['field_event_price']['widget']['0']['value']['#default_value'];
+    if (empty($field_event_price_values)) {
+      $form['field_select_price']['#default_value'] = '';
+    }
+    $form['field_event_price']['#states'] = array(
+      'visible' => array(
+        ':input[name=field_select_price]' => array('value' => 1)
+      ),
+    );
+    array_unshift($form['actions']['publish']['#submit'], 'idevels_submit_events');
+    array_unshift($form['#validate'], 'idevels_validate_events');
+    $form['field_city']['widget']['#autocomplete_route_name'] = 'idevels.taxonomy.autocomplete';
+    $form['field_city']['widget']['#default_value'] = str_replace('"', '', $form['field_city']['widget']['#default_value']);
+    $form['#attached']['js'] = array(drupal_get_path('module', 'idevels') . '/js/idevelsAutocomplete.js',);
+  }
+}
+
+
+//Custom submit to change field_select_price value
+function idevels_submit_events($form, FormStateInterface $form_state) {
+  $values = $form_state->getValues();
+  if ($values['field_select_price'] == '0') {
+    $form_state->setValue('field_event_price', array(''));
+  }
+}
+
+//Custom validate to change field_city value
+function idevels_validate_events($form, FormStateInterface $form_state) {
+  $values = $form_state->getValues();
+  if (is_array($values['field_city'])) {
+    $string = implode(', ', $values['field_city']);
+    $form_state->setValue('field_city', array($string));
+    $form_state->getUserInput('field_city', array($string));
+    $input = $form_state->getUserInput();
+    $input['field_city'] = '"' . $input['field_city'] . '"';
+    $form_state->setUserInput($input);
+  }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function idevels_theme() {
+  return array(
+    'idevels_formatter' => array(
+      'variables' => array('lat' => NULL, 'lng' => NULL),
+      'template' => 'idevels-formatter',
+    ),
+  );
+}

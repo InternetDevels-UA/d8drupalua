@@ -1,0 +1,6 @@
+idevels.taxonomy.autocomplete:
+  path: '/taxonomy/idevels.autocomplete/{entity_type}/{field_name}'
+  defaults:
+    _controller: '\Drupal\idevels\Controller\IdevelsTermAutocompleteController::autocomplete'
+  requirements:
+    _permission: 'access content'

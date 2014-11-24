@@ -9,3 +9,9 @@
 [submodule "sites/all/themes/basic"]
 	path = sites/all/themes/basic
 	url = http://git.drupal.org/project/basic.git
+[submodule "modules/contrib/geophp"]
+	path = modules/contrib/geophp
+	url = http://git.drupal.org/project/geophp.git
+[submodule "modules/contrib/geolocation"]
+	path = modules/contrib/geolocation
+	url = http://git.drupal.org/project/geolocation.git
