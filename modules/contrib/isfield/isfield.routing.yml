@@ -1,0 +1,6 @@
+isfield.settings:
+  path: '/admin/config/media/isfield'
+  defaults:
+    _form: '\Drupal\isfield\Form\ISFieldSettingsForm'
+  requirements:
+    _permission: 'administer isfield'

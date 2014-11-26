@@ -1,0 +1,65 @@
+<?php
+/**
+ * @file
+ * isfield primary module file.
+ */
+
+/**
+ * Implements hook_menu().
+ */
+function isfield_menu() {
+  $items['admin/config/media/isfield'] = array(
+    'title' => 'ISfield predefined dimensions',
+    'route_name' => 'isfield.settings',
+  );
+  return $items;
+}
+
+/**
+ * Helper function to get MediaWrapper object from an element.
+ */
+function isfield_get_media_wrapper($text) {
+  require_once DRUPAL_ROOT . '/libraries/MediaWrapper/MediaWrapper/MediaWrapper.php';
+  return  MediaWrapper::getInstance()->getWrapper($text);
+}
+
+/**
+ * Implements hook_content_migrate_field_alter().
+ *
+ * Convert emvideo cck fields to text_long field with isfield_video formatter.
+ */
+function isfield_content_migrate_field_alter(&$field_value, &$instance_value) {
+  if (in_array($field_value['module'], array('emvideo'))) {
+    $field_value['module'] = 'text';
+    $field_value['type'] = 'text_long';
+  }
+}
+
+/**
+ * Implements hook_content_migrate_instance_alter().
+ */
+function isfield_content_migrate_instance_alter(&$instance_value, &$field_value) {
+  // Add widget text_textarea and isfield_video formatter to emvideo fields.
+  if (in_array($instance_value['widget']['module'], array('emvideo'))) {
+    $instance_value['widget']['module'] = 'text';
+    $instance_value['widget']['type'] = 'text_textarea';
+    foreach ($instance_value['display'] as $context => $settings) {
+      $instance_value['display'][$context]['type'] = 'isfield_video';
+    }
+  }
+}
+
+/**
+ * Implements hook_content_migrate_data_record_alter().
+ */
+function isfield_content_migrate_data_record_alter(&$record, &$field, $instance) {
+  switch ($instance['widget_type']) {
+    case 'emvideo_textfields';
+      if (!empty($record[$field['field_name'] . '_embed'])) {
+        // copy 'embed' value to 'value'
+        $record[$field['field_name'] . '_value'] = $record[$field['field_name'] . '_embed'];
+      }
+    break;
+  }
+}
+

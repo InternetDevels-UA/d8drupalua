@@ -23,9 +23,7 @@
 
   <div class="content">
     {#  We hide the comments to render below. #}
-    {% hide(content.comments) %}
-    {% hide(content.links) %}
-    {{ content }}
+      {{ content|without('comments', 'links') }}
 
   </div> <!-- /content -->
 

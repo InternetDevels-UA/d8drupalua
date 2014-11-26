@@ -1,0 +1,9 @@
+video_dimensions:
+  - 420x315
+  - 480x360
+  - 640x480
+  - 960x720
+thumbnail_dimensions:
+  - 140x105
+  - 120x90
+

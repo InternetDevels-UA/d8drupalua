@@ -1,0 +1,7 @@
+name: Internet Sources field
+type: module
+description: Provides a field for Internet sources media (YouTube, Dailymotion, Vimeo etc.)
+package: Media
+core: 8.x
+dependencies:
+  - field

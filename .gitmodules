@@ -15,3 +15,6 @@
 [submodule "modules/contrib/geolocation"]
 	path = modules/contrib/geolocation
 	url = http://git.drupal.org/project/geolocation.git
+[submodule "modules/contrib/isfield"]
+	path = modules/contrib/isfield
+	url = http://git.drupal.org/project/isfield.git
