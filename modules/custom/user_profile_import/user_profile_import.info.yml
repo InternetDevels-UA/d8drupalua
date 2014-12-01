@@ -1,0 +1,8 @@
+name: User profile import
+description: Import users from table
+package: import
+type: module
+dependencies:
+  - user
+core: '8.x'
+version: 8.x-1.1.

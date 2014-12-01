@@ -1,0 +1,3 @@
+user_profile.import_about:
+  title: User profile import
+  route_name: user_profile_import_about
