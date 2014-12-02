@@ -20,17 +20,17 @@
   $(".past-date select[title=Year]").change(function(event) {
     if (parseInt($(this).val()) == d.getFullYear()) {
       $(this).parent().parent().find("select[title=Month] option").each(function(){
-        if (parseInt($(this).val()) > d.getMonth()) {
+        if (parseInt($(this).val()) > d.getMonth()+1) {
           $(this).hide();
         };
       });
       // If future Month was selected - select first option
-      if ($(this).parent().parent().find("select[title=Month]").val() > d.getMonth()) {
+      if ($(this).parent().parent().find("select[title=Month]").val() > d.getMonth()+1) {
         $(this).parent().parent().find("select[title=Month]").val($(this).parent().parent().find("select[title=Month] option:first").val());
       };
       // If user select curent Month - hide all futures Days
       $(this).parent().parent().find("select[title=Month]").change(function(event) {
-        if (parseInt($(this).val()) == d.getMonth()) {
+        if (parseInt($(this).val()) == d.getMonth()+1) {
           $(this).parent().parent().find("select[title=Day] option").each(function(){
             if (parseInt($(this).val()) > d.getDate()) {
               $(this).hide();
