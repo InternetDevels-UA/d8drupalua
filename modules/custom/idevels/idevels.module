@@ -36,6 +36,11 @@ function idevels_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_s
     $form['field_city']['widget']['#default_value'] = str_replace('"', '', $form['field_city']['widget']['#default_value']);
     $form['#attached']['js'] = array(drupal_get_path('module', 'idevels') . '/js/idevelsAutocomplete.js',);
   }
+  elseif ($form_id == 'user_form') {
+    array_unshift($form['#validate'], 'idevels_validate_pastdate');
+    $form['field_birthday']['#attributes']['class'][] = 'past-date';
+    $form['#attached']['js'] = array(drupal_get_path('module', 'idevels') . '/js/DatePastFuture.js');
+  }
 }
 
 
@@ -57,6 +62,14 @@ function idevels_validate_events($form, FormStateInterface $form_state) {
     $input = $form_state->getUserInput();
     $input['field_city'] = '"' . $input['field_city'] . '"';
     $form_state->setUserInput($input);
+  }
+}
+
+// Custom validate for date
+function idevels_validate_pastdate($form, FormStateInterface $form_state) {
+  $values = $form_state->getValues();
+  if (strtotime($values['field_birthday'][0]['value']->format('Y-m-d\TH:i:s')) > time()) {
+    $form_state->setError($form['field_birthday'], t("The date can't be before today"));
   }
 }
 
