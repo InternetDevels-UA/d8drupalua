@@ -44,17 +44,19 @@ class UserProfileImportController {
         $account->set('field_city', $row['city']);
         $account->set('field_first_name', $row['field_first_name_value']);
         $account->set('field_last_name', $row['field_last_name_value']);
-        if ($row['field_gender_value'] == "I'm a boy") {
-          $account->set('field_gender', 1);
-        }
-        elseif ($row['field_gender_value'] == "I'm a girl") {
+        if ($row['field_gender_value'] == "I'm a girl") {
           $account->set('field_gender', 0);
+        }
+        else {
+          $account->set('field_gender', 1);
         }
         $account->set('field_skype', $row['field_skype_value']);
         $account->set('field_phone', $row['field_phone_value']);
         $account->set('field_drupal_org', $row['field_drupal_org_value']);
         $account->set('field_drupal_ru', $row['field_drupal_ru_value']);
-        $account->set('field_birthday', date('Y-m-d', strtotime($row['field_birthday_value'])));
+        if (!empty($row['field_birthday_value'])) {
+          $account->set('field_birthday', date('Y-m-d', strtotime($row['field_birthday_value'])));
+        }
         $account->set('field_company', $row['field_profile_company_value']);
         $account->set('field_job_title', $row['field_job_title_value']);
         $account->set('field_skills', $row['field_skills_value']);
