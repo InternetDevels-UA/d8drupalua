@@ -37,8 +37,12 @@ function idevels_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_s
     $form['field_city']['widget']['#default_value'] = str_replace('"', '', $form['field_city']['widget']['#default_value']);
     $form['#attached']['js'] = array(drupal_get_path('module', 'idevels') . '/js/idevelsAutocomplete.js', drupal_get_path('module', 'idevels') . '/js/createEventForm.js');
   }
+  if ($form_id == 'user_form' || $form_id == 'user_register_form' || $form_id == 'user_register') {
+    array_unshift($form['#validate'], 'idevels_validate_pastdate');
+    $form['field_birthday']['#attributes']['class'][] = 'past-date';
+    $form['#attached']['js'] = array(drupal_get_path('module', 'idevels') . '/js/DatePastFuture.js');
+  }
 }
-
 
 //Custom submit to change field_select_price value
 function idevels_submit_events($form, FormStateInterface $form_state) {
@@ -64,6 +68,14 @@ function idevels_validate_events($form, FormStateInterface $form_state) {
   }
   if (strlen(strip_tags($values['field_new_teaser'][0]['value'])) < 100) {
     $form_state->setError($form['field_new_teaser'], t('The event teaser is too short. Please enter at least 100 symbols.'));
+  }
+}
+
+// Custom validate for date
+function idevels_validate_pastdate($form, FormStateInterface $form_state) {
+  $values = $form_state->getValues();
+  if (strtotime($values['field_birthday'][0]['value']->format('Y-m-d\TH:i:s')) > time()) {
+    $form_state->setError($form['field_birthday'], t("The date can't be before today"));
   }
 }
 
