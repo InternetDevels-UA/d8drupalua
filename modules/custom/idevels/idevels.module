@@ -36,20 +36,12 @@ function idevels_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_s
     $form['field_city']['widget']['#default_value'] = str_replace('"', '', $form['field_city']['widget']['#default_value']);
     $form['#attached']['js'] = array(drupal_get_path('module', 'idevels') . '/js/idevelsAutocomplete.js',);
   }
-/*  \Drupal::logger('idevels')->notice('test!' . $form_id);
-  dsm($form_id);
-  \Drupal::logger('idevels')->notice('id user login form: ' . $form_id);*/
-  if ($form_id == 'user_form'/* || $form_id == 'user_register_form' || $form_id == 'user_register'*/) {
+  if ($form_id == 'user_form' || $form_id == 'user_register_form' || $form_id == 'user_register') {
     array_unshift($form['#validate'], 'idevels_validate_pastdate');
     $form['field_birthday']['#attributes']['class'][] = 'past-date';
     $form['#attached']['js'] = array(drupal_get_path('module', 'idevels') . '/js/DatePastFuture.js');
   }
 }
-
-/*function idevels_form_user_register_form_alter(&$form, FormStateInterface $form_state) {
-  dsm('work!');
-  \Drupal::logger('idevels')->notice('work!');
-}*/
 
 //Custom submit to change field_select_price value
 function idevels_submit_events($form, FormStateInterface $form_state) {
