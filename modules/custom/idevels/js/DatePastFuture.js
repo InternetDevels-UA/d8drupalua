@@ -103,12 +103,12 @@
 
   // Validation for date selectbox on Month chenged
   $(".past-date").on('change', 'select[title=Month]', function(event) {  
-    validateDays(parseInt($(this).val()), parseInt($(this).parent().parent().find("select[title=Year]").val()), $(this).parent().parent(), 'past');
+    validateDays(parseInt($(this).val()), parseInt($(this).parents().eq(1).find("select[title=Year]").val()), $(this).parents().eq(1), 'past');
   });
 
   // Validation for date and Month selectbox on Year chenged
   $(".past-date").on('change', 'select[title=Year]', function(event) {  
-    validateMonth(parseInt($(this).parent().parent().find("select[title=Month]").val()), parseInt($(this).val()), $(this).parent().parent(), 'past');
+    validateMonth(parseInt($(this).parents().eq(1).find("select[title=Month]").val()), parseInt($(this).val()), $(this).parents().eq(1), 'past');
   });
 
 })})(jQuery);
