@@ -5,7 +5,7 @@
 
   function formatDate(date) {
     var day = date.getDate().toString();
-    var month = date.getMonth().toString();
+    var month = (date.getMonth() + 1).toString();
     var year = date.getFullYear().toString();
     day = day.length < 2 ? "0" + day : day;
     month = month.length < 2 ? "0" + month : month;
