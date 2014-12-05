@@ -65,16 +65,28 @@ function idevels_validate_events($form, FormStateInterface $form_state) {
     $input['field_city'] = '"' . $input['field_city'] . '"';
     $form_state->setUserInput($input);
   }
-  if (strlen(strip_tags($values['body'][0]['value'])) < 302) {
+  if (empty($values['body'][0]['value'])) {
+    $form_state->setError($form['body'], t("The event body can't be empty."));
+  }
+  elseif (strlen(strip_tags($values['body'][0]['value'])) < 302) {
     $form_state->setError($form['body'], t('The event discription is too short. Please enter at least 300 symbols.'));
   }
-  if (strlen(strip_tags($values['field_new_teaser'][0]['value'])) < 102) {
+
+  if (empty($values['field_new_teaser'][0]['value'])) {
+    $form_state->setError($form['field_new_teaser'], t("The event teaser can't be empty."));
+  }
+  elseif (strlen(strip_tags($values['field_new_teaser'][0]['value'])) < 102) {
     $form_state->setError($form['field_new_teaser'], t('The event teaser is too short. Please enter at least 100 symbols.'));
   }
-  if ($values['field_event_date'][0]['value'] < new DateTime()) {
+
+  if (!($values['field_event_date'][0]['value'] instanceof DateTime)) {
+    $form_state->setError($form['field_event_date'], t("The event date can't be empty."));
+  }
+  elseif ($values['field_event_date'][0]['value'] < new DateTime()) {
     $form_state->setError($form['field_event_date'], t("The event start time can't be before now."));
   }
-  if ($values['field_event_date_end'][0]['value']) {
+
+  if ($values['field_event_date_end'][0]['value'] instanceof DateTime) {
     if ($values['field_event_date_end'][0]['value'] < $values['field_event_date'][0]['value']) {
       $form_state->setError($form['field_event_date_end'], t("The event end time can't be before event start time."));
     }
