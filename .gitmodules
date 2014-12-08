@@ -6,9 +6,6 @@
 	path = modules/admin_menu
 	url = http://git.drupal.org/project/admin_menu.git
 	branch = 8.x-3.x
-[submodule "sites/all/themes/basic"]
-	path = sites/all/themes/basic
-	url = http://git.drupal.org/project/basic.git
 [submodule "modules/contrib/geophp"]
 	path = modules/contrib/geophp
 	url = http://git.drupal.org/project/geophp.git
