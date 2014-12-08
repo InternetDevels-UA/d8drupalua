@@ -18,3 +18,7 @@
 [submodule "modules/contrib/isfield"]
 	path = modules/contrib/isfield
 	url = http://git.drupal.org/project/isfield.git
+[submodule "themes/gratis"]
+	path = themes/gratis
+	url = http://git.drupal.org/project/gratis.git
+	branch = 8.x-2.x
