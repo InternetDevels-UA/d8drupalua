@@ -9,3 +9,7 @@
 [submodule "sites/all/themes/basic"]
 	path = sites/all/themes/basic
 	url = http://git.drupal.org/project/basic.git
+[submodule "themes/gratis"]
+	path = themes/gratis
+	url = http://git.drupal.org/project/gratis.git
+	branch = 8.x-2.x
