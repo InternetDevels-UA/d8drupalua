@@ -20,7 +20,7 @@ function idevels_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_s
         1 => t('Paid event'),
       ),
       '#default_value' => 1,
-      '#weight' => 10,
+      '#weight' => 9.5,
     );
     $field_event_price_values = $form['field_event_price']['widget']['0']['value']['#default_value'];
     if (empty($field_event_price_values)) {
@@ -35,7 +35,9 @@ function idevels_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_s
     array_unshift($form['#validate'], 'idevels_validate_events');
     $form['field_city']['widget']['#autocomplete_route_name'] = 'idevels.taxonomy.autocomplete';
     $form['field_city']['widget']['#default_value'] = str_replace('"', '', $form['field_city']['widget']['#default_value']);
-    $form['#attached']['js'] = array(drupal_get_path('module', 'idevels') . '/js/idevelsAutocomplete.js', drupal_get_path('module', 'idevels') . '/js/createEventForm.js');
+    $form['field_event_date']['#attributes']['class'][] = 'future-date';
+    $form['field_event_date_end']['#attributes']['class'][] = 'future-date';
+    $form['#attached']['js'] = array(drupal_get_path('module', 'idevels') . '/js/idevelsAutocomplete.js', drupal_get_path('module', 'idevels') . '/js/createEventForm.js', drupal_get_path('module', 'idevels') . '/js/DatePastFuture.js');
   }
   if ($form_id == 'user_form' || $form_id == 'user_register_form' || $form_id == 'user_register') {
     array_unshift($form['#validate'], 'idevels_validate_pastdate');
@@ -63,11 +65,34 @@ function idevels_validate_events($form, FormStateInterface $form_state) {
     $input['field_city'] = '"' . $input['field_city'] . '"';
     $form_state->setUserInput($input);
   }
-  if (strlen(strip_tags($values['body'][0]['value'])) < 300) {
+  if (empty($values['body'][0]['value'])) {
+    $form_state->setError($form['body'], t("The event body can't be empty."));
+  }
+  elseif (strlen(strip_tags($values['body'][0]['value'])) < 302) {
     $form_state->setError($form['body'], t('The event discription is too short. Please enter at least 300 symbols.'));
   }
-  if (strlen(strip_tags($values['field_new_teaser'][0]['value'])) < 100) {
+
+  if (empty($values['field_new_teaser'][0]['value'])) {
+    $form_state->setError($form['field_new_teaser'], t("The event teaser can't be empty."));
+  }
+  elseif (strlen(strip_tags($values['field_new_teaser'][0]['value'])) < 102) {
     $form_state->setError($form['field_new_teaser'], t('The event teaser is too short. Please enter at least 100 symbols.'));
+  }
+
+  if (!($values['field_event_date'][0]['value'] instanceof DateTime)) {
+    $form_state->setError($form['field_event_date'], t("The event date can't be empty."));
+  }
+  elseif ($values['field_event_date'][0]['value'] < new DateTime()) {
+    $form_state->setError($form['field_event_date'], t("The event start time can't be before now."));
+  }
+
+  if ($values['field_event_date_end'][0]['value'] instanceof DateTime) {
+    if ($values['field_event_date_end'][0]['value'] < $values['field_event_date'][0]['value']) {
+      $form_state->setError($form['field_event_date_end'], t("The event end time can't be before event start time."));
+    }
+    if ($values['field_event_date_end'][0]['value'] < new DateTime()) {
+      $form_state->setError($form['field_event_date_end'], t("The event end time can't be before now."));
+    }
   }
 }
 
