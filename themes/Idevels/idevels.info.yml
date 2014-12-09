@@ -1,0 +1,11 @@
+name: Idevels
+description: Drupal Idevels Theme
+core: 8.x
+engine: twig
+version: VERSION
+type: theme
+base theme: gratis
+screenshot: screenshot.png
+stylesheets:
+  all:
+   - css/idevels.styles.css
