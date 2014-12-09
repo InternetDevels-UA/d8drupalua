@@ -1,7 +1,0 @@
-{
-"version": 3,
-"mappings": ";AACA,CAAC;EACC,gBAAgB,EAAE,WAAW;;;AAE/B;;;;;;;;MAAS;EASP,OAAO,EAAE,IAAI;;;AAEf,KAAK;EACH,KAAK,EAAE,IAAI;;;AAEb;;;MAAS;EAIP,MAAM,EAAE,MAAM;EACd,KAAK,EAAE,IAAI;;;AAGX,oCAAQ;EAIN,KAAK,EAAE,KAAK;;;;AAId,+CAA6B;EAC3B,OAAO,EAAE,oBAAoB;EAC7B,SAAS,EAAE,KAAK;EAChB,WAAW,EAAE,MAAM",
-"sources": ["../sass/print.sass"],
-"names": [],
-"file": "print.css"
-}
