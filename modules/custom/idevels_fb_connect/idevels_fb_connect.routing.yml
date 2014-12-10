@@ -1,0 +1,15 @@
+idevels_fb_connect_login:
+  path: 'user/fb-connect'
+  defaults:
+    _content: '\Drupal\idevels_fb_connect\Controller\IdevelsFBConnectController::unified_login_register'
+    _title: 'Register / Login with FB'
+  requirements:
+    _role : 'anonymous'
+
+idevels_fb_connect_admin:
+  path: '/admin/config/people/idevels-fb-connect'
+  defaults:
+    _title: 'FB Connect Settings'
+    _form: '\Drupal\idevels_fb_connect\Form\IdevelsFBConnectAdmin'
+  requirements:
+    _permission: 'administer idevels fb'
