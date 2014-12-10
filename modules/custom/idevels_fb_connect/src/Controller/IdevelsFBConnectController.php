@@ -18,7 +18,6 @@ class IdevelsFBConnectController extends ControllerBase {
 
   //Define constructor
   public function unified_login_register() {
-    // return $this->redirect('user.page');
     $facebook = facebook_client();
     $fb_user = $facebook->getUser();
     if ($fb_user) {
@@ -38,7 +37,6 @@ class IdevelsFBConnectController extends ControllerBase {
 
 
         if ($drupal_user_id) {
-          //$user_obj = user_load($drupal_user_id);
           $user_obj = User::load($drupal_user_id);
           if ($user_obj->isActive()) {
             user_login_finalize($user_obj);
