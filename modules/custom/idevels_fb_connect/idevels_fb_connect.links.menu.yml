@@ -1,0 +1,5 @@
+idevels_fb_connect_admin:
+  title: Idevels Facebook Connect
+  description: 'Idevels FB Connect module configuration'
+  route_name: idevels_fb_connect_admin
+
