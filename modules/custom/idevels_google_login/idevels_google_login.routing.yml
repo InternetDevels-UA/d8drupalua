@@ -1,0 +1,14 @@
+idevels_google_login:
+  path: '/admin/config/services/idevels_google_login'
+  defaults:
+    _form: 'Drupal\idevels_google_login\Form\IdevelsLoginSettingsForm'
+    _title: 'Idevels google Login Settings'
+  requirements:
+    _permission: 'administer site configuration'
+idevels_google_connect_login:
+  path: 'user/idevels_google_login'
+  defaults:
+    _content: 'Drupal\idevels_google_login\Controller\IdevelsGoogleConnectController::unified_login_register'
+    _title: 'Register / Login with Google'
+  requirements:
+    _role : 'anonymous'

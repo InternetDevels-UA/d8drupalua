@@ -19,3 +19,6 @@
 	path = themes/gratis
 	url = http://git.drupal.org/project/gratis.git
 	branch = 8.x-2.x
+[submodule "modules/contrib/libraries"]
+	path = modules/contrib/libraries
+	url = http://git.drupal.org/project/libraries.git

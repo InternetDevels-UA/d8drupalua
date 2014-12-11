@@ -1,0 +1,168 @@
+<?php
+/**
+ * @file
+ * Google Auth Api for drupal.
+ */
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Drupal\Core\Form\FormStateInterface;
+
+/**
+ * Implements hook_libraries_info().
+ */
+/**
+ *  Implements hook_form_alter().
+ */
+function idevels_google_login_libraries_info() {
+  $path = libraries_get_path('google-api-php-client');
+  set_include_path($path . "/src/" . PATH_SEPARATOR . get_include_path());
+  $libraries['google-api-php-client'] = array(
+    'name' => 'Google OAuth2 Library',
+    'vendor url' => 'http://code.google.com/p/google-api-php-client',
+    'download url' => 'http://github.com/google/google-api-php-client/archive/master.zip',
+    'version arguments' => array(
+      'file' => 'src/Google/Client.php',
+      'pattern' => '/LIBVER = "([0-9\.a-z]+)/',
+      'lines' => 40,
+    ),
+    'versions' => array(
+      '1.0.5-beta' => array(),
+    ),
+    'files' => array(
+      'php' => array(
+        'src/Google/Client.php',
+      ),
+    ),
+  );
+  return $libraries;
+}
+
+/**
+ * Implements hook_libraries_info_alter().
+ */
+function idevels_google_login_libraries_info_alter(&$libraries) {
+  $libraries['google-api-php-client']['files']['php'][] = 'src/Google/Service/Oauth2.php';
+}
+
+
+/**
+ * Finds an existing user based on info from Google.
+ *
+ * @param array $info
+ *   The 'userinfo' array from OAuth.
+ *
+ * @return object|NULL
+ *   An existing Drupal user object if found; otherwise NULL.
+ */
+function idevels_google_login_find_existing_user($info) {
+  // First, see if there is a user with the given e-mail.
+  if ($new_user = user_load_by_mail($info['email'])) {
+    return $new_user;
+  }
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function idevels_google_login_form_alter(&$form, &$form_state, $form_id) {
+  if ($form_id == 'user_login' || $form_id == 'user_login_form') {
+    $form['submit_google'] = array(
+      '#type' => 'submit',
+      '#value' => t(''),
+      '#submit' => array('idevels_google_login_user_login_submit'),
+      '#limit_validation_errors' => array(),
+      '#weight' => 1000,
+    );
+    $form['#attached'] = array(
+      'css' => array(
+        drupal_get_path('module', 'idevels_google_login') . '/idevels_google_login.css' => array(),
+      ),
+    );
+
+  }
+}
+
+/**
+ * Login using google, submit handler
+ */
+function idevels_google_login_user_login_submit(&$form, FormStateInterface $form_state) {
+  if (Drupal::config('idevels_google_login.system')
+      ->get('idevels_google_login_client_id') == ''
+  ) {
+    $info = libraries_load('google-api-php-client');
+    if (!$info['loaded']) {
+      drupal_set_message(t("Can't authenticate with google as library is missing check Status report or Readme for requirements"), 'error');
+      return FALSE;
+    }
+
+    $client = new Google_Client();
+    $client->setApplicationName("Google OAuth2");
+    $client->setClientId(Drupal::config('idevels_google.system')
+      ->get('idevels_google_login_client_id'));
+    $client->setClientSecret(Drupal::config('idevels_google.system')
+      ->get('idevels_google_login_client_secret'));
+    $client->setRedirectUri(Drupal::url('idevels_google_connect_login', array(), array(
+      'https' => TRUE,
+      'absolute' => TRUE
+    )));
+    $client->setDeveloperKey(Drupal::config('ideеvels_google.system')
+      ->get('idevels_google_login_developer_key'));
+
+    $scopes = array(
+      'https://www.googleapis.com/auth/plus.login',
+      'https://www.googleapis.com/auth/plus.me',
+      'https://www.googleapis.com/auth/userinfo.email',
+      'https://www.googleapis.com/auth/userinfo.profile',
+    );
+
+    $client->addScope($scopes);
+    session_start();
+    if (!isset($_SESSION['idevels_google_login_state'])) {
+      $state = md5(rand());
+    }
+    else {
+      $state = $_SESSION['idevels_google_login_state'];
+    }
+
+    $_SESSION['idevels_google_login_state'] = $state;
+    $client->setState($state);
+    $url = 'https://accounts.google.com/o/oauth2/auth?response_type=code&redirect_uri=' . Drupal::url('idevels_google_connect_login', array(), array(
+        'https' => TRUE,
+        'absolute' => TRUE
+      )) . '&client_id=' . Drupal::config('idevels_google.system')
+        ->get('idevels_google_login_client_id') . '&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email&access_type=offline&state=' . $_SESSION['idevels_google_login_state'];
+    if (isset($_GET['destination'])) {
+      unset($_GET['destination']);
+    }
+    $response = new RedirectResponse($url);
+    $response->send();
+    return $response;
+  }
+  else {
+    drupal_set_message(t('Gauth Login is not configured. Please contact site administrator'), 'error');
+  }
+}
+
+/**
+ * Generates a unique username for drupal site based on fb username.
+ */
+function idevels_google_login_unique_user_name($name, $i = 0) {
+  $trimmed_name = '';
+  $user_to_load = '';
+  if ($i == 0) {
+    $trimmed_name = strtolower(trim(str_replace(' ', '_', $name)));
+    $user_to_load = $trimmed_name;
+  }
+  else {
+    $trimmed_name = $name;
+    $user_to_load = $trimmed_name . "_" . $i;
+  }
+
+  //Check if user exists by loading userbyname
+  if (is_object(user_load_by_name($user_to_load))) {
+    $i++;
+    return (idevels_google_login_unique_user_name($trimmed_name, $i));
+  }
+  else {
+    return $user_to_load;
+  }
+}
