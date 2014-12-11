@@ -116,15 +116,8 @@ function idevels_google_login_user_login_submit(&$form, FormStateInterface $form
 
     $client->addScope($scopes);
     session_start();
-    if (!isset($_SESSION['idevels_google_login_state'])) {
-      $state = md5(rand());
-    }
-    else {
-      $state = $_SESSION['idevels_google_login_state'];
-    }
-
-    $_SESSION['idevels_google_login_state'] = $state;
-    $client->setState($state);
+    $_SESSION['idevels_google_login_state'] = !isset($_SESSION['idevels_google_login_state']) ? md5(rand()) : $_SESSION['idevels_google_login_state'];
+    $client->setState($_SESSION['idevels_google_login_state']);
     $url = 'https://accounts.google.com/o/oauth2/auth?response_type=code&redirect_uri=' . Drupal::url('idevels_google_connect_login', array(), array(
         'https' => TRUE,
         'absolute' => TRUE
