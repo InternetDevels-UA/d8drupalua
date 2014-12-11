@@ -78,7 +78,7 @@ class IdevelsGoogleConnectController extends ControllerBase {
           'https://www.googleapis.com/auth/userinfo.profile',
         );
 
-        $client->addScope($scopes['oauth2']);
+        $client->addScope($scopes);
         $oauth = new \Google_Service_Oauth2($client);
         $info = $oauth->userinfo->get();
 
