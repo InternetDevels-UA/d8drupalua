@@ -1,7 +1,6 @@
 (function($){$(function() {
 
-
-  if ($('#events-node-form').length || $('#events-node-edit-form').length) {
+  if ($('#events-node-form').length || $('#events-node-edit-form').length || $('#node-events-form').length) {
     var $show_on_map = $('<input type="checkbox" id="show_on_map"><span>'+Drupal.t('Event on map')+'</span></input>');
 
     $("#edit-field-address-wrapper").after($show_on_map);
@@ -12,6 +11,9 @@
     }
     else {
       $show_on_map.attr('checked','checked');
+      setTimeout(function() {
+        $('#edit-field-geolocation-wrapper .geocode-controlls-wrapper').hide();
+      }, 1000);
     }
     
     $show_on_map.change(function() {
