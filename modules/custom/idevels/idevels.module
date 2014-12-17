@@ -104,7 +104,7 @@ function idevels_validate_events($form, FormStateInterface $form_state) {
 // Custom validate for date
 function idevels_validate_pastdate($form, FormStateInterface $form_state) {
   $values = $form_state->getValues();
-  if (strtotime($values['field_birthday'][0]['value']->format('Y-m-d\TH:i:s')) > time()) {
+  if (is_object($values['field_birthday'][0]['value']) && strtotime($values['field_birthday'][0]['value']->format('Y-m-d\TH:i:s')) > time()) {
     $form_state->setError($form['field_birthday'], t("The date can't be before today"));
   }
 }
