@@ -1,0 +1,22 @@
+name: PP
+type: profile
+description: 'Build a custom site without pre-configured functionality. Suitable for advanced users.'
+version: 8.x-1.0
+core: 8.x
+dependencies:
+  - node
+  - block
+  - dblog
+  - toolbar
+  - contextual
+  - config
+  - field_ui
+  - menu_ui
+  - locale
+  - language
+  - taxonomy
+  - quickedit
+  - views_ui
+  - language
+# custom modules
+# - idevels
