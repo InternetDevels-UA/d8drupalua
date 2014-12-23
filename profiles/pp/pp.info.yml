@@ -23,13 +23,18 @@ dependencies:
   - entity_reference
   - link
   - telephone
-# custom modules
+# Custom modules.
   - idevels
+  - idevels_fb_connect
+  - idevels_google_login
+  - user_profile_import
 # Contrib modules.
+#  - admin_menu
   - geolocation
   - geophp
   - isfield
   - libraries
 themes:
-  - bartik
   - seven
+# Custom themes.
+  - idevels
