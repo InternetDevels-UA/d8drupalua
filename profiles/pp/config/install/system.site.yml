@@ -1,0 +1,12 @@
+uuid: 8bb83fda-73b4-4a9c-b956-868b7a9160b9
+name: drupalua.local
+mail: dmitriko@internetdevels.com
+slogan: ''
+page:
+  403: ''
+  404: ''
+  front: node
+admin_compact_mode: false
+weight_select_max: 100
+langcode: en
+mail_notification: ''

@@ -1,0 +1,17 @@
+uuid: 4a92e114-b5df-41c2-a100-d9016fa8ee0c
+langcode: en
+status: true
+dependencies:
+  module:
+    - link
+    - node
+id: node.field_video
+field_name: field_video
+entity_type: node
+type: link
+settings: {  }
+module: link
+locked: false
+cardinality: -1
+translatable: true
+indexes: {  }
