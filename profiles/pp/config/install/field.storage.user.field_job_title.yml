@@ -1,0 +1,17 @@
+uuid: 89a877f7-f36f-4b57-bf00-c32b654dbf36
+langcode: en
+status: true
+dependencies:
+  module:
+    - user
+id: user.field_job_title
+field_name: field_job_title
+entity_type: user
+type: string
+settings:
+  max_length: 255
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }

@@ -1,0 +1,17 @@
+uuid: 6beff990-ee2b-4ebd-bf3a-585300e2b30e
+langcode: en
+status: true
+dependencies:
+  module:
+    - user
+id: user.field_company
+field_name: field_company
+entity_type: user
+type: string
+settings:
+  max_length: 255
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }

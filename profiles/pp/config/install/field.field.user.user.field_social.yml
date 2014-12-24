@@ -1,0 +1,23 @@
+uuid: a48f09f3-0834-40b8-b500-bab9464cbbee
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.user.field_social
+  module:
+    - link
+id: user.user.field_social
+field_name: field_social
+entity_type: user
+bundle: user
+label: social
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  link_type: '17'
+  title: '2'
+third_party_settings: {  }
+field_type: link

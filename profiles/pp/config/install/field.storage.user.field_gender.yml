@@ -1,0 +1,18 @@
+uuid: 4405a407-53e8-4ff9-8000-e4df73629ac7
+langcode: en
+status: true
+dependencies:
+  module:
+    - user
+id: user.field_gender
+field_name: field_gender
+entity_type: user
+type: boolean
+settings:
+  on_label: 'I''m a boy'
+  off_label: 'I''m a girl'
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }

@@ -1,0 +1,24 @@
+uuid: 29edf626-7606-417c-bd07-7c7e09f503ca
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.user.field_icq
+id: user.user.field_icq
+field_name: field_icq
+entity_type: user
+bundle: user
+label: icq
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+  size: normal
+third_party_settings: {  }
+field_type: integer

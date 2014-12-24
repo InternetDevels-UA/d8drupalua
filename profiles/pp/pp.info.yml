@@ -22,6 +22,7 @@ dependencies:
   - datetime
   - entity_reference
   - link
+  - telephone
 # custom modules
 # - idevels
 # Contrib modules.
