@@ -24,7 +24,7 @@ dependencies:
   - link
   - telephone
 # custom modules
-# - idevels
+  - idevels
 # Contrib modules.
   - geolocation
   - geophp

@@ -1,0 +1,64 @@
+langcode: und
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.user.compact
+    - field.field.user.user.field_bio
+    - field.field.user.user.field_birthday
+    - field.field.user.user.field_city
+    - field.field.user.user.field_company
+    - field.field.user.user.field_country
+    - field.field.user.user.field_drupal_org
+    - field.field.user.user.field_drupal_ru
+    - field.field.user.user.field_first_name
+    - field.field.user.user.field_gender
+    - field.field.user.user.field_icq
+    - field.field.user.user.field_jabber
+    - field.field.user.user.field_job_title
+    - field.field.user.user.field_last_name
+    - field.field.user.user.field_personal_website
+    - field.field.user.user.field_phone
+    - field.field.user.user.field_public_email
+    - field.field.user.user.field_skills
+    - field.field.user.user.field_skype
+    - field.field.user.user.field_social
+    - field.field.user.user.user_picture
+  module:
+    - image
+    - user
+id: user.user.compact
+label: null
+targetEntityType: user
+bundle: user
+mode: compact
+content:
+  user_picture:
+    type: image
+    weight: 0
+    settings:
+      image_style: thumbnail
+      image_link: content
+    third_party_settings: {  }
+    label: hidden
+hidden:
+  member_for: true
+  field_bio: true
+  field_birthday: true
+  field_company: true
+  field_drupal_org: true
+  field_drupal_ru: true
+  field_first_name: true
+  field_gender: true
+  field_icq: true
+  field_jabber: true
+  field_job_title: true
+  field_last_name: true
+  field_personal_website: true
+  field_phone: true
+  field_public_email: true
+  field_skills: true
+  field_skype: true
+  field_social: true
+  field_city: true
+  field_country: true
+third_party_settings: {  }
