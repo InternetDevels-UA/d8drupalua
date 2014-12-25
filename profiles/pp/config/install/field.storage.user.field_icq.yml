@@ -1,0 +1,17 @@
+uuid: 4ee001bf-9429-48de-bc00-f63abcca0153
+langcode: en
+status: true
+dependencies:
+  module:
+    - user
+id: user.field_icq
+field_name: field_icq
+entity_type: user
+type: integer
+settings:
+  unsigned: ''
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }

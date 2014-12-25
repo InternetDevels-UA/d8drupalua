@@ -18,5 +18,18 @@ dependencies:
   - quickedit
   - views_ui
   - language
+  - image
+  - datetime
+  - entity_reference
+  - link
+  - telephone
 # custom modules
-# - idevels
+  - idevels
+# Contrib modules.
+  - geolocation
+  - geophp
+  - isfield
+  - libraries
+themes:
+  - bartik
+  - seven

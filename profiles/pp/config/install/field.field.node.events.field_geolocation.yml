@@ -1,0 +1,22 @@
+uuid: ca1bf0b7-c2cc-4645-af00-b30b04496f9a
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_geolocation
+    - node.type.events
+  module:
+    - geolocation
+id: node.events.field_geolocation
+field_name: field_geolocation
+entity_type: node
+bundle: events
+label: Geolocation
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+third_party_settings: {  }
+field_type: geolocation

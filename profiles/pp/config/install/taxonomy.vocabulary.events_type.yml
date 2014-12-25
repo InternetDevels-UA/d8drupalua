@@ -1,0 +1,10 @@
+uuid: 61cb24a9-c2e9-4b46-8e31-4906420e0740
+langcode: en
+status: true
+dependencies: {  }
+name: 'Events type'
+vid: events_type
+description: ''
+hierarchy: 0
+weight: 0
+third_party_settings: {  }
