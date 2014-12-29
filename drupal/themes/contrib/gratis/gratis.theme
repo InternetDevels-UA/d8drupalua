@@ -1,0 +1,345 @@
+<?php
+
+/**
+ * @file
+ * Functions to support theming in the Gratis theme.
+ */
+
+use Drupal\Component\Utility\String;
+use Drupal\Component\Utility\Xss;
+use Drupal\Core\Template\Attribute;
+
+/**
+ * Override or insert variables into the page template.
+ */
+function gratis_preprocess_html(&$variables) {
+  // Add information about the number of sidebars.
+
+  if (!empty($variables['page']['sidebar_first']) && !empty($variables['page']['sidebar_second'])) {
+    $variables['attributes']['class'][] = 'two-sidebars';
+  }
+  elseif (!empty($variables['page']['sidebar_first'])) {
+    $variables['attributes']['class'][] = 'one-sidebar';
+    $variables['attributes']['class'][] = 'sidebar-first';
+  }
+  elseif (!empty($variables['page']['sidebar_second'])) {
+    $variables['attributes']['class'][] = 'one-sidebar';
+    $variables['attributes']['class'][] = 'sidebar-second';
+  }
+  else {
+    $variables['attributes']['class'][] = 'no-sidebars';
+  }
+
+  if (!empty($variables['page']['preface_first']) && !empty($variables['page']['preface_second']) && !empty($variables['page']['preface_third'])) {
+    $variables['attributes']['class'][] = 'preface-three';
+  }
+  elseif (!empty($variables['page']['preface_first']) && !empty($variables['page']['preface_second'])) {
+    $variables['attributes']['class'][] = 'preface-two';
+  }
+  elseif (!empty($variables['page']['preface_first']) && !empty($variables['page']['preface_third'])) {
+    $variables['attributes']['class'][] = 'preface-two';
+  }
+  elseif (!empty($variables['page']['preface_second']) && !empty($variables['page']['preface_third'])) {
+    $variables['attributes']['class'][] = 'preface-two';
+  }
+  else {
+    $variables['attributes']['class'][] = 'preface-one';
+  }
+
+  // Postscript columns.
+  if (!empty($variables['page']['postscript_first']) && !empty($variables['page']['postscript_second']) && !empty($variables['page']['postscript_third'])) {
+    $variables['attributes']['class'][] = 'postscript-three';
+  }
+  elseif (!empty($variables['page']['postscript_first']) && !empty($variables['page']['postscript_second'])) {
+    $variables['attributes']['class'][] = 'postscript-two';
+  }
+  elseif (!empty($variables['page']['postscript_first']) && !empty($variables['page']['postscript_third'])) {
+    $variables['attributes']['class'][] = 'postscript-two';
+  }
+  elseif (!empty($variables['page']['postscript_second']) && !empty($variables['page']['postscript_third'])) {
+    $variables['attributes']['class'][] = 'postscript-two';
+  }
+  else {
+    $variables['attributes']['class'][] = 'postscript-one';
+  }
+
+  // Footer columns.
+  if (!empty($variables['page']['footer_first']) && !empty($variables['page']['footer_second']) && !empty($variables['page']['footer_third'])) {
+    $variables['attributes']['class'][] = 'footer-three';
+  }
+  elseif (!empty($variables['page']['footer_first']) && !empty($variables['page']['footer_second'])) {
+    $variables['attributes']['class'][] = 'footer-two';
+  }
+  elseif (!empty($variables['page']['footer_first']) && !empty($variables['page']['footer_third'])) {
+    $variables['attributes']['class'][] = 'footer-two';
+  }
+  elseif (!empty($variables['page']['footer_second']) && !empty($variables['page']['footer_third'])) {
+    $variables['attributes']['class'][] = 'footer-two';
+  }
+  else {
+    $variables['attributes']['class'][] = 'footer-one';
+  }
+
+  // Color palette.
+  $file = theme_get_setting('theme_color_palette');
+  $variables['attributes']['class'][]= 'color-palette-' . $file;
+
+  if (theme_get_setting('theme_color_palette') == 'chartreuse' || 'caribe' || 'maillot-jaune') {
+    $variables['attributes']['class'][] = 'dark-bg';
+  }
+
+  // Typography.
+  if (theme_get_setting('gratis_setfonts') == TRUE) {
+    // Heading typeface.
+    $file = theme_get_setting('gratis_heading_typeface');
+    $variables['attributes']['class'][] = 'heading-typeface-' . $file;
+
+    // Body typeface.
+    $file = theme_get_setting('gratis_body_typeface');
+    $variables['attributes']['class'][] = 'body-typeface-' . $file;
+  }
+
+  // Layout options.
+  if (theme_get_setting('gratis_header_layout') == TRUE) {
+    $variables['attributes']['class'][] = 'header-left-right';
+  }
+
+}
+
+/**
+ * Override or insert variables into the page template.
+ */
+function gratis_preprocess_page(&$variables) {
+
+  // Set the custom grid width in a variable.
+  $gridwidth = theme_get_setting('gratis_grid_container_width');
+  $variables['setwidth'] = String::checkPlain($gridwidth);
+
+  if (theme_get_setting('gratis_breadcrumbs') == TRUE) {
+    $variables['breadcrumbs'] = '';
+  }
+
+  // Set the options that apply to both page and maintenance page.
+  _gratis_process_page($variables);
+
+  // Define the module path for use below.
+  $theme_path = drupal_get_path('theme', 'gratis');
+
+  //   Add local css if true.
+  if (theme_get_setting('gratis_localcss') == TRUE) {
+    $local_css = array(
+      '#attached' => array(
+        'css' => array(
+          $theme_path . '/css/local.css' => array(
+            'group' => CSS_AGGREGATE_THEME,
+            'weight' => 999,
+          ),
+        ),
+      ),
+    );
+  }
+  drupal_render($local_css);
+
+  if (theme_get_setting('gratis_hacks_settings') == TRUE) {
+    $hacks_css = array(
+      '#attached' => array(
+        'css' => array(
+          $theme_path . '/css/gratis.hacks.css' => array(
+            'group' => CSS_THEME,
+            'preprocess' => TRUE,
+          ),
+        ),
+      ),
+    );
+    drupal_render($hacks_css);
+  }
+
+  // Add local path css if true.
+  if (theme_get_setting('gratis_custom_css_location') == TRUE) {
+    $custompath = theme_get_setting('gratis_custom_css_path');
+    if (file_exists($theme_path)) {
+      $custompathcss = array(
+        '#attached' => array(
+          'css' => array(
+            $theme_path . $custompath => array(
+              'group' => CSS_AGGREGATE_THEME,
+              'weight' => 999,
+            ),
+          ),
+        ),
+      );
+    }
+  }
+  drupal_render($custompathcss);
+
+}
+
+/**
+ * Helper function for handling the site name and slogan.
+ */
+function _gratis_process_page(&$variables) {
+  $site_config = \Drupal::config('system.site');
+  // Always print the site name and slogan, but if they are toggled off, we'll
+  // just hide them visually.
+  $variables['hide_site_name']  = theme_get_setting('features.name') ? FALSE : TRUE;
+  $variables['hide_site_slogan'] = theme_get_setting('features.slogan') ? FALSE : TRUE;
+  if ($variables['hide_site_name']) {
+    // If toggle_name is FALSE, the site_name will be empty, so we rebuild it.
+    $variables['site_name'] = String::checkPlain($site_config->get('name'));
+    $variables['attributes']['class'][] = 'site-name-hidden';
+  }
+  else {
+    $variables['attributes']['class'][] = 'site-name-show';
+  }
+
+  if ($variables['hide_site_slogan']) {
+    $variables['attributes']['class'][] = 'site-slogan-hidden';
+    // If toggle_site_slogan is FALSE, the site_slogan will be empty, so we
+    // rebuild it.
+    $variables['site_slogan'] = Xss::filterAdmin($site_config->get('slogan'));
+  }
+  else {
+    $variables['attributes']['class'][] = 'site-slogan-show';
+  }
+}
+
+/**
+ * Implements hook_process_html().
+ */
+function gratis_process_html(&$variables) {
+  // Flatten out html_attributes and body_attributes.
+  $variables['html_attributes'] = drupal_attributes($variables['html_attributes_array']);
+  $variables['body_attributes'] = drupal_attributes($variables['body_attributes_array']);
+}
+
+/**
+ * Implements hook_html_head_alter().
+ */
+function gratis_html_head_alter(&$head_elements) {
+  global $base_url;
+  // Get our current uri.
+  //$uri = drupal_get_path_alias();
+
+  $uri =  \Drupal::request()->getRequestUri();
+
+  // We try to match it by forming the right key with the info we have.
+  $key = 'drupal_add_html_head_link:canonical:</' . $uri . '>;';
+
+  // Check that it is set, then we re-set it to the correct full url.
+  if (isset($head_elements[$key])) {
+    // Alter our head_element.
+    $head_elements[$key]['#attributes']['href'] = $base_url . '/' . $uri;
+  }
+
+  // Simplify the meta charset declaration.
+  $head_elements['system_meta_content_type']['#attributes'] = array(
+    'charset' => 'utf-8',
+  );
+}
+
+/**
+ * Alter attachments (typically assets) to a page before it is rendered.
+ *
+ * Use this hook when you want to remove or alter attachments on the page, or
+ * add attachments to the page that depend on aonther module's attachments (this
+ * hook runs after hook_page_attachments().
+ *
+ * If you want to alter the attachments added by other modules or if your module
+ * depends on the elements of other modules, use hook_page_attachments_alter()
+ * instead, which runs after this hook.
+ *
+ * @param array &$page
+ *   An empty renderable array representing the page.
+ *
+ * @see hook_page_attachments_alter()
+ */
+function gratis_page_attachments_alter(array &$page) {
+
+  // Render the library as laid out in gratis.libraries.yml
+  $libraries['#attached']['library'][] = 'gratis/gratis-corescripts';
+
+  if (theme_get_setting('gratis_viewport') == FALSE) {
+    // No pinch and zoom.
+    $viewport = array(
+      '#type' => 'html_tag',
+      '#tag' => 'meta',
+      '#attributes' => array(
+        'name' => 'viewport',
+        'content' => 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no',
+      ),
+    );
+    $page['#attached']['html_head'][] = [$viewport, 'viewport'];
+  }
+
+  else {
+    // Pinch and Zoom enabled.
+    $viewport = array(
+      '#type' => 'html_tag',
+      '#tag' => 'meta',
+      '#attributes' => array(
+        'name' => 'viewport',
+        'content' => 'width=device-width, initial-scale=1.0, maximum-scale=2.0, minimum-scale=0.55, user-scalable=yes',
+      ),
+    );
+    $page['#attached']['html_head'][] = [$viewport, 'viewport'];
+  }
+
+}
+
+/**
+ * Prepares variables for feed icon templates.
+ *
+ * Default template: feed-icon.html.twig.
+ *
+ * @param array $variables
+ *   An associative array containing:
+ *   - url: An internal system path or a fully qualified external URL of the
+ *     feed.
+ *   - title: A descriptive title of the feed.
+ */
+function gratis_preprocess_feed_icon(&$variables) {
+  $theme_path = drupal_get_path('theme', 'gratis');
+  $text = t('Subscribe to !feed-title', array('!feed-title' => $variables['title']));
+  $variables['icon'] = array(
+    '#theme' => 'image__feed_icon',
+    '#uri' => $theme_path . '/images/feed.png',
+    '#width' => 32,
+    '#height' => 32,
+    '#alt' => $text,
+  );
+  $variables['attributes']['class'] = array('feed-icon');
+  // Stripping tags because that's what l() used to do.
+  $variables['attributes']['title'] = strip_tags($text);
+}
+
+/**
+ * Implements hook_css_alter().
+ *
+ * @TODO gratis_css_alter() - Refactor if needed.
+ */
+function gratis_css_alter(&$css) {
+
+// Add FontAwesome.
+  $fontawesome = '//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.css';
+  $css[$fontawesome] = array(
+    'data' => $fontawesome,
+    'type' => 'external',
+    'every_page' => TRUE,
+    'media' => 'all',
+    'preprocess' => FALSE,
+    'group' => CSS_AGGREGATE_THEME,
+    'browsers' => array('IE' => TRUE, '!IE' => TRUE),
+    'weight' => -2,
+  );
+
+}
+
+
+/**
+ * Implements hook_preprocess_HOOK() for block templates.
+ */
+function gratis_preprocess_block(&$variables) {
+  // Set the custom grid width in a variable.
+  $gridwidth = theme_get_setting('gratis_grid_container_width');
+  $variables['setwidth'] = String::checkPlain($gridwidth);
+}

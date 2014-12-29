@@ -1,0 +1,9 @@
+html body.toolbar-fixed {
+  margin-top: 80px; }
+  html body.toolbar-fixed .toolbar-menu-administration a {
+    color: #565656; }
+    html body.toolbar-fixed .toolbar-menu-administration a:hover, html body.toolbar-fixed .toolbar-menu-administration a:active, html body.toolbar-fixed .toolbar-menu-administration a:focus, html body.toolbar-fixed .toolbar-menu-administration a.active {
+      color: #000;
+      text-decoration: underline; }
+
+/*# sourceMappingURL=gratis.hacks.css.map */

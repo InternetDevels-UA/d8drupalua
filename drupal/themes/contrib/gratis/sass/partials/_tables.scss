@@ -1,0 +1,29 @@
+
+
+table {
+  width: 100%;
+  margin: 0 0 10px 0;
+  thead {
+    border: 1px solid darken($light_gray2, 10%);
+    color: $medium_gray;
+    th {
+      padding: 4px 0 3px 6px;
+      border-bottom: none;
+      text-align: left;
+    }
+  }
+  tr {
+    &.even {
+      background-color: lighten($light_gray2, 5%);
+    }
+    &.odd {
+      background-color: lighten($light_gray2, 2%);
+    }
+  }
+  td {
+    padding: 6px 6px 6px 8px;
+  }
+  tbody tr {
+    border: 1px solid darken($light_gray2, 10%);
+  }
+}

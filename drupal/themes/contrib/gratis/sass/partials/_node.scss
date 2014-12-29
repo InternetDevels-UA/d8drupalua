@@ -1,0 +1,81 @@
+
+.node-submitted {
+  margin-bottom: 10px;
+}
+
+span.submitted {
+  margin: 0 10px 0 0;
+  &:before {
+    content: "#{$fauser}";
+    @include fontawesome;
+  }
+}
+
+span.date {
+  &:before {
+    content: "#{$fadate}";
+    @include fontawesome;
+  }
+}
+
+span.author {
+  display: block;
+  margin-bottom: $vert-spacing-unit;
+}
+
+.user-picture,
+.field-user--user-picture {
+  position: relative;
+  float: right;
+  img {
+    @include border-radius(50px);
+  }
+  @include media($mobile) {
+    img {
+      float: none;
+    }
+  }
+}
+
+figure {
+  border: 1px dotted darken($light_gray2, 10%);
+  figcaption {
+    color: $medium_gray2;
+    font-style: italic;
+    font-size: .9rem;
+    padding: 4px 8px;
+  }
+}
+
+@include media($mobile) {
+  .node-submitted {
+    .user-picture,
+    .field-user--user-picture {
+      float: none;
+      text-align: center;
+      margin: 10px 0 0 0;
+    }
+  }
+}
+
+@include media($mobile) {
+  .node-submitted {
+    .submitted {
+      display: block;
+      text-align: center;
+    }
+    .date {
+      display: block;
+      text-align: center;
+    }
+  }
+
+  .node-content {
+    .vocabulary.field-label-inline {
+      text-align: center;
+      .field-label {
+        display: block;
+      }
+    }
+  }
+}

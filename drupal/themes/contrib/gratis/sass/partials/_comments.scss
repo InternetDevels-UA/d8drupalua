@@ -1,0 +1,115 @@
+// Import variables.
+@import "../variables/vars";
+
+// Core imports.
+
+
+
+// Comment styles paying homage to Bartik.
+
+.comment {
+  display: table;
+  margin-bottom: 20px;
+  vertical-align: top;
+  .attribution {
+    display: table-cell;
+    padding: 10px 30px 0 0;
+    vertical-align: top;
+    width: 136px;
+    img {
+      margin: 0;
+    }
+  }
+  .submitted {
+    p {
+      margin: 4px 0;
+      line-height: 1.2;
+    }
+    .comment-time {
+      color: $medium_gray;
+      font-size: 0.786em;
+    }
+    .comment-permalink {
+      text-transform: lowercase;
+      font-size: 0.786em;
+    }
+  }
+  .content {
+    line-height: 1.6;
+  }
+  .comment-arrow {
+    position: absolute;
+    margin-top: 10px;
+    margin-left: -45px;
+    height: 40px;
+    @include flex-triangle(20px, 20px, 20px, 0, $light_gray);
+  }
+  .comment-text {
+    position: relative;
+    display: table-cell;
+    padding: 10px 25px;
+    border: 1px solid $light_gray2;
+    vertical-align: top;
+  }
+  .indented {
+    margin-left: 40px;
+  }
+  h2.title {
+    margin-bottom: 1em;
+  }
+  div.user-picture img,
+  div.field-user--user-picture img {
+    margin-left: 0;
+  }
+  ul.links {
+    margin-bottom: 0;
+    padding: 0;
+    li {
+      padding: 0 0.5em 0 0;
+    }
+  }
+}
+
+.comment-unpublished {
+  margin-right: 5px;
+  padding: 5px 2px 5px 5px;
+  .comment-text .comment-arrow {
+    border-right: 1px solid $light_gray2;
+    border-left: 1px solid $light_gray2;
+  }
+}
+
+// Media query
+
+@include media($mobile) {
+
+  .comment {
+    padding: 10px;
+    border: 1px solid lighten($medium_gray, 10%);
+    .attribution {
+      display: block;
+      padding: 0 30px 10px 0;
+      width: inherit;
+      .user-picture,
+      .field-user--user-picture {
+        float: left;
+        margin: 0 10px 0 0;
+        text-align: center;
+        top: 0;
+      }
+    }
+    .comment-text {
+      display: block;
+      padding: 0;
+      border: none;
+      h3 {
+        border-bottom: 1px dashed lighten($medium_gray, 10%);
+        display: block;
+        margin-top: 10px;
+      }
+      .comment-arrow {
+        display: none;
+      }
+    }
+  }
+}

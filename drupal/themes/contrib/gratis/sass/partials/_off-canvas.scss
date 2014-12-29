@@ -1,0 +1,165 @@
+// Import variables.
+@import "../variables/vars";
+
+// Core imports.
+
+
+
+// Off canvas layout styling.
+
+.l-off-canvas-show,
+.l-off-canvas-hide {
+  display: none;
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 46px;
+  height: 36px;
+  background: transparent url("#{$path-to-images}/gratis-sprite.png") center center no-repeat;
+  @include hide-text;
+  position: absolute;
+  display: block;
+  z-index: 1001;
+  top: 12px;
+  left: 10px;
+}
+
+.l-off-canvas-show {
+  background: transparent url("#{$path-to-images}/gratis-sprite.png") 0px -6px no-repeat;
+}
+
+@include media($off_canvas) {
+
+  .off-canvas-left-is-visible {
+    .l-off-canvas--left {
+      left: 0;
+      // convert to box shadow.
+      box-shadow: 0 0 50px 5px $dark_gray;
+    }
+    .l-off-canvas-show {
+      opacity: 0;
+    }
+  }
+  .l-off-canvas-hide--left {
+    left: 95%;
+    margin-left: -40px;
+    background-position: 1px -43px;
+  }
+  .l-off-canvas {
+    position: absolute;
+    z-index: 99;
+    width: 70%;
+    top: 0;
+    bottom: 0;
+    left: -70%;
+    padding: 60px 0 0 0;
+    @include transition(all 0.15s ease-in);
+    cursor: pointer;
+    &.is-visible {
+      left: 0;
+      cursor: auto;
+      .l-off-canvas-show {
+        display: none;
+      }
+      .l-off-canvas-hide {
+        display: block;
+      }
+    }
+    .l-off-canvas-show {
+      display: block;
+    }
+  }
+  .l-menu-wrapper ul.menu {
+    text-align: center;
+    li {
+      position: relative;
+      .menu {
+        display: none;
+      }
+      li {
+        a:before {
+          position: absolute;
+          left: 2%;
+          width: 28px;
+          height: 32px;
+          background: url("#{$path-to-images}/gratis-sprite.png") no-repeat -8px -246px;
+          content: " ";
+        }
+      }
+    }
+    a {
+      padding: 20px 0;
+      background: $dark_gray;
+      color: $light_gray2;
+      border-bottom: 1px dotted $light_gray2;
+      font-size: 16px;
+      font-size: 0.88889rem;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      font-weight: normal;
+      display: block;
+      &.alink:hover,
+      &.active-trail {
+        background: lighten($dark_gray, 10%);
+      }
+    }
+    .nested-menu-item-toggle {
+      position: absolute;
+      top: 1.3em;
+      right: 0;
+      padding-left: 12%;
+      height: 40px;
+      width: 40px;
+      border: 0;
+      background: url("#{$path-to-images}/gratis-sprite.png") no-repeat -8px -154px;
+    }
+    .has-child {
+      .nested-menu-item-toggle {
+        background: url("#{$path-to-images}/gratis-sprite.png") no-repeat -8px -202px;
+      }
+      .menu {
+        display: block;
+      }
+    }
+  }
+
+  .l-page {
+    position: relative;
+    height: 100%;
+  }
+
+}
+
+@include media($menu) {
+
+  .l-off-canvas-show {
+    display: none;
+    display: none;
+    &.l-off-canvas-show--left {
+      display: none;
+    }
+  }
+  .l-off-canvas-hide {
+    display: none;
+  }
+  .nested-menu-item-toggle {
+    display: none;
+  }
+
+}
+
+@include media($mobile) {
+  .l-off-canvas {
+    width: 80%;
+    left: -80%;
+  }
+  .l-menu-wrapper ul.menu {
+    li {
+      li {
+        a {
+          font-size: .7rem;
+        }
+      }
+    }
+  }
+}

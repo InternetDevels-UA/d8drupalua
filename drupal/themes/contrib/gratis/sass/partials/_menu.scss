@@ -1,0 +1,129 @@
+
+
+// Applies to desktop and off-canvas menu.
+.main-menu-wrapper {
+  a {
+    // Menu font always the same.
+    font-family: $font-sans;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+    font-weight: normal;
+  }
+}
+
+// Desktop specific menu within the media query.
+@include media($menu) {
+
+  // Small reset, global.
+  .main-menu-wrapper {
+
+    ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+    li {
+      position: relative;
+      &:hover {
+        > ul {
+          opacity: 1;
+          visibility: visible;
+          margin: 0;
+        }
+        > a {
+          color: lighten($baseMenuColor, 80%);
+        }
+      }
+    }
+  }
+
+  // First level -> main menu items
+  .main-menu-wrapper > ul {
+    display: table;
+    margin: 0 auto;
+    @include clearfix;
+    > li {
+      float: left;
+      border-right: 1px solid lighten($baseMenuBackground, 5%);
+      > a {
+        float: left;
+        padding: .8em 1em;
+        @include transition(all 0.25s ease-in);
+        &:hover,
+        &.active {
+          background-color: $charcoal_gray;
+        }
+      }
+      &.expanded {
+        > a.alink {
+          padding: .8em 2.9em .8em 1.3em;
+          &:after {
+            position: absolute;
+            top: 14px;
+            margin: 0 10px;
+            width: 20px;
+            height: 20px;
+            color: $white;
+            content: " ";
+            background: url("#{$path-to-images}/gratis-sprite.png") no-repeat -17px -298px;
+            vertical-align: top;
+            font-size: 14px;
+          }
+        }
+      }
+      &.active-trail {
+        > a {
+          background-color: $charcoal_gray;
+          color: $light_gray2;
+        }
+      }
+    }
+    a {
+      color: $baseMenuColor;
+      text-decoration: none;
+    }
+
+    // Second level. ul > ul
+    ul {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      z-index: 1;
+      opacity: 0;
+      visibility: hidden;
+      margin: 2 * $gutter 0 0 0;
+      @include transition-property(margin, opacity);
+      @include transition(all 0.2s ease-in-out);
+      li {
+        display: block;
+        &:first-child > a {
+          @include pseudo-triangle(6px, 4);
+        }
+        &:last-child {
+          > a {
+          }
+        }
+        &.last {
+          a {
+            border-bottom: none;
+          }
+        }
+      }
+      a {
+        white-space: nowrap;
+        padding: 0.4em 1.8em;
+        width: $subMenuItemWidth;
+        display: block;
+        background-color: $charcoal_gray;
+        border-color: lighten($baseMenuBackground, 15%);
+        border-bottom: 1px dotted $medium_gray2;
+        &:hover {
+          background-color: lighten($charcoal_gray, 20%);
+          border-color: $secondaryMenuBackground;
+        }
+      }
+    }
+  }
+
+}

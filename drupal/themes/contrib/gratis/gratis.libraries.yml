@@ -1,0 +1,18 @@
+global-styling:
+  version: 1.x
+  css:
+    theme:
+      css/gratis.normalize.css: {}
+      css/gratis.hacks.css: {}
+      css/gratis.color-palettes.css: {}
+      css/gratis.styles.css: {}
+gratis-corescripts:
+  version: 1.x
+  js:
+    js/gratis.js: {}
+  dependencies:
+    - core/jquery
+    - core/drupal.ajax
+    - core/drupal
+    - core/drupalSettings
+    - core/jquery.once

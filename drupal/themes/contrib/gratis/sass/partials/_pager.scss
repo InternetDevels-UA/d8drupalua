@@ -1,0 +1,37 @@
+
+
+.item-list-pager {
+  margin: 20px 0;
+  overflow: hidden;
+  position: relative;
+  ul {
+    text-align: center;
+    li {
+      display: inline-block;
+      vertical-align: middle;
+      margin: 10px 6px;
+      a {
+        //transition: all 100ms ease-in-out 0s;
+        @include transition(all 100ms ease-in-out 0s);
+        background-color: $light_gray2;
+        color: $dark_gray;
+        display: block;
+        overflow: hidden;
+        position: relative;
+        text-align: center;
+        text-decoration: none;
+        padding: 4px 8px;
+        &:hover {
+          color: $white;
+        }
+      }
+      &.pager-current {
+        color: $white;
+        padding: 4px 8px;
+        &:hover {
+          color: $white;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,28 @@
+{#
+/**
+ * @file
+ * Bartik theme override for taxonomy term fields.
+ *
+ * Available variables:
+ * - attributes: HTML attributes for the containing element.
+ * - label_hidden: Whether to show the field label or not.
+ * - title_attributes: HTML attributes for the label.
+ * - label: The label for the field.
+ * - content_attributes: HTML attributes for the content.
+ * - items: List of all the field items.
+ * - item_attributes: List of HTML attributes for each item.
+ *
+ * @see template_preprocess_field()
+ * @see bartik_preprocess_field()
+ */
+#}
+<div class="vocabulary {{ attributes.class }} clearfix"{{ attributes|without('class') }}>
+  {% if not label_hidden %}
+    <h2 class="field-label" {{ title_attributes }}>{{ label }}: </h2>
+  {% endif %}
+  <ul class="vocabulary-list links field-items {{ content_attributes.class }}"{{ content_attributes|without('class') }}>
+    {% for delta, item in items %}
+      <li class="vocabulary-links taxonomy-term-reference-{{ delta }}"{{ item_attributes[delta] }}>{{ item }}</li>
+    {% endfor %}
+  </ul>
+</div>

@@ -1,0 +1,153 @@
+
+
+
+// Legacy support.
+$legacy-support-for-ie8: true;
+
+// Set consistent vertical and horizontal spacing units.
+$vert-spacing-unit: 20px;
+$horz-spacing-unit: 1em;
+
+// Define Susy grid variables mobile first.
+
+$total-columns: 4;
+$column-width: 4em;
+$gutter-width: $horz-spacing-unit;
+$grid-padding: 10px;
+
+$container-style: magic;
+$container-width: 1100px;
+
+//$mobile: 30em;
+//$tab: 48em;
+//$menu: 64.5em;
+//$desk: 70em;
+
+
+// Neat Breakpoints.
+$off_canvas: new-breakpoint(min-width 0 max-width 64.5em); // min max range
+$menu: new-breakpoint(64.51em); // (defaults to min width)
+$mobile: new-breakpoint(max-width 767px); // 0 - 767
+$tab: new-breakpoint(min-width 768px); // min 768
+$tab_range: new-breakpoint(min-width 768px max-width 1024px); // min max range
+$tab_end: new-breakpoint(max-width 1024px); // max 1024
+$desk: new-breakpoint(min-width 1025px); // 1025 or >
+
+//$susy: (
+//columns: 12,
+//gutters: .25,
+//);
+
+// Gray tones
+$white: #fff;
+$light_gray2: #eaeaea;
+$light_gray: #ccc;
+$medium_gray: #999;
+$medium_gray2: #666;
+$charcoal_gray: #333;
+$dark_gray: #202020;
+$black: #000;
+
+// Colors
+$sea_green: #16a085;
+$pomegranate: #c0392b;
+$orange: #e04604;
+$orange_hover: #e04604;
+$olive_green: #6a8500;
+$pink: #b72898;
+$purple: #491f70;
+$purple_light: #b58dd9;
+$purple_accent: #7629bd;
+$turquoise: #02b4ce;
+$turquoise_hover: #02C9E3;
+$green_gray: #7f8c8d;
+$mustard: #c3a918;
+$maroon: #851b1d;
+$britered: #ef262b;
+$surf-green: #02aab3;
+
+// Dark bg colors.
+$maillot-jaune: #f0de16;
+$caribe: #a6c9d1;
+$chartreuse: #c8dc77;
+
+$text-color: $medium_gray;
+
+// Define the color palettes
+
+$palette: ("greengray": $green_gray, "pink": $pink, "orange": $orange, "green": $olive_green,
+        "purple": $purple, "turquoise": $turquoise, "pomegranate": $pomegranate, "seafoam": $sea_green,
+        "mustard": $mustard, "surf-green": $surf-green,  "maillot-jaune": $maillot-jaune,
+        "caribe": $caribe, "chartreuse": $chartreuse);
+
+// Font families and default text color.
+
+$montserrat: 'Montserrat', sans-serif;
+$font-sans: 'Open-Sans', Helvetica, Arial, sans-serif;
+$font-serif: 'EB Garamond', serif;
+$font-mono: 'Lucida Console', Monaco, monospace;
+$antique: 'IM Fell Double Pica', serif;
+$font_awesome: FontAwesome;
+
+// Define the typeface loop.
+$typeface: ("opensans": $font-sans, "garamond": $font-serif, "imfell": $antique);
+
+// Vertical rhythm / typography.
+$base-font-size: 16px;
+$base-line-height: 26px;
+$round-to-nearest-half-line: true; // Allows compass to round to  multiples of 0.5x line height
+$rhythm-unit: "rem"; // Sets rhythm unit to rem. Remove to use default em unit.
+
+$h1: 43px;
+$h2: 34px;
+$h3: 25px;
+$h4: 20px;
+$h5: 16px;
+$h6: 14px;
+
+$h1-tab: 34px;
+
+// Font-Awesome content vars.
+
+$fatag: "\f02b";
+$fabook: "\f02d";
+$facomment: "\f075";
+$faaddcomment: "\f040";
+$fauser: "\f007";
+$faraquo: "\f101";
+$fadate: "\f073";
+$fabqpre: "\f10d";
+$fabqpost: "\f10e";
+$fadownarrow: "\f0ab";
+$fasearch: "\f002";
+
+// Menu Vars.
+
+$subMenuItemWidth: 100%;
+$baseMenuBackground: $dark_gray;
+$secondaryMenuBackground: $medium_gray;
+$baseMenuColor: $white;
+$gutter: 1em;
+$input: "input[type=checkbox]";
+$path-to-images: '../images';
+
+
+$text-color: #333;
+$quiet-color: #ccc;
+$loud-color: #000;
+$heading-color: #111;
+
+$link-color: $orange;
+$link-hover-color: $dark_gray;
+$link-visited-color: $orange;
+
+$base-font-family: 'Open Sans', sans-serif;
+$base-font-size: 18px;
+$base-font-weight: 300;
+
+$fixed-font-family: 'Source Code Pro', monospace;
+$fixed-font-size: 15px;
+$fixed-line-height: 1.2;
+
+$heading-font-family: 'Open Sans', sans-serif;
+$heading-font-weight: 700;

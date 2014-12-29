@@ -1,0 +1,210 @@
+// Palettes defined in colors.
+
+// palette map.
+@each $designcolor in map-keys($palette) {
+  $hexvar: map-get($palette, $designcolor);
+  .color-palette-#{$designcolor} {
+
+    blockquote {
+      &:before {
+        color: $hexvar;
+      }
+    }
+
+    .feed-icon {
+      img {
+        background-color: $hexvar;
+        padding: 4px;
+      }
+    }
+
+    .more-link a {
+      background-color: $hexvar;
+      &:hover {
+        background-color: $medium_gray;
+        color: $white;
+      }
+    }
+
+    .item-list-pager {
+      li {
+        a {
+          &:hover {
+            background-color: $hexvar;
+          }
+        }
+        &.pager-current {
+          background-color: $hexvar;
+        }
+      }
+    }
+
+    .vocabulary-links {
+      &:before {
+        color: $hexvar;
+      }
+    }
+
+    .l-off-canvas--left {
+      background-color: $hexvar;
+    }
+    .l-header-wrapper {
+      color: $hexvar;
+    }
+
+    a {
+      color: $hexvar;
+      &:hover {
+        text-decoration: none;
+        color: $medium_gray;
+      }
+    }
+
+    input[type="submit"],
+    input[type="reset"],
+    button,
+    .button a {
+      background-color: $hexvar;
+      color: $white;
+      &:hover {
+        background-color: $medium_gray;
+      }
+    }
+
+    .l-menu-wrapper {
+      background-color: $hexvar;
+    }
+    &.site-name-show h1.site-name a:after {
+      color: $hexvar;
+    }
+    .comment-by-node-author {
+      .comment-arrow {
+        // Get the mixin.
+        @include flex-triangle(20px, 20px, 20px, 0, $hexvar);
+      }
+    }
+  }
+}
+
+// End color palettes loop.
+
+// Dark bg / light headings and text for light color palettes.
+
+body.color-palette-maillot-jaune,
+body.color-palette-caribe,
+body.color-palette-chartreuse {
+  background-color: $black;
+  color: $light_gray2;
+  .l-page-wrapper {
+    background-color: $charcoal_gray;
+  }
+  blockquote,
+  code,
+  kbd,
+  pre,
+  samp {
+    background-color: $medium_gray2;
+  }
+  figure figcaption {
+    color: $light_gray;
+  }
+  .main-menu-wrapper {
+    @include media($menu) {
+      > ul {
+        > li > a {
+          color: $light_gray2;
+        }
+      }
+    }
+    @include media($menu) {
+      > ul {
+        > li {
+          &.active-trail {
+            > a {
+              color: $light_gray2;
+            }
+          }
+          > a {
+            color: $charcoal_gray;
+            &:hover,
+            &.active {
+              color: $light_gray2;
+            }
+          }
+        }
+        ul a {
+          background-color: $light_gray;
+          color: $charcoal_gray;
+          &:hover {
+            background-color: darken($light_gray, 14%);
+          }
+        }
+      }
+    }
+  }
+  .l-footer-wrapper {
+    background-color: $black;
+  }
+  label,
+  fieldset {
+    color: $light_gray2;
+  }
+  input[type="submit"],
+  input[type="reset"],
+  button,
+  .button a {
+    color: $charcoal_gray;
+    &:hover {
+      background-color: $medium_gray;
+      color: $white;
+    }
+  }
+  a {
+    &:hover {
+      color: $light_gray2;
+    }
+  }
+  table {
+    tr {
+      &.even {
+        background-color: $medium_gray2;
+      }
+      &.odd {
+        background-color: darken($medium_gray2, 8%);
+      }
+    }
+  }
+}
+
+// End dark render.
+
+// color-palette-purple on dark bgs.
+
+.color-palette-purple {
+  &.site-name-show {
+    h1.site-name {
+      a:after {
+        color: $purple_light;
+        &:hover,
+        &:hover:after {
+          color: $light_gray;
+        }
+      }
+    }
+  }
+  .l-header-wrapper,
+  .l-footer-wrapper {
+    a {
+      color: $purple_light;
+      &:hover,
+      &:hover:after {
+        color: $light_gray;
+      }
+    }
+    &:after {
+      color: $purple_light;
+    }
+  }
+}
+
+// end color-palette-purple on dark bgs.

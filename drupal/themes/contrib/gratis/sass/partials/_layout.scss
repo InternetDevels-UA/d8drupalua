@@ -1,0 +1,132 @@
+
+
+.l-off-canvas {
+  @include clearfix;
+}
+
+img {
+  width: auto\9;
+  height: auto;
+  max-width: 100%;
+  vertical-align: middle;
+  border: 0;
+  -ms-interpolation-mode: bicubic;
+}
+
+.no-sidebars {
+  figure {
+    img {
+      width: 100%;
+    }
+  }
+}
+
+// Set the default container max-width in case it's not set in the gratis' theme UI which would override this.
+.l-setwidth {
+  @include outer-container;
+  padding: 0 20px;
+  @include clearfix;
+}
+
+// Tablet, set the width var with a susy grid element.
+@include media($tab) {
+
+  // Extends
+
+  %grayborder {
+    border: 1px solid $medium_gray;
+  }
+
+  .l-region--navigation {
+    @include clearfix;
+  }
+
+  // Two sidebars.
+  .two-sidebars {
+    .l-sidebar-first {
+      @include span-columns(4 of 20);
+      @include shift(-16);
+      @include pad(0 2%);
+    }
+    .l-content {
+      @include span-columns(12 of 20);
+      @include shift(4);
+      @include pad(0 2%);
+      padding-bottom: $vert-spacing-unit;
+    }
+    .l-sidebar-second {
+      @include span-columns(4 of 20);
+      @include omega();
+    }
+  }
+
+  // One sidebar - sidebar first.
+  .one-sidebar.sidebar-first {
+    .l-content {
+      @include span-columns(9);
+      @include shift(3);
+      @include pad(0 2%);
+      padding-bottom: $vert-spacing-unit;
+    }
+    .l-sidebar-first {
+      @include span-columns(3);
+      @include shift(-12);
+      @include omega();
+    }
+  }
+
+  // One sidebar - sidebar second.
+  .one-sidebar.sidebar-second {
+    .l-content {
+      @include span-columns(9);
+      @include pad(0 2%);
+      padding-bottom: $vert-spacing-unit;
+    }
+    .l-sidebar-second {
+      @include span-columns(3);
+      @include omega();
+    }
+  }
+
+  // Preface, postscript, footer.
+  .footer-one .footer,
+  .postscript-one .postscript,
+  .preface-one .preface {
+    @include span-columns(12);
+  }
+  .footer-two .footer,
+  .postscript-two .postscript,
+  .preface-two .preface {
+    @include pad(0 2%);
+    @include span-columns(6);
+    @include omega(2n);
+  }
+  .footer-three .footer,
+  .postscript-three .postscript,
+  .preface-three .preface {
+    @include span-columns(4);
+    @include omega(3n);
+    @include pad(0 2%);
+  }
+
+}
+
+// Wide screen layout grid.
+
+@include media($desk) {
+
+ .header-left-right .l-header {
+    .l-logo {
+      @include span-columns(5);
+      padding-bottom: $vert-spacing-unit;
+      text-align: left;
+    }
+    .l-branding {
+      @include span-columns(7);
+      @include omega();
+      text-align: right;
+      padding: 10px 0 0 0;
+    }
+  }
+
+}

@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "file": "gratis.hacks.css",
+  "sources": ["..\/sass\/gratis.hacks.scss"],
+  "names": [],
+  "mappings": "AACA,KAAK,IAAI;EAGP,YAAY;EACd,KAAK,IAAI,eAAe,6BAA6B;IAE7C,OAAO;IAAf,KAAK,IAAI,eAAe,6BAA6B,CAAC,QAAQ,KAAK,IAAI,eAAe,6BAA6B,CAAC,SAAS,KAAK,IAAI,eAAe,6BAA6B,CAAC,QAAQ,KAAK,IAAI,eAAe,6BAA6B,CAAC;MAKvO,OAAO;MACP,iBAAiB"
+}

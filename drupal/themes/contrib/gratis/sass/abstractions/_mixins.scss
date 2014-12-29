@@ -1,0 +1,105 @@
+
+
+@import "../variables/vars";
+
+/* set variables for global use */
+
+@mixin padding-reset {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font: inherit;
+  font-size: 100%;
+}
+
+@mixin no-shadows-borders {
+  border: none;
+  text-shadow: none;
+  box-shadow: none;
+}
+
+@mixin border-radius($radius) {
+  -webkit-border-radius: $radius;
+  -moz-border-radius: $radius;
+  -ms-border-radius: $radius;
+  border-radius: $radius;
+}
+
+@mixin fontawesome {
+  width: 30px;
+  height: 30px;
+  font-family: FontAwesome;
+  margin-right: 8px;
+  color: lighten($medium_gray2, 10%);
+}
+
+// Menu background mixin
+@mixin menu-background($color, $menu-gradient: true) {
+  background-color: $color;
+  @if $menu-gradient == true {
+    @include background-image(linear-gradient(rgba(255, 255, 255, .2),
+      rgba(255, 255, 255, 0)));
+  }
+  @else {
+    background-image: none;
+  }
+}
+
+// Menu background mixin
+// The $size argument specifies the actual size of the triangle
+// The $shift-left helps on horizontal positioning.
+@mixin pseudo-triangle($size, $shift-left) {
+  &:after {
+    content: '';
+    position: absolute;
+    left: $shift-left * $gutter;
+    top: -$size * 2;
+    border: $size solid transparent;
+    border-bottom-color: $medium_gray2;
+  }
+}
+
+// Triangle mixin.
+@mixin flex-triangle($bw1, $bw2, $bw3, $bw4, $arrow-color) {
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: $bw1 $bw2 $bw3 $bw4;
+  border-color: transparent $arrow-color transparent transparent;
+}
+
+// Mixins for list style types
+@mixin unordered {
+  list-style-position: outside;
+  list-style-type: disc;
+}
+
+@mixin unordered-inside {
+  list-style-position: inside;
+  list-style-type: disc;
+}
+
+@mixin ordered {
+  list-style-position: outside;
+  list-style-type: decimal;
+}
+
+@mixin ordered-inside {
+  list-style-position: inside;
+  list-style-type: decimal;
+}
+
+@mixin nobullet {
+  list-style-type: none;
+}
+
+@mixin headings($h1: 42px, $decreaseBy: 6px) {
+  @for $i from 1 through 6 {
+    h#{$i} {
+      font-size: ($h1+$decreaseBy) - $i * $decreaseBy;
+    }
+  }
+}
+
+
+

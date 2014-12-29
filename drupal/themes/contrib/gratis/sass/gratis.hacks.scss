@@ -1,0 +1,21 @@
+
+// Adjust styles for toolbar.
+
+html body.toolbar-fixed {
+  margin-top: 80px;
+  .toolbar-menu-administration {
+      a {
+        color: #565656;
+        &:hover,
+        &:active,
+        &:focus,
+        &.active {
+          color: #000;
+          text-decoration: underline;
+        }
+      }
+    }
+
+
+
+  }

@@ -1,0 +1,102 @@
+
+// Override list style for body.
+.node-content {
+  // Unordered.
+    ul {
+      margin: 10px 0 10px 20px;
+      li {
+        margin: 0 0 2px 0;
+        list-style: disc inside;
+        ul {
+          margin: 4px 0 2px 16px;
+          li {
+            list-style: square inside;
+          }
+        }
+      }
+    }
+
+  // Ordered.
+    ol {
+      margin: 12px 0;
+      list-style: decimal outside;
+      li {
+        margin: 0 0 2px 0;
+        ol {
+          margin: 4px 0 2px -10px;
+          list-style: lower-roman;
+        }
+      }
+    }
+}
+
+// Fields.
+
+.field-label-inline .field-label {
+  display: inline;
+  float: none;
+}
+
+// Taxonomy.
+
+.vocabulary {
+  margin: 0 0 10px 0;
+  display: block;
+  .field-label {
+    margin: 0 1% 0 0;
+    font-size: $h4;
+  }
+}
+
+// Node links and tags.
+
+ul.vocabulary-list,
+ul.links.inline {
+  display: inline;
+  margin: 0;
+  li {
+    display: inline-block;
+    margin: 0 2% 0 0;
+    &.vocabulary-links {
+      &:before {
+        content: "#{$fatag}";
+        @include fontawesome;
+      }
+    }
+    &.node-readmore {
+      &:before {
+        content: "#{$fabook}";
+        @include fontawesome;
+      }
+    }
+    &.comment-comments {
+      &:before {
+        content: "#{$facomment}";
+        @include fontawesome;
+      }
+    }
+    &.comment-add {
+      &:before {
+        content: "#{$faaddcomment}";
+        @include fontawesome;
+      }
+    }
+  }
+}
+
+// Search results.
+
+ol.search-results {
+  padding: 0;
+  li {
+    h3.title {
+      line-height: inherit;
+     // @include adjust-font-size-to($h2);
+    }
+    span.search-snippet-info {
+      display: block;
+      padding-left: 0;
+    }
+  }
+}
+

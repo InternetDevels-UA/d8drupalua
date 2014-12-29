@@ -1,0 +1,193 @@
+<div class="l-page-wrapper">
+    <div class="l-page">
+
+        <!-- top links-->
+        {% if page.top_links %}
+            <div id="top-bar" class="">
+                <div class="l-top-wrapper l-setwidth" style="max-width:{{ setwidth }}">
+                    <div class="top-links s-grid">
+                        {{ page.top_links }}
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+        <!-- //top links-->
+
+        <!-- header -->
+        <div id="header-bar" class="l-header-wrapper" role="banner">
+            <header class="l-header l-setwidth" style="max-width:{{ setwidth }}">
+
+                {% if logo %}
+                    <div class="l-logo">
+                        <a href="{{ front_page }}" title="{{ site_name }} » {{ site_slogan }}">
+                            <img id="logo-img" src="{{ logo }}" alt="{{ site_name }} » {{ site_slogan }}"></a>
+                    </div><!--// l-logo-->
+                {% endif %}
+
+                {% if site_slogan or site_name %}
+                    <div class="l-branding">
+
+                        {% if site_name %}
+                            <h1 class="site-name">
+                                <a href="{{ front_page }}">
+                                    {{ site_name }}</a>
+                            </h1>
+                        {% endif %}
+
+                        {% if site_slogan %}
+                            <h3 class="site-slogan">{{ site_slogan }}</h3>
+                        {% endif %}
+
+                    </div><!--//branding-->
+                {% endif %}
+
+            </header>
+        </div>
+        <!-- // l-header -wrapper-->
+
+        {% if page.primary_menu %}
+            {{ page.primary_menu }}
+        {% endif %} <!-- // primary_menu -->
+
+        {#for third party menu systems or modules, theme on your own. #}
+        {% if page.thirdparty_menu %}
+            {{ page.thirdparty_menu }}
+        {% endif %}
+
+        {% if breadcrumbs is defined %}
+            <div id="breadcrumbs-wrapper" class="l-breadcrumbs">
+                <div class="breadcrumbs l-setwidth" style="max-width:{{ setwidth }}">
+                    <div class="breadcrumb">{{ breadcrumb }}</div>
+                </div>
+            </div>
+        {% endif %}
+
+        {# Define and divide the preface page regions.#}
+        {% if page.preface_first or page.preface_second or page.preface_third %}
+
+            <div id="preface-wrap" class="l-preface-wrap">
+                <div id="preface-container" class="l-preface l-setwidth" style="max-width:{{ setwidth }}">
+
+                    <!--Preface -->
+                    {% if page.preface_first %}
+                        <div class="preface">
+                            {{ page.preface_first }}
+                        </div>
+                    {% endif %}
+
+                    {% if page.preface_second %}
+                        <div class="preface">
+                            {{ page.preface_second }}
+                        </div>
+                    {% endif %}
+
+                    {% if page.preface_third %}
+                        <div class="preface">
+                            {{ page.preface_third }}
+                        </div>
+                    {% endif %}
+
+                </div>
+            </div>
+            <!-- // preface -->
+
+        {% endif %}
+
+        <div class="main">
+            <div class="l-main l-setwidth" role="main" style="max-width:{{ setwidth }}">
+
+                <div class="l-content">
+                    <a id="main-content"></a>
+                    {{ title_prefix }}
+                    {% if title %}
+                        <h1>{{ title }}</h1>
+                    {% endif %}
+                    {{ title_suffix }}
+                    {% if messages %}
+                        {{ messages }}
+                    {% endif %}
+                    {% if tabs %}
+                        {{ tabs }}
+                    {% endif %}
+                    {{ page.help }}
+                    {% if action_links %}
+                        <ul class="action-links">{{ action_links }}</ul>
+                    {% endif %}
+                    {{ page.content }}
+                    {{ feed_icons }}
+                </div>
+
+                {% if page.sidebar_first %}
+                    <aside class="l-sidebar-first l-sidebar">
+                        {{ page.sidebar_first }}
+                    </aside>
+                    <!-- // sidebar-first -->
+                {% endif %}
+
+                {% if page.sidebar_second %}
+                    <aside class="l-sidebar-second l-sidebar">
+                        {{ page.sidebar_second }}
+                    </aside>
+                    <!-- // sidebar-second -->
+                {% endif %}
+
+            </div>
+        </div>
+
+        {# Define and divide the postscript page regions.#}
+        {% if page.postscript_first or page.postscript_second or page.postscript_third %}
+
+            <div id="postscript-wrapper">
+                <div id="postscript-container" class="l-postscript l-setwidth" style="max-width:{{ setwidth }}">
+
+                    <!--Postscript -->
+                    {% if page.postscript_first %}
+                        <div class="postscript">
+                            {{ page.postscript_first }}
+                        </div>
+                    {% endif %}
+
+                    {% if page.postscript_second %}
+                        <div class="postscript">
+                            {{ page.postscript_second }}
+                        </div>
+                    {% endif %}
+
+                    {% if page.postscript_third %}
+                        <div class="postscript">
+                            {{ page.postscript_third }}
+                        </div>
+                    {% endif %}
+
+                </div>
+            </div>
+        {% endif %}
+
+        <footer id="footer" role="footer" class="l-footer-wrapper">
+            <div class="l-setwidth l-footer" style="max-width:{{ setwidth }}">
+
+                <!--footer -->
+                {% if page.footer_first %}
+                    <div class="footer">
+                        {{ page.footer_first }}
+                    </div>
+                {% endif %}
+
+                {% if page.footer_second %}
+                    <div class="footer">
+                        {{ page.footer_second }}
+                    </div>
+                {% endif %}
+
+                {% if page.footer_third %}
+                    <div class="footer">
+                        {{ page.footer_third }}
+                    </div>
+                {% endif %}
+
+            </div>
+        </footer>
+
+    </div>
+    <a href="#" class="scrolltop">Scroll to the top</a>
+</div>

@@ -1,0 +1,37 @@
+name: Gratis
+description: Drupal 8.x-2.x version of the Gratis Theme by <a href="http://dannyenglander.com">Danny Englander</a>
+# core: 8.x
+engine: twig
+# version: VERSION
+type: theme
+screenshot: screenshot.png
+libraries:
+  - gratis/global-styling
+  - gratis/gratis-corescripts
+# Override a CSS file:
+stylesheets-remove:
+  - system.theme.css
+regions:
+   footer_first: 'Footer first'
+   footer_second: 'Footer Second'
+   footer_third: 'Footer Third'
+   top_links: 'Top Links'
+   primary_menu: 'Primary menu'
+   thirdparty_menu: 'Third party menu'
+   preface_first: 'Preface first'
+   preface_second: 'Preface second'
+   preface_third: 'Preface third'
+   help: 'Help'
+   content_top: 'Content top'
+   sidebar_first: 'Sidebar First'
+   sidebar_second: 'Sidebar Second'
+   content: 'Content'
+   postscript_first: 'Postscript first'
+   postscript_second: 'Postscript second'
+   postscript_third: 'Postscript third'
+
+# Information added by Drupal.org packaging script on 2014-12-11
+version: '8.x-2.0-unstable1+9-dev'
+core: '8.x'
+project: 'gratis'
+datestamp: 1418277794

@@ -1,0 +1,5 @@
+# Schema for the configuration files of the Gratis theme.
+
+gratis.settings:
+  type: theme_settings
+  label: 'Gratis settings'
