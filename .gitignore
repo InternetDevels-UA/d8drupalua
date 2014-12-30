@@ -1,18 +1,14 @@
 # Ignore configuration files that may contain sensitive information.
-sites/*/settings*.php
-sites/*/services*.yml
+drupal/sites/*/settings*.php
+drupal/sites/*/services*.yml
 
 # Ignore paths that contain user-generated content.
-sites/*/files
-sites/*/private
+drupal/sites/*/files/
+drupal/sites/*/private/
 
 # Ignore SimpleTest multi-site environment.
-sites/simpletest
+drupal/sites/simpletest/
 
-robots.txt
-.htaccess
-
-xhprof/
-db.sql
 .vagrant/
-
+puphpet/files/dot/
+!puphpet/files/dot/ssh/insecure_private_key

@@ -1,6 +1,0 @@
-- name: "Install phpmyadmin"
-  apt:
-    pkg: "{{ item }}"
-    update_cache: true
-  with_items:
-    - phpmyadmin
