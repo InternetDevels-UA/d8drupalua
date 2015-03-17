@@ -4,8 +4,8 @@ Vagrant.configure("2") do |config|
 
   # Enable host-only access to the machine using a specific IP.
   config.vm.network :private_network, ip: "192.168.33.5"
-  config.vm.network :forwarded_port, host: 8080, guest: 80
-  config.vm.network :forwarded_port, host: 2200, guest: 22
+  config.vm.network :forwarded_port, host: 8080, guest: 80, auto_correct: true
+  config.vm.network :forwarded_port, host: 2200, guest: 22, auto_correct: true
 
   config.vm.provider :virtualbox do |v|
     v.customize ["modifyvm", :id, "--name", "drupalua"]
