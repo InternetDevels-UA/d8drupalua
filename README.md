@@ -24,7 +24,10 @@ To use the vagrant file, you will need to have done the following:
 
   1. Download and Install [VirtualBox](https://www.virtualbox.org/wiki/Downloads)
   2. Download and Install [Vagrant](http://downloads.vagrantup.com/)
-  3. Install [NFS server]  (sudo apt-get install nfs-server nfs-client)
+  3. Install NFS server and client
+  ```sh
+  sudo apt-get install nfs-server nfs-client
+  ```
   5. Open a shell prompt and cd into the folder containing the `Vagrantfile`.
   6. run ```vagrant up --provider=virtualbox```
   7. login to the vm with a command ```vagrant ssh```
