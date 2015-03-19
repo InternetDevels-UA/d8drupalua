@@ -9,6 +9,13 @@ with ansible within Ubuntu 12.04LTS 64bit guest OS.
 
 ## Getting Started
 
+You should clone this repo with all git submodules by command
+```sh
+git clone --recursive REPO_URL
+```
+
+Where REPO_URL is an url of your personal fork of current repo.
+
 This README file is inside a folder that contains a `Vagrantfile` 
 (here after this folder shall be called the [vagrant_root]), 
 which tells Vagrant how to set up your virtual machine in VirtualBox.
