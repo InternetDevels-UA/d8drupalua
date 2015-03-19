@@ -1,0 +1,32 @@
+- name: "deploy drupal database"
+  # @todo move this to variable
+  mysql_db: name=drupal state=import target=/var/www/db.sql
+
+- name: "Create settings.php file"
+  command: touch /var/www/sites/default/settings.php
+  ignore_errors: yes
+
+- name: "Deploy settings.php file"
+  template:
+    src=templates/drupal/sites/default/settings.php.j2
+    dest=/var/www/sites/default/settings.php
+
+- name: "Create services.yml file"
+  command: touch /var/www/sites/default/services.yml
+  ignore_errors: yes
+
+- name: "Deploy services.yml file"
+  template:
+    src=templates/drupal/sites/default/services.yml.j2
+    dest=/var/www/sites/default/services.yml
+
+- name: "Execute drush commands and fix file permissions"
+  shell: "{{ item }} chdir=/var/www/htdocs/"
+  with_items:
+    # link sites directory (drupal as submodule)
+    - ln -fs /var/www/sites/ /var/www/htdocs/
+    - ln -fs /var/www/modules/ /var/www/htdocs/
+    # clear drupal cache
+    - drush cache-rebuild
+    # fix file permissions
+    - chmod -R 777 sites/default/files/
