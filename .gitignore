@@ -15,4 +15,4 @@ robots.txt
 xhprof/
 db.sql
 .vagrant/
-
+.idea/

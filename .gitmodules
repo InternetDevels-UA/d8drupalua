@@ -1,28 +1,28 @@
-[submodule "htdocs"]
-	path = htdocs
+[submodule "docroot"]
+	path = docroot
 	url = https://github.com/InternetDevels/drupal-core.git
 	branch = 8.x
 [submodule "admin_menu"]
-	path = profiles/pp/modules/contrib/admin_menu
+	path = docroot/sites/all/modules/contrib/admin_menu
 	url = http://git.drupal.org/project/admin_menu.git
 	branch = 8.x-3.x
 [submodule "isfield"]
-	path = profiles/pp/modules/contrib/isfield
+	path = docroot/sites/all/modules/contrib/isfield
 	url = http://git.drupal.org/project/isfield.git
 	branch = 8.x-1.x
 [submodule "geophp"]
-	path = profiles/pp/modules/contrib/geophp
+	path = docroot/sites/all/modules/contrib/geophp
 	url = http://git.drupal.org/project/geophp.git
 	branch = 8.x-1.x
 [submodule "geolocation"]
-	path = profiles/pp/modules/contrib/geolocation
+	path = docroot/sites/all/modules/contrib/geolocation
 	url = http://git.drupal.org/project/geolocation.git
 	branch = 8.x-1.x
 [submodule "libraries"]
-	path = profiles/pp/modules/contrib/libraries
+	path = docroot/sites/all/modules/contrib/libraries
 	url = http://git.drupal.org/project/libraries.git
 	branch = 8.x-3.x
 [submodule "gratis"]
-	path = profiles/pp/themes/contrib/gratis
+	path = docroot/sites/all/themes/contrib/gratis
 	url = http://git.drupal.org/project/gratis.git
 	branch = 8.x-2.x
