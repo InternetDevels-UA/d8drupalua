@@ -20,7 +20,7 @@
     ignore_path: profiles/{{ installation_profile_name }}/themes/circle
     install_repos: true
     composer_global_require:
-      - drupal/coder:dev-7.x-2.x
+      - drupal/coder:dev-8.x-2.x
       - squizlabs/php_codesniffer=*
     git_repos:
       - { branch: 'master', repo: 'http://git.drupal.org/sandbox/coltrane/1921926.git', name: 'DrupalSecure' } # git clone --branch master http://git.drupal.org/sandbox/coltrane/1921926.git DrupalSecure
