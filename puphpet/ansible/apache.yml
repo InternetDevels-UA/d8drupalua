@@ -1,0 +1,31 @@
+---
+# This playbook installs apache
+
+- hosts: 127.0.0.1
+  connection: local
+  gather_facts: yes
+  sudo: yes
+
+  vars:
+    apache_listen_port: 80
+    apache_listen_port_ssl: 443
+    apache_create_vhosts: true
+    apache_vhosts_filename: "vhosts.conf"
+    apache_vhosts:
+      - {
+        servername: "drupal.192.168.56.132.xip.io",
+        documentroot: "/var/www/htdocs"
+      }
+    apache_vhosts_ssl:
+      - {
+        servername: "drupal.192.168.56.132.xip.io",
+        documentroot: "/var/www/htdocs",
+        certificate_file: "/var/www/ssl_certificate/example.crt",
+        certificate_key_file: "/var/www/ssl_certificate/example.key",
+      }
+    apache_mods_enabled:
+      - rewrite.load
+      - ssl.load
+
+  roles:
+    - { role: ansible-role-apache }

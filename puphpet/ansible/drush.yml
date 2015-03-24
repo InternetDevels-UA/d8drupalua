@@ -1,0 +1,13 @@
+---
+# This playbook installs drush
+
+- hosts: 127.0.0.1
+  connection: local
+  gather_facts: no
+  sudo: yes
+
+  roles:
+    - { role: ansible-role-drush }
+
+  vars:
+    drush_version: master
