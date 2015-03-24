@@ -1,7 +1,7 @@
 name: PP
 type: profile
 description: 'Build a custom site without pre-configured functionality. Suitable for advanced users.'
-version: 8.x-1.0
+version: 8.x-0.1
 core: 8.x
 dependencies:
   - node
@@ -24,17 +24,17 @@ dependencies:
   - link
   - telephone
 # Custom modules.
-  - idevels
-  - idevels_fb_connect
-  - idevels_google_login
-  - user_profile_import
+#  - idevels
+#  - idevels_fb_connect
+#  - idevels_google_login
+#  - user_profile_import
 # Contrib modules.
 #  - admin_menu
   - geolocation
   - geophp
-  - isfield
+#  - isfield
   - libraries
 themes:
-  - seven
+#  - seven
 # Custom themes.
   - idevels
