@@ -33,9 +33,9 @@
       - { path: '/root/.composer/vendor/podarok/Symfony2', name: 'Symfony2' }
 
     phpcs_standards:
-#      - Drupal
-      - DrupalPractice
-      - DrupalSecure
+      - Drupal
+#      - DrupalPractice
+#      - DrupalSecure
 
     jshint_folders:
       - { name: 'modules', path: 'modules/custom' }
