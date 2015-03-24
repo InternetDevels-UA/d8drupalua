@@ -13,11 +13,11 @@
     installation_profile_name: pp
     phpcs_extensions: php,inc,install,module
     phpcs_features_extensions: module
-    custom_modules_path: modules/custom/
-    custom_themes_path: themes/custom
-    features_path: modules/features
-    features_ignore_path: features/nonstandard
-    ignore_path: themes/circle
+    custom_modules_path: profiles/{{ installation_profile_name }}/modules/custom/
+    custom_themes_path: profiles/{{ installation_profile_name }}/themes/custom
+    features_path: profiles/{{ installation_profile_name }}/modules/features
+    features_ignore_path: profiles/{{ installation_profile_name }}/features/nonstandard
+    ignore_path: profiles/{{ installation_profile_name }}/themes/circle
     install_repos: true
     composer_global_require:
       - drupal/coder:dev-7.x-2.x
@@ -34,8 +34,8 @@
 
     phpcs_standards:
       - Drupal
-#      - DrupalPractice
-#      - DrupalSecure
+      - DrupalPractice
+      - DrupalSecure
 
     jshint_folders:
       - { name: 'modules', path: 'modules/custom' }
