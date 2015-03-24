@@ -49,7 +49,7 @@
 
   - name: Install composer global requires
     sudo: yes
-    shell: "composer global require {{ item }}"
+    shell: "composer global require {{ item }} --prefer-dist"
     with_items: composer_global_require
     when: install_repos == true
     tags:
