@@ -1,9 +1,0 @@
-id: user.compact
-label: Compact
-targetEntityType: user
-status: true
-cache: true
-langcode: und
-dependencies:
-  module:
-    - user
