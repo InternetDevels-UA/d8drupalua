@@ -38,12 +38,11 @@
       - DrupalSecure
 
     jshint_folders:
-      - { name: 'modules', path: 'modules/custom' }
-      - { name: 'themes', path: 'themes/custom' }
-      - { name: 'profile', path: 'profiles/pp' }
+      - { name: 'modules', path: 'profiles/{{ installation_profile_name }}/modules/custom' }
+      - { name: 'themes', path: 'profiles/{{ installation_profile_name }}/themes/custom' }
 
     scsslint_folders:
-      - { name: 'themes', path: 'themes/custom' }
+      - { name: 'themes', path: 'profiles/{{ installation_profile_name }}/themes/custom' }
 
   pre_tasks:
 
