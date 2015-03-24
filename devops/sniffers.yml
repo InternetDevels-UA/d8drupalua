@@ -90,6 +90,7 @@
     sudo: yes
     shell: 'echo "JSHint: {{ item.name }} standard file {{ webroot }}/{{ item.name }}jshint.txt" >> {{ workspace_root }}/{{ artifacts_file }} && find {{ item.path }} ! -path "*mute*" -type f \( -iname "*.js" ! -iname "*min.js" \) -print0 | sudo xargs -0 jshint > {{ item.name }}jshint.txt'
     with_items: "jshint_folders"
+    ignore_errors: yes
 
   - name: SCSS lint
     sudo: yes
