@@ -24,7 +24,7 @@ To use the vagrant file, you will need to have done the following:
 
   1. Download and Install [VirtualBox](https://www.virtualbox.org/wiki/Downloads)
   2. Download and Install [Vagrant](http://downloads.vagrantup.com/)
-  3. Install NFS server and client
+  3. Install NFS server and client (not needed for Windows users)
   ```sh
   sudo apt-get install nfs-server nfs-client
   ```
