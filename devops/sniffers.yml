@@ -79,6 +79,7 @@
     sudo: yes
     shell: 'echo "CodeSniffer: {{ item }} standard file {{ webroot }}/{{ item }}sniff.txt" >> {{ workspace_root }}/{{ artifacts_file }} && phpcs --standard={{ item }} --extensions={{ phpcs_extensions }} -n {{ custom_modules_path }} profiles/{{ installation_profile_name }}/pp.* {{ custom_themes_path }} --report-file={{ item }}sniff.txt --ignore={{ ignore_path }}'
     with_items: phpcs_standards
+    ignore_errors: yes
 
   - name: PHP CodeSniffer for features
     sudo: yes
