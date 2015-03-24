@@ -1,0 +1,42 @@
+---
+# This playbook should be executed using reinstall.sh script
+# Developed for ansible version >= 1.7
+- hosts: localhost
+  connection: local
+  gather_facts: no
+
+  vars:
+    drupal_user: admin
+    drupal_pass: lovecsua
+    installation_profile_name: pp
+    mysql_user: root
+    mysql_pass: root
+    mysql_db: drupal8
+    cache_folder: /var/www/cache
+    php_env_vars: '' # APP_ENV=dev - this varible will be set at PR_BUILDER from CI shell executor.
+
+  tasks:
+
+  - name: Droping drupal database
+    mysql_db: name={{ mysql_db }} state=absent login_user={{ mysql_user }} login_password={{ mysql_pass }}
+
+#  - name: Creating drupal database
+#    mysql_db: name={{ mysql_db }} state=present login_user={{ mysql_user }} login_password={{ mysql_pass }}
+    
+  - name: Creating cache folder
+    sudo: yes
+    file: path={{ cache_folder }} state=directory recurse=yes
+
+  - name: Removing tmp folder
+    sudo: yes
+    shell: "chmod -R 777 sites/default && rm -rf sites/default/files && rm -f sites/default/services.yml"
+
+  - name: Cooking defaults
+    sudo: yes
+    shell: "cp sites/default/default.services.yml sites/default/services.yml"
+
+  - name: Installing drupal
+    sudo: yes
+    shell: "{{ php_env_vars}} drush -y si {{ installation_profile_name }} --db-url=mysql://{{ mysql_user }}:{{ mysql_pass }}@127.0.0.1:/{{ mysql_db }} --account-name={{ drupal_user }} --account-pass={{ drupal_pass }}"
+
+  handlers:
