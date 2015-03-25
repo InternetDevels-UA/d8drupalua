@@ -4,7 +4,7 @@
     var $show_on_map = $('<input type="checkbox" id="show_on_map"><span>'+Drupal.t('Event on map')+'</span></input>');
 
     $("#edit-field-address-wrapper").after($show_on_map);
-    if ($('#edit-field-geolocation-wrapper .geolocation-hidden-lat').val() == '') {  
+    if ($('#edit-field-geolocation-wrapper .geolocation-hidden-lat').val() === '') {
       setTimeout(function() {
         $('#edit-field-geolocation-wrapper').hide();
       }, 200);
@@ -35,4 +35,4 @@
 
   }
 
-})})(jQuery);
+});})(jQuery);

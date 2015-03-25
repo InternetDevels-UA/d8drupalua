@@ -1,4 +1,10 @@
 <?php
+
+/**
+ * @file
+ * Idevels Drupal module installation file.
+ */
+
 /**
  * Implement hook_install().
  */
@@ -22,7 +28,7 @@ function idevels_batch() {
       array(
         $chunk,
         $max,
-      )
+      ),
     );
   }
   $batch = array(
@@ -39,7 +45,7 @@ function idevels_batch() {
 }
 
 /**
- * Batch operation for batch_idevels: save >50 terms
+ * Batch operation for batch_idevels: save >50 terms.
  *
  * This is the function that is called on each operation in batch_idevels.
  */

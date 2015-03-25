@@ -4,6 +4,7 @@
  * @file
  * Idevels Facebook Login Module for Drupal Sites.
  */
+
 use Drupal\Core\Url;
 
 define("IDEVELS_FB_CONNECT_DEFAULT_DIMENSIONS_STRING", "1024x1024");
@@ -13,21 +14,11 @@ define("IDEVELS_FB_CONNECT_PERMISSION_DENIED_PARAMETER", 'access_denied');
 
 
 /**
- * Implements hook_form_alter().
- */
-//function idevels_fb_connect_form_alter(&$form, &$form_state, $form_id) {
-//    dpm($form_id);dpm($form_state);
-//    // || $form_id == 'user_register_form'
-//    if($form_id == 'user_login_form') {
-//      \Drupal\Core\Form::
-//    }
-//}
-
-/**
  * Implements hook_libraries_info().
  */
 function idevels_fb_connect_libraries_info() {
-  // Returns an associative array, with information about external library
+
+  // Returns an associative array, with information about external library.
   $libraries['facebook-php-sdk'] = array(
     'name' => 'Facebook PHP SDK',
     'vendor url' => 'https://github.com/facebook/facebook-php-sdk',
@@ -39,7 +30,7 @@ function idevels_fb_connect_libraries_info() {
       'pattern' => '/Facebook PHP SDK \(v\.(3\.\d\.\d)\)/',
       'lines' => 25,
     ),
-    // supported library version, including relevant files
+    // Supported library version, including relevant files.
     'versions' => array(
       '3.2.2' => array(
         'files' => array(
@@ -58,6 +49,7 @@ function idevels_fb_connect_libraries_info() {
  * Locates and loads the Facebook PHP SDK library.
  */
 function idevels_fb_connect_facebook_client_load_include() {
+
   if (!class_exists('Facebook')) {
     if (function_exists('libraries_load')) {
       $library = libraries_load('facebook-php-sdk');
@@ -66,12 +58,12 @@ function idevels_fb_connect_facebook_client_load_include() {
       $sdk_path = DRUPAL_ROOT . '/libraries/facebook-php-sdk/src/facebook.php';
       $library = array('loaded' => file_exists($sdk_path));
       if ($library['loaded']) {
-        require_once $sdk_path;
+        include_once $sdk_path;
       }
     }
     if (!$library['loaded']) {
       watchdog('idevels_fb_connect', 'Unable to load the required Facebook library');
-      drupal_set_message(t('Facebook Library not found - ' . $library['error message']), 'error');
+      drupal_set_message(t('Facebook Library not found - !error', array('!error' => $library['error message'])), 'error');
     }
   }
   return class_exists('Facebook') && defined('Facebook::VERSION');
@@ -79,10 +71,12 @@ function idevels_fb_connect_facebook_client_load_include() {
 
 /**
  * Get the facebook client object for easy access.
+ *
  * @return Facebook
  *   Facebook Api object
  */
 function facebook_client() {
+
   static $fb = NULL;
 
   if (is_null($fb)) {
@@ -105,6 +99,7 @@ function facebook_client() {
  * Generates a unique username for drupal site based on fb username.
  */
 function idevels_fb_connect_unique_user_name($fb_name, $i = 0) {
+
   $trimmed_name = '';
   $user_to_load = '';
   if ($i == 0) {
@@ -116,7 +111,7 @@ function idevels_fb_connect_unique_user_name($fb_name, $i = 0) {
     $user_to_load = $trimmed_name . "_" . $i;
   }
 
-  //Check if user exists by loading userbyname
+  // Check if user exists by loading userbyname.
   if (is_object(user_load_by_name($user_to_load))) {
     $i++;
     return (idevels_fb_connect_unique_user_name($trimmed_name, $i));

@@ -3,6 +3,7 @@
  * @file
  * Google Auth Api for drupal.
  */
+
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Drupal\Core\Form\FormStateInterface;
 
@@ -10,7 +11,7 @@ use Drupal\Core\Form\FormStateInterface;
  * Implements hook_libraries_info().
  */
 /**
- *  Implements hook_form_alter().
+ * Implements hook_form_alter().
  */
 function idevels_google_login_libraries_info() {
   $path = libraries_get_path('google-api-php-client');
@@ -53,7 +54,7 @@ function idevels_google_login_libraries_info_alter(&$libraries) {
  * @return object|NULL
  *   An existing Drupal user object if found; otherwise NULL.
  */
-function idevels_google_login_find_existing_user($info) {
+function idevels_google_login_find_existing_user(array $info) {
   // First, see if there is a user with the given e-mail.
   if ($new_user = user_load_by_mail($info['email'])) {
     return $new_user;
@@ -82,7 +83,7 @@ function idevels_google_login_form_alter(&$form, &$form_state, $form_id) {
 }
 
 /**
- * Login using google, submit handler
+ * Login using google, submit handler.
  */
 function idevels_google_login_user_login_submit(&$form, FormStateInterface $form_state) {
   if (Drupal::config('idevels_google_login.system')
@@ -102,7 +103,7 @@ function idevels_google_login_user_login_submit(&$form, FormStateInterface $form
       ->get('idevels_google_login_client_secret'));
     $client->setRedirectUri(Drupal::url('idevels_google_connect_login', array(), array(
       'https' => TRUE,
-      'absolute' => TRUE
+      'absolute' => TRUE,
     )));
     $client->setDeveloperKey(Drupal::config('ideеvels_google.system')
       ->get('idevels_google_login_developer_key'));
@@ -120,7 +121,7 @@ function idevels_google_login_user_login_submit(&$form, FormStateInterface $form
     $client->setState($_SESSION['idevels_google_login_state']);
     $url = 'https://accounts.google.com/o/oauth2/auth?response_type=code&redirect_uri=' . Drupal::url('idevels_google_connect_login', array(), array(
         'https' => TRUE,
-        'absolute' => TRUE
+        'absolute' => TRUE,
       )) . '&client_id=' . Drupal::config('idevels_google.system')
         ->get('idevels_google_login_client_id') . '&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email&access_type=offline&state=' . $_SESSION['idevels_google_login_state'];
     if (isset($_GET['destination'])) {
@@ -150,7 +151,7 @@ function idevels_google_login_unique_user_name($name, $i = 0) {
     $user_to_load = $trimmed_name . "_" . $i;
   }
 
-  //Check if user exists by loading userbyname
+  // Check if user exists by loading userbyname.
   if (is_object(user_load_by_name($user_to_load))) {
     $i++;
     return (idevels_google_login_unique_user_name($trimmed_name, $i));
