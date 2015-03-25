@@ -4,6 +4,7 @@
  * @file
  * Idevels_events module file.
  */
+
 use Drupal\Core\Form\FormStateInterface;
 
 /**
@@ -37,7 +38,11 @@ function idevels_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_s
     $form['field_city']['widget']['#default_value'] = str_replace('"', '', $form['field_city']['widget']['#default_value']);
     $form['field_event_date']['#attributes']['class'][] = 'future-date';
     $form['field_event_date_end']['#attributes']['class'][] = 'future-date';
-    $form['#attached']['js'] = array(drupal_get_path('module', 'idevels') . '/js/idevelsAutocomplete.js', drupal_get_path('module', 'idevels') . '/js/createEventForm.js', drupal_get_path('module', 'idevels') . '/js/DatePastFuture.js');
+    $form['#attached']['js'] = array(
+      drupal_get_path('module', 'idevels') . '/js/idevelsAutocomplete.js',
+      drupal_get_path('module', 'idevels') . '/js/createEventForm.js',
+      drupal_get_path('module', 'idevels') . '/js/DatePastFuture.js'
+    );
   }
   if ($form_id == 'user_form' || $form_id == 'user_register_form' || $form_id == 'user_register') {
     array_unshift($form['#validate'], 'idevels_validate_pastdate');
@@ -74,18 +79,18 @@ function idevels_validate_events($form, FormStateInterface $form_state) {
   }
   elseif (strlen(strip_tags($values['body'][0]['value'])) < 302) {
     $form_state->setError($form['body'], t('The event discription is too short. Please enter at least 300 symbols. Event discription has !body_len symbols.',
-        array(
-          '!body_len' => strlen(strip_tags(html_entity_decode($values['body'][0]['value']))) - 2,
-        )));
+      array(
+        '!body_len' => strlen(strip_tags(html_entity_decode($values['body'][0]['value']))) - 2,
+      )));
   }
   if (empty($values['field_new_teaser'][0]['value'])) {
     $form_state->setError($form['field_new_teaser'], t("The event teaser can't be empty."));
   }
   elseif (strlen(strip_tags(html_entity_decode($values['field_new_teaser'][0]['value']))) < 102) {
     $form_state->setError($form['field_new_teaser'], t('The event teaser is too short. Please enter at least 100 symbols. Event teaser has !teaser_len symbols.',
-        array(
-          '!teaser_len' => strlen(strip_tags(html_entity_decode($values['field_new_teaser'][0]['value']))) - 2,
-        )));
+      array(
+        '!teaser_len' => strlen(strip_tags(html_entity_decode($values['field_new_teaser'][0]['value']))) - 2,
+      )));
   }
 
   if (!($values['field_event_date'][0]['value'] instanceof DateTime)) {

@@ -2,7 +2,9 @@
 
 /**
  * @file
+ * Idevels Drupal module installation file.
  */
+
 /**
  * Implement hook_install().
  */
