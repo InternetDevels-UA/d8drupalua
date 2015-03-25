@@ -2,6 +2,7 @@
 
 /**
  * @file
+ * FB Connect administration form.
  */
 
 namespace Drupal\idevels_fb_connect\Form;
@@ -9,14 +10,17 @@ namespace Drupal\idevels_fb_connect\Form;
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
 /**
- * Facebook user login administration settings form
+ * Facebook user login administration settings form.
  */
 class IdevelsFBConnectAdmin extends ConfigFormBase {
 
   /**
    * {@inheritdoc}
    */
+  // @codingStandardsIgnoreStart
   public function getFormID() {
+  // @codingStandardsIgnoreEnd
+
     return 'idevels_fb_connect_api_keys_settings';
   }
 

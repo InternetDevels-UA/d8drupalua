@@ -14,7 +14,7 @@ use \Drupal\user\Entity\User;
 use \Drupal\user\UserInterface;
 use Drupal\Component\Utility\String;
 /**
- * Facebook login controller
+ * Facebook login controller.
  */
 class IdevelsFBConnectController extends ControllerBase {
 
@@ -46,7 +46,10 @@ class IdevelsFBConnectController extends ControllerBase {
             user_login_finalize($user_obj);
             drupal_set_message(t('You have been logged in with the username !username', array('!username' => $user_obj->getUsername())));
             // @TODO Replace the reidrection with idevels_fb_connect_post_login_url
-            // return $this->redirect(\Drupal::config('idevels_fb_connect.settings')->get('idevels_fb_connect_post_login_url'));
+            // return $this->redirect(
+            // \Drupal::config('idevels_fb_connect.settings')->
+            // get('idevels_fb_connect_post_login_url')
+            // );
             return $this->redirect('user.page');
           }
           else {
@@ -57,7 +60,8 @@ class IdevelsFBConnectController extends ControllerBase {
         else {
           if (!(\Drupal::config('idevels_fb_connect.settings')->get('idevels_fb_connect_login_only'))) {
             // Create the drupal user
-            // This will generate a random password, you could set your own here.
+            // This will generate a random password,
+            // you could set your own here.
             $fb_username = (isset($fb_user_profile['username']) ? $fb_user_profile['username'] : $fb_user_profile['name']);
             $drupal_username_generated = idevels_fb_connect_unique_user_name(String::checkPlain($fb_username));
             $password = user_password(8);
@@ -75,7 +79,8 @@ class IdevelsFBConnectController extends ControllerBase {
               'field_last_name' => String::checkPlain($fb_user_profile['last_name']),
               'field_gender' => (int) $fb_user_profile['gender'] == 'male',
               'field_bio' => String::checkPlain($fb_user_profile['bio']),
-              // 'field_personal_website' => String::checkPlain($fb_user_profile['website']),
+              // 'field_personal_website' =>
+              // String::checkPlain($fb_user_profile['website']),
               'field_city' => String::checkPlain(explode(', ', $fb_user_profile['location']['name'])[0]),
             );
             if (!empty($fb_user_profile['location'])) {
@@ -126,7 +131,9 @@ class IdevelsFBConnectController extends ControllerBase {
             $account->password = $fields['pass'];
             // Send the e-mail through the user module.
             // @TODO
-            // drupal_mail('user', 'register_no_approval_required', $account->mail, NULL, array('account' => $account), variable_get('site_mail', 'admin@drupalsite.com'));
+            // drupal_mail('user', 'register_no_approval_required',
+            // $account->mail, NULL, array('account' => $account),
+            // variable_get('site_mail', 'admin@drupalsite.com'));
             drupal_set_message(t('You have been registered with the username !username', array('!username' => $account->getUsername())));
             return $this->redirect('idevels_fb_connect_login');
           }
@@ -145,13 +152,15 @@ class IdevelsFBConnectController extends ControllerBase {
       if (!isset($_REQUEST['error'])) {
         if (\Drupal::config('idevels_fb_connect.settings')->get('idevels_fb_connect_appid')) {
           $scope_string = '';
-          // // Make sure at least one module implements our hook.
+          // Make sure at least one module implements our hook.
           // @TODO
-          // if (sizeof(module_implements('idevels_fb_scope_info')) > 0) {
-          //     // Call modules that implement the hook, and let them change scope.
-          //     $scopes = module_invoke_all('idevels_fb_scope_info', array());
-          //     $scope_string = implode(',', $scopes);
-          // }
+          /*
+          if (sizeof(module_implements('idevels_fb_scope_info')) > 0) {
+          // Call modules that implement the hook, and let them change scope.
+          $scopes = module_invoke_all('idevels_fb_scope_info', array());
+          $scope_string = implode(',', $scopes);
+          }
+           */
           $scope_string .= ',email,user_about_me,user_website,user_birthday,user_location,user_work_history';
 
           $login_url_params = array(
