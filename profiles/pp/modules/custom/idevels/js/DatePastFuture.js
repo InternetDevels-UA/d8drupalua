@@ -9,7 +9,7 @@
     var year = date.getFullYear().toString();
     day = day.length < 2 ? "0" + day : day;
     month = month.length < 2 ? "0" + month : month;
-    return year + "-"+ month +"-"+ day
+    return year + "-"+ month +"-"+ day;
   }
 
   function daysInMonth(month, year) {
@@ -24,18 +24,18 @@
     if (month == d.getMonth()+1 && year == d.getFullYear()) {
       if ($daySelect.val() > d.getDate()) {
         $daySelect.val($dayDefaultOption.val());
-      };
+      }
       $daySelectOptions.each(function(){
         if (parseInt($(this).val()) > d.getDate()) {
           $(this).hide();
-        };
+        }
       });
     }
     // If user select not future Month - show all Days
     else {
       if ($daySelect.val() > daysInMonth(month, year)) {
         $daySelect.val($dayDefaultOption.val());
-      };
+      }
       $daySelectOptions.each(function(){
         console.log(parseInt($(this).val()));
         if (parseInt($(this).val()) <= daysInMonth(month, year)) {
@@ -45,7 +45,7 @@
           $(this).hide();
         }
       });
-    };
+    }
   }
 
   function validateMonth(month, year, $datediv, pastOrFuture) {
@@ -56,7 +56,7 @@
       // If future Month was selected - select first option
       if ($monthSelect.val() > d.getMonth()+1) {
         $monthSelect.val(monthDefaultOption.val());
-      };
+      }
       $monthSelectOptions.each(function(){
         if (parseInt($(this).val()) > d.getMonth()+1) {
           $(this).hide();
@@ -71,7 +71,7 @@
         $(this).show();
       });
     }
-    validateDays(month, year, $datediv, 'past')
+    validateDays(month, year, $datediv, 'past');
   }
 
   // Validation for html5 input type=date
@@ -111,4 +111,4 @@
     validateMonth(parseInt($(this).parents().eq(1).find("select[title=Month]").val()), parseInt($(this).val()), $(this).parents().eq(1), 'past');
   });
 
-})})(jQuery);
+});})(jQuery);

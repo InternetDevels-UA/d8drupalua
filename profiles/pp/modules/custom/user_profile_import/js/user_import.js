@@ -7,7 +7,7 @@
 	}
 
 	function import_user(i, n) {
-		var start_time = (new Date).getTime();
+		var start_time = (new Date()).getTime();
 	    $.ajax({
 			type: "GET",
 			url: '/import_profiles/' + i.toString(),
@@ -20,8 +20,8 @@
           	},
 			timeout: 180000,
 			success: function (data) {
-				var end_time = (new Date).getTime();
-				var log = parseInt((end_time - start_time) / 100).toString() + ' c: Import profile with uid ' + data['id'] + ' - ' + data['result'];
+				var end_time = (new Date()).getTime();
+				var log = parseInt((end_time - start_time) / 100).toString() + ' c: Import profile with uid ' + data.id + ' - ' + data.result;
 				console.log(log);
 				$('#showlogs').append(log + '\n'); 
 				start_time = end_time;
@@ -41,4 +41,4 @@
 		event.preventDefault();
 	});
 
- })})(jQuery);
+ });})(jQuery);
