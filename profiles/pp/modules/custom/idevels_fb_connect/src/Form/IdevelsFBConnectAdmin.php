@@ -1,10 +1,16 @@
 <?php
 
+/**
+ * @file
+ */
+
 namespace Drupal\idevels_fb_connect\Form;
 
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
-
+/**
+ *
+ */
 class idevelsFBConnectAdmin extends ConfigFormBase {
 
   /**
@@ -18,7 +24,7 @@ class idevelsFBConnectAdmin extends ConfigFormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
-//        dpm(\Drupal::config('idevels_fb_connect.settings')->get('idevels_fb_connect_appid'));
+    //        dpm(\Drupal::config('idevels_fb_connect.settings')->get('idevels_fb_connect_appid'));
     $form['idevels_fb_connect_appid'] = array(
       '#type' => 'textfield',
       '#required' => TRUE,
@@ -34,7 +40,6 @@ class idevelsFBConnectAdmin extends ConfigFormBase {
       '#default_value' => $this->config('idevels_fb_connect.settings')->get('idevels_fb_connect_skey'),
       '#description' => t('Also called the <em>OAuth client_secret</em> value on Facebook App settings pages.'),
     );
-
 
     $form['idevels_fb_connect_connect_url'] = array(
       '#type' => 'textfield',

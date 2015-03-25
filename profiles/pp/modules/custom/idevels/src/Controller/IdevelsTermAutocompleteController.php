@@ -190,11 +190,12 @@ class IdevelsTermAutocompleteController implements ContainerInjectionInterface {
       foreach ($terms as $term) {
         $matches[] = array(
           'value' => str_replace('"', '', $term->getName()),
-          'label' => String::checkPlain($term->getName())
+          'label' => String::checkPlain($term->getName()),
         );
       }
       return $matches;
     }
     return $matches;
   }
+
 }

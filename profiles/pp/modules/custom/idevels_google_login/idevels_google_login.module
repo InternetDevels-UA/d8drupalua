@@ -103,7 +103,7 @@ function idevels_google_login_user_login_submit(&$form, FormStateInterface $form
       ->get('idevels_google_login_client_secret'));
     $client->setRedirectUri(Drupal::url('idevels_google_connect_login', array(), array(
       'https' => TRUE,
-      'absolute' => TRUE
+      'absolute' => TRUE,
     )));
     $client->setDeveloperKey(Drupal::config('ideеvels_google.system')
       ->get('idevels_google_login_developer_key'));
@@ -121,7 +121,7 @@ function idevels_google_login_user_login_submit(&$form, FormStateInterface $form
     $client->setState($_SESSION['idevels_google_login_state']);
     $url = 'https://accounts.google.com/o/oauth2/auth?response_type=code&redirect_uri=' . Drupal::url('idevels_google_connect_login', array(), array(
         'https' => TRUE,
-        'absolute' => TRUE
+        'absolute' => TRUE,
       )) . '&client_id=' . Drupal::config('idevels_google.system')
         ->get('idevels_google_login_client_id') . '&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email&access_type=offline&state=' . $_SESSION['idevels_google_login_state'];
     if (isset($_GET['destination'])) {
@@ -151,7 +151,7 @@ function idevels_google_login_unique_user_name($name, $i = 0) {
     $user_to_load = $trimmed_name . "_" . $i;
   }
 
-  // Check if user exists by loading userbyname
+  // Check if user exists by loading userbyname.
   if (is_object(user_load_by_name($user_to_load))) {
     $i++;
     return (idevels_google_login_unique_user_name($trimmed_name, $i));

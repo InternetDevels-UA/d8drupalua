@@ -2,12 +2,12 @@
 
 /**
  * @file
- * idevels_events module file.
+ * Idevels_events module file.
  */
 use Drupal\Core\Form\FormStateInterface;
 
 /**
- *  Implements hook_form_alter().
+ * Implements hook_form_alter().
  */
 function idevels_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
   if ($form_id == 'events_node_edit_form' || $form_id == 'events_node_form') {
@@ -28,7 +28,7 @@ function idevels_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_s
     }
     $form['field_event_price']['#states'] = array(
       'visible' => array(
-        ':input[name=field_select_price]' => array('value' => 1)
+        ':input[name=field_select_price]' => array('value' => 1),
       ),
     );
     array_unshift($form['actions']['publish']['#submit'], 'idevels_submit_events');
@@ -46,7 +46,9 @@ function idevels_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_s
   }
 }
 
-//Custom submit to change field_select_price value
+/**
+ * Custom submit to change field_select_price value.
+ */
 function idevels_submit_events($form, FormStateInterface $form_state) {
   $values = $form_state->getValues();
   if ($values['field_select_price'] == '0') {
@@ -54,7 +56,9 @@ function idevels_submit_events($form, FormStateInterface $form_state) {
   }
 }
 
-//Custom validate to change field_city value
+/**
+ * Custom validate to change field_city value.
+ */
 function idevels_validate_events($form, FormStateInterface $form_state) {
   $values = $form_state->getValues();
   if (is_array($values['field_city'])) {
@@ -101,7 +105,9 @@ function idevels_validate_events($form, FormStateInterface $form_state) {
   }
 }
 
-// Custom validate for date
+/**
+ * Custom validate for date.
+ */
 function idevels_validate_pastdate($form, FormStateInterface $form_state) {
   $values = $form_state->getValues();
   if (is_object($values['field_birthday'][0]['value']) && strtotime($values['field_birthday'][0]['value']->format('Y-m-d\TH:i:s')) > time()) {

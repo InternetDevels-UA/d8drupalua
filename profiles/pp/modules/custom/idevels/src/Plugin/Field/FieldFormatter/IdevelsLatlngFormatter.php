@@ -39,4 +39,5 @@ class IdevelsLatlngFormatter extends FormatterBase {
     }
     return $element;
   }
+
 }

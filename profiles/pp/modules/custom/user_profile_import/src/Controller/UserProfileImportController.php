@@ -121,5 +121,4 @@ class UserProfileImportController {
     return $build;
   }
 
-
 }

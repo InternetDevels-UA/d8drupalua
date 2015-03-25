@@ -11,9 +11,14 @@ use Drupal\Core\Controller\ControllerBase;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Drupal\Component\Utility\String;
 use Drupal\idevels_google_login;
-
+/**
+ *
+ */
 class IdevelsGoogleConnectController extends ControllerBase {
 
+  /**
+   *
+   */
   public function unifiedLoginRegister() {
 
     if (isset($_GET['error'])) {
@@ -47,7 +52,7 @@ class IdevelsGoogleConnectController extends ControllerBase {
 
         $client->setRedirectUri(\Drupal::url('idevels_google_connect_login', array(), array(
           'https' => TRUE,
-          'absolute' => TRUE
+          'absolute' => TRUE,
         )));
         $client->setDeveloperKey($api_key);
         $scopes = array(
@@ -67,7 +72,7 @@ class IdevelsGoogleConnectController extends ControllerBase {
         $client->setClientSecret($client_secret);
         $client->setRedirectUri(\Drupal::url('idevels_google_connect_login', array(), array(
           'https' => TRUE,
-          'absolute' => TRUE
+          'absolute' => TRUE,
         )));
         $client->setDeveloperKey($api_key);
         $client->setAccessToken($account['access_token']);
