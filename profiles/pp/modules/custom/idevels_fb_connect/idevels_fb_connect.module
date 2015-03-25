@@ -14,43 +14,33 @@ define("IDEVELS_FB_CONNECT_PERMISSION_DENIED_PARAMETER", 'access_denied');
 
 
 /**
- * Implements hook_form_alter().
- */
-// Function idevels_fb_connect_form_alter(&$form, &$form_state, $form_id) {
-//    dpm($form_id);dpm($form_state);
-//    // || $form_id == 'user_register_form'
-//    if($form_id == 'user_login_form') {
-//      \Drupal\Core\Form::
-//    }
-// }
-/**
  * Implements hook_libraries_info().
  */
 function idevels_fb_connect_libraries_info() {
 
   // Returns an associative array, with information about external library.
   $libraries['facebook-php-sdk'] = array(
-      'name' => 'Facebook PHP SDK',
-      'vendor url' => 'https://github.com/facebook/facebook-php-sdk',
-      'download url' => 'https://github.com/facebook/facebook-php-sdk/archive/v3.2.3.tar.gz',
-      'version arguments' => array(
-        'file' => 'readme.md',
+    'name' => 'Facebook PHP SDK',
+    'vendor url' => 'https://github.com/facebook/facebook-php-sdk',
+    'download url' => 'https://github.com/facebook/facebook-php-sdk/archive/v3.2.3.tar.gz',
+    'version arguments' => array(
+      'file' => 'readme.md',
       // Best practice: Document the actual version strings for later reference.
       // Facebook PHP SDK (v.3.2.2)
-        'pattern' => '/Facebook PHP SDK \(v\.(3\.\d\.\d)\)/',
-        'lines' => 25,
-      ),
+      'pattern' => '/Facebook PHP SDK \(v\.(3\.\d\.\d)\)/',
+      'lines' => 25,
+    ),
     // Supported library version, including relevant files.
-      'versions' => array(
-        '3.2.2' => array(
-          'files' => array(
-            'php' => array(
-              'src/base_facebook.php',
-              'src/facebook.php',
-            ),
+    'versions' => array(
+      '3.2.2' => array(
+        'files' => array(
+          'php' => array(
+            'src/base_facebook.php',
+            'src/facebook.php',
           ),
         ),
       ),
+    ),
   );
   return $libraries;
 }
@@ -73,7 +63,7 @@ function idevels_fb_connect_facebook_client_load_include() {
     }
     if (!$library['loaded']) {
       watchdog('idevels_fb_connect', 'Unable to load the required Facebook library');
-      drupal_set_message(t('Facebook Library not found - ' . $library['error message']), 'error');
+      drupal_set_message(t('Facebook Library not found - !error', array('!error' => $library['error message'])), 'error');
     }
   }
   return class_exists('Facebook') && defined('Facebook::VERSION');

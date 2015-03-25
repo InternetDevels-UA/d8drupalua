@@ -14,14 +14,14 @@ use \Drupal\user\Entity\User;
 use \Drupal\user\UserInterface;
 use Drupal\Component\Utility\String;
 /**
- *
+ * Facebook login controller
  */
 class IdevelsFBConnectController extends ControllerBase {
 
   /**
    * Define constructor.
    */
-  public function unified_login_register() {
+  public function unifiedLoginRegister() {
     $facebook = facebook_client();
     $fb_user = $facebook->getUser();
     if ($fb_user) {
@@ -145,13 +145,13 @@ class IdevelsFBConnectController extends ControllerBase {
       if (!isset($_REQUEST['error'])) {
         if (\Drupal::config('idevels_fb_connect.settings')->get('idevels_fb_connect_appid')) {
           $scope_string = '';
-          //                    // Make sure at least one module implements our hook.
-          //                    @TODO
-          //                    if (sizeof(module_implements('idevels_fb_scope_info')) > 0) {
-          //                        // Call modules that implement the hook, and let them change scope.
-          //                        $scopes = module_invoke_all('idevels_fb_scope_info', array());
-          //                        $scope_string = implode(',', $scopes);
-          //                    }
+          // // Make sure at least one module implements our hook.
+          // @TODO
+          // if (sizeof(module_implements('idevels_fb_scope_info')) > 0) {
+          //     // Call modules that implement the hook, and let them change scope.
+          //     $scopes = module_invoke_all('idevels_fb_scope_info', array());
+          //     $scope_string = implode(',', $scopes);
+          // }
           $scope_string .= ',email,user_about_me,user_website,user_birthday,user_location,user_work_history';
 
           $login_url_params = array(

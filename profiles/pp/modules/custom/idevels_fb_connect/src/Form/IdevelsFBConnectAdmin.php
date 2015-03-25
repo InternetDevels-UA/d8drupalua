@@ -9,9 +9,9 @@ namespace Drupal\idevels_fb_connect\Form;
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
 /**
- *
+ * Facebook user login administration settings form
  */
-class idevelsFBConnectAdmin extends ConfigFormBase {
+class IdevelsFBConnectAdmin extends ConfigFormBase {
 
   /**
    * {@inheritdoc}
@@ -24,7 +24,7 @@ class idevelsFBConnectAdmin extends ConfigFormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
-    //        dpm(\Drupal::config('idevels_fb_connect.settings')->get('idevels_fb_connect_appid'));
+    // dpm(\Drupal::config('idevels_fb_connect.settings')->get('idevels_fb_connect_appid'));
     $form['idevels_fb_connect_appid'] = array(
       '#type' => 'textfield',
       '#required' => TRUE,
