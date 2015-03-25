@@ -54,7 +54,7 @@ function idevels_google_login_libraries_info_alter(&$libraries) {
  * @return object|NULL
  *   An existing Drupal user object if found; otherwise NULL.
  */
-function idevels_google_login_find_existing_user($info) {
+function idevels_google_login_find_existing_user(array $info) {
   // First, see if there is a user with the given e-mail.
   if ($new_user = user_load_by_mail($info['email'])) {
     return $new_user;
