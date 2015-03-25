@@ -13,18 +13,22 @@ use Symfony\Component\HttpFoundation\Request;
 use \Drupal\user\Entity\User;
 use \Drupal\user\UserInterface;
 use Drupal\Component\Utility\String;
-
+/**
+ * Facebook login controller.
+ */
 class IdevelsFBConnectController extends ControllerBase {
 
-  //Define constructor
-  public function unified_login_register() {
+  /**
+   * Define constructor.
+   */
+  public function unifiedLoginRegister() {
     $facebook = facebook_client();
     $fb_user = $facebook->getUser();
     if ($fb_user) {
       $fb_user_profile = $facebook->api('/me');
       if (isset($fb_user_profile['email'])) {
         $query = db_select('users_field_data', 'u');
-        // @TODO Use $this->connection() instead as suggested by Adam 
+        // @TODO Use $this->connection() instead as suggested by Adam
         $query->condition('u.mail', String::checkPlain($fb_user_profile['email']));
         $query->fields('u', array('uid'));
         $query->range(0, 1);
@@ -32,17 +36,20 @@ class IdevelsFBConnectController extends ControllerBase {
         $drupal_user_id = 0;
         $result = $query->execute()->fetchAll(\PDO::FETCH_ASSOC);
 
-        if (count($result))
+        if (count($result)) {
           $drupal_user_id = $result[0]['uid'];
-
+        }
 
         if ($drupal_user_id) {
           $user_obj = User::load($drupal_user_id);
           if ($user_obj->isActive()) {
             user_login_finalize($user_obj);
             drupal_set_message(t('You have been logged in with the username !username', array('!username' => $user_obj->getUsername())));
-            //@TODO Replace the reidrection with idevels_fb_connect_post_login_url
-            //return $this->redirect(\Drupal::config('idevels_fb_connect.settings')->get('idevels_fb_connect_post_login_url'));
+            // @TODO Replace the reidrection with idevels_fb_connect_post_login_url
+            // return $this->redirect(
+            // \Drupal::config('idevels_fb_connect.settings')->
+            // get('idevels_fb_connect_post_login_url')
+            // );
             return $this->redirect('user.page');
           }
           else {
@@ -52,12 +59,13 @@ class IdevelsFBConnectController extends ControllerBase {
         }
         else {
           if (!(\Drupal::config('idevels_fb_connect.settings')->get('idevels_fb_connect_login_only'))) {
-            //create the drupal user
-            //This will generate a random password, you could set your own here
+            // Create the drupal user
+            // This will generate a random password,
+            // you could set your own here.
             $fb_username = (isset($fb_user_profile['username']) ? $fb_user_profile['username'] : $fb_user_profile['name']);
             $drupal_username_generated = idevels_fb_connect_unique_user_name(String::checkPlain($fb_username));
             $password = user_password(8);
-            //set up the user fields
+            // Set up the user fields.
             $fields = array(
               'name' => $drupal_username_generated,
               'mail' => String::checkPlain($fb_user_profile['email']),
@@ -71,7 +79,8 @@ class IdevelsFBConnectController extends ControllerBase {
               'field_last_name' => String::checkPlain($fb_user_profile['last_name']),
               'field_gender' => (int) $fb_user_profile['gender'] == 'male',
               'field_bio' => String::checkPlain($fb_user_profile['bio']),
-              //'field_personal_website' => String::checkPlain($fb_user_profile['website']),
+              // 'field_personal_website' =>
+              // String::checkPlain($fb_user_profile['website']),
               'field_city' => String::checkPlain(explode(', ', $fb_user_profile['location']['name'])[0]),
             );
             if (!empty($fb_user_profile['location'])) {
@@ -86,7 +95,7 @@ class IdevelsFBConnectController extends ControllerBase {
               $fields['field_birthday'] = date("Y-m-d", strtotime($fb_user_profile['birthday']));
             }
             if (\Drupal::config('idevels_fb_connect.settings')->get('idevels_fb_connect_user_pictures')) {
-              //@TODO default it to IDEVELS_FB_CONNECT_DEFAULT_DIMENSIONS_STRING
+              // @TODO default it to IDEVELS_FB_CONNECT_DEFAULT_DIMENSIONS_STRING
               $dimensions_in_text = \Drupal::config('idevels_fb_connect.settings')->get('user_picture_dimensions');
               $dimensions = explode('x', $dimensions_in_text);
               if (count($dimensions) == 2) {
@@ -101,7 +110,7 @@ class IdevelsFBConnectController extends ControllerBase {
               $result = \Drupal::httpClient()->get($pic_url);
               $file = 0;
               if ($result->getStatusCode() == 200) {
-                //@TODO: get default path
+                // @TODO: get default path
                 $picture_directory = file_default_scheme() . '://' . 'pictures/';
                 file_prepare_directory($picture_directory, FILE_CREATE_DIRECTORY);
                 $file = file_save_data($result->getBody(), $picture_directory . '/' . String::checkPlain($fb_user_profile['id']) . '.jpg', FILE_EXISTS_RENAME);
@@ -114,16 +123,17 @@ class IdevelsFBConnectController extends ControllerBase {
               }
             }
 
-
-            //the first parameter is left blank so a new user is created
+            // The first parameter is left blank so a new user is created.
             $account = entity_create('user', $fields);
             $account->save();
             // If you want to send the welcome email, use the following code
             // Manually set the password so it appears in the e-mail.
             $account->password = $fields['pass'];
             // Send the e-mail through the user module.
-            //@TODO
-            //drupal_mail('user', 'register_no_approval_required', $account->mail, NULL, array('account' => $account), variable_get('site_mail', 'admin@drupalsite.com'));
+            // @TODO
+            // drupal_mail('user', 'register_no_approval_required',
+            // $account->mail, NULL, array('account' => $account),
+            // variable_get('site_mail', 'admin@drupalsite.com'));
             drupal_set_message(t('You have been registered with the username !username', array('!username' => $account->getUsername())));
             return $this->redirect('idevels_fb_connect_login');
           }
@@ -142,13 +152,15 @@ class IdevelsFBConnectController extends ControllerBase {
       if (!isset($_REQUEST['error'])) {
         if (\Drupal::config('idevels_fb_connect.settings')->get('idevels_fb_connect_appid')) {
           $scope_string = '';
-//                    // Make sure at least one module implements our hook
-//                    @TODO
-//                    if (sizeof(module_implements('idevels_fb_scope_info')) > 0) {
-//                        // Call modules that implement the hook, and let them change scope.
-//                        $scopes = module_invoke_all('idevels_fb_scope_info', array());
-//                        $scope_string = implode(',', $scopes);
-//                    }
+          // Make sure at least one module implements our hook.
+          // @TODO
+          /*
+          if (sizeof(module_implements('idevels_fb_scope_info')) > 0) {
+          // Call modules that implement the hook, and let them change scope.
+          $scopes = module_invoke_all('idevels_fb_scope_info', array());
+          $scope_string = implode(',', $scopes);
+          }
+           */
           $scope_string .= ',email,user_about_me,user_website,user_birthday,user_location,user_work_history';
 
           $login_url_params = array(
@@ -157,9 +169,9 @@ class IdevelsFBConnectController extends ControllerBase {
             'redirect_uri' => 'http://' . $_SERVER['HTTP_HOST'] . request_uri(),
           );
           $login_url = $facebook->getLoginUrl($login_url_params);
-          //@TODO
-          //drupal_goto($login_url);
-          //return $this->redirect($login_url);
+          // @TODO
+          // drupal_goto($login_url);
+          // return $this->redirect($login_url);
           return new RedirectResponse($login_url);
         }
         else {

@@ -49,7 +49,6 @@ class IdevelsLoginSettingsForm extends ConfigFormBase {
       '#default_value' => $idevels_google_login_config->get('idevels_google_login_developer_key'),
     );
 
-
     return parent::buildForm($form, $form_state);
   }
 
