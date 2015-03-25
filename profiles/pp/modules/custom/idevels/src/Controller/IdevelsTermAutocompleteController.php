@@ -43,7 +43,7 @@ class IdevelsTermAutocompleteController implements ContainerInjectionInterface {
    *
    * @param \Drupal\Core\Entity\Query\QueryInterface $term_entity_query
    *   The entity query service.
-   * @param \Drupal\Core\Entity\EntityManagerInterface
+   * @param \Drupal\Core\Entity\EntityManagerInterface $entity_manager
    *   The entity manager.
    */
   public function __construct(QueryInterface $term_entity_query, EntityManagerInterface $entity_manager) {
@@ -162,8 +162,8 @@ class IdevelsTermAutocompleteController implements ContainerInjectionInterface {
    * @param string $tags_typed
    *   The full typed tags string.
    * @param array $vids
-   *   An array of vocabulary IDs which
-   * @param $tag_last
+   *   An array of vocabulary IDs which we are looking for.
+   * @param string $tag_last
    *   The lasted typed tag.
    *
    * @return array
