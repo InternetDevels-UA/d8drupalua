@@ -12,12 +12,12 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Drupal\Component\Utility\String;
 use Drupal\idevels_google_login;
 /**
- * Google login controller
+ * Google login controller.
  */
 class IdevelsGoogleConnectController extends ControllerBase {
 
   /**
-   * Log user in using Google
+   * Log user in using Google.
    */
   public function unifiedLoginRegister() {
 
