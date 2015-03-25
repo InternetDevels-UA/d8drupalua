@@ -2,7 +2,7 @@
 
 ## Background
 
-Vagrant and VirtualBox (or some other VM provider) can be used to quickly build or rebuild virtual servers. 
+Vagrant and VirtualBox (or some other VM provider) can be used to quickly build or rebuild virtual servers.
 
 This Vagrant profile installs [Drupal](https://drupal.org/) using the shell provisioner 
 with ansible within Ubuntu 12.04LTS 64bit guest OS.
