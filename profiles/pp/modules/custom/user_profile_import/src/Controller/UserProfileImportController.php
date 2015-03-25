@@ -11,7 +11,8 @@ use Drupal\Core\Url;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
-define("AVATARS_FOLDER_D6", "avatars_d6"); // Folder with all avatars from drupal.ua (d6)
+// Folder with all avatars from drupal.ua (d6)
+define("AVATARS_FOLDER_D6", "avatars_d6");
 
 /**
  * Controller routines for page example routes.
@@ -21,7 +22,7 @@ class UserProfileImportController {
   /**
    * Importt profiles for users.
    */
-  public function import_profiles($page) {
+  public function importProfiles($page) {
     // Make sure you don't trust the URL to be safe! Always check for exploits.
     if (!is_numeric($page)) {
       // We will just show a standard "access denied" page in this case.
@@ -67,7 +68,7 @@ class UserProfileImportController {
           $account->set('user_picture', $fid);
         }
         else {
-          
+
         }
 
         $account->save();
@@ -83,7 +84,7 @@ class UserProfileImportController {
   /**
    * Page for start imoprt profi.
    */
-  public function import_about() {
+  public function importAbout() {
     $arguments_url = Url::fromRoute('user_profile_import_arguments', array('page' => '1'));
     $stop_url = Url::fromRoute('user_profile_import_about', array('page' => '1'));
     $import_profiles_link = \Drupal::l(t('Start import'), $arguments_url);
@@ -95,7 +96,7 @@ class UserProfileImportController {
             ->execute()
             ->fetchAll();
 
-      $build['#markup'] = t('<p>There are !row_count profiles. <span id="start_import" data-count="' . count($result) . '">!arguments_link</span> / <span>!stop_link</span></p>',
+      $build['#markup'] = t('<p>There are !row_count profiles. <span id="start_import" data-count="!row_count">!arguments_link</span> / <span>!stop_link</span></p>',
           array(
             '!arguments_link' => $import_profiles_link,
             '!stop_link' => $stop_import_link,

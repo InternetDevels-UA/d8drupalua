@@ -32,8 +32,9 @@ class IdevelsFBConnectController extends ControllerBase {
         $drupal_user_id = 0;
         $result = $query->execute()->fetchAll(\PDO::FETCH_ASSOC);
 
-        if (count($result))
+        if (count($result)) {
           $drupal_user_id = $result[0]['uid'];
+        }
 
 
         if ($drupal_user_id) {

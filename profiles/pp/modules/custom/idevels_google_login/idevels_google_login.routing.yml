@@ -8,7 +8,7 @@ idevels_google_login:
 idevels_google_connect_login:
   path: 'user/idevels_google_login'
   defaults:
-    _content: 'Drupal\idevels_google_login\Controller\IdevelsGoogleConnectController::unified_login_register'
+    _content: 'Drupal\idevels_google_login\Controller\IdevelsGoogleConnectController::unifiedLoginRegister'
     _title: 'Register / Login with Google'
   requirements:
     _role : 'anonymous'

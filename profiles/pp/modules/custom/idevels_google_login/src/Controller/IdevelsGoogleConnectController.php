@@ -14,7 +14,7 @@ use Drupal\idevels_google_login;
 
 class IdevelsGoogleConnectController extends ControllerBase {
 
-  public function unified_login_register() {
+  public function unifiedLoginRegister() {
 
     if (isset($_GET['error'])) {
       drupal_set_message(t('There was a problem in logging in with Google Account. Contact site administrator.'), 'error');
@@ -130,4 +130,5 @@ class IdevelsGoogleConnectController extends ControllerBase {
     $response->send();
     return $response;
   }
+
 }

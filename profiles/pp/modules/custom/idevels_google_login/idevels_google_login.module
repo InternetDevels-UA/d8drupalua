@@ -3,6 +3,7 @@
  * @file
  * Google Auth Api for drupal.
  */
+
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Drupal\Core\Form\FormStateInterface;
 
@@ -10,7 +11,7 @@ use Drupal\Core\Form\FormStateInterface;
  * Implements hook_libraries_info().
  */
 /**
- *  Implements hook_form_alter().
+ * Implements hook_form_alter().
  */
 function idevels_google_login_libraries_info() {
   $path = libraries_get_path('google-api-php-client');
@@ -82,7 +83,7 @@ function idevels_google_login_form_alter(&$form, &$form_state, $form_id) {
 }
 
 /**
- * Login using google, submit handler
+ * Login using google, submit handler.
  */
 function idevels_google_login_user_login_submit(&$form, FormStateInterface $form_state) {
   if (Drupal::config('idevels_google_login.system')
@@ -150,7 +151,7 @@ function idevels_google_login_unique_user_name($name, $i = 0) {
     $user_to_load = $trimmed_name . "_" . $i;
   }
 
-  //Check if user exists by loading userbyname
+  // Check if user exists by loading userbyname
   if (is_object(user_load_by_name($user_to_load))) {
     $i++;
     return (idevels_google_login_unique_user_name($trimmed_name, $i));

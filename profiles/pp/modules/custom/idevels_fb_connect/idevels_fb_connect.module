@@ -4,6 +4,7 @@
  * @file
  * Idevels Facebook Login Module for Drupal Sites.
  */
+
 use Drupal\Core\Url;
 
 define("IDEVELS_FB_CONNECT_DEFAULT_DIMENSIONS_STRING", "1024x1024");
@@ -26,9 +27,10 @@ define("IDEVELS_FB_CONNECT_PERMISSION_DENIED_PARAMETER", 'access_denied');
 /**
  * Implements hook_libraries_info().
  */
-function idevels_fb_connect_libraries_info() {
-  // Returns an associative array, with information about external library
-  $libraries['facebook-php-sdk'] = array(
+function idevels_fb_connect_libraries_info() 
+{
+    // Returns an associative array, with information about external library
+    $libraries['facebook-php-sdk'] = array(
     'name' => 'Facebook PHP SDK',
     'vendor url' => 'https://github.com/facebook/facebook-php-sdk',
     'download url' => 'https://github.com/facebook/facebook-php-sdk/archive/v3.2.3.tar.gz',
@@ -50,31 +52,32 @@ function idevels_fb_connect_libraries_info() {
         ),
       ),
     ),
-  );
-  return $libraries;
+    );
+    return $libraries;
 }
 
 /**
  * Locates and loads the Facebook PHP SDK library.
  */
-function idevels_fb_connect_facebook_client_load_include() {
-  if (!class_exists('Facebook')) {
-    if (function_exists('libraries_load')) {
-      $library = libraries_load('facebook-php-sdk');
+function idevels_fb_connect_facebook_client_load_include() 
+{
+    if (!class_exists('Facebook')) {
+        if (function_exists('libraries_load')) {
+            $library = libraries_load('facebook-php-sdk');
+        }
+        else {
+            $sdk_path = DRUPAL_ROOT . '/libraries/facebook-php-sdk/src/facebook.php';
+            $library = array('loaded' => file_exists($sdk_path));
+            if ($library['loaded']) {
+                include_once $sdk_path;
+            }
+        }
+        if (!$library['loaded']) {
+            watchdog('idevels_fb_connect', 'Unable to load the required Facebook library');
+            drupal_set_message(t('Facebook Library not found - ' . $library['error message']), 'error');
+        }
     }
-    else {
-      $sdk_path = DRUPAL_ROOT . '/libraries/facebook-php-sdk/src/facebook.php';
-      $library = array('loaded' => file_exists($sdk_path));
-      if ($library['loaded']) {
-        require_once $sdk_path;
-      }
-    }
-    if (!$library['loaded']) {
-      watchdog('idevels_fb_connect', 'Unable to load the required Facebook library');
-      drupal_set_message(t('Facebook Library not found - ' . $library['error message']), 'error');
-    }
-  }
-  return class_exists('Facebook') && defined('Facebook::VERSION');
+    return class_exists('Facebook') && defined('Facebook::VERSION');
 }
 
 /**
@@ -82,46 +85,48 @@ function idevels_fb_connect_facebook_client_load_include() {
  * @return Facebook
  *   Facebook Api object
  */
-function facebook_client() {
-  static $fb = NULL;
+function facebook_client() 
+{
+    static $fb = null;
 
-  if (is_null($fb)) {
+    if (is_null($fb)) {
 
-    if (idevels_fb_connect_facebook_client_load_include()) {
-      // Load the configuration.
-      $config = \Drupal::config('idevels_fb_connect.settings');
-      $init_params = array(
-        'appId' => $config->get('idevels_fb_connect_appid'),
-        'secret' => $config->get('idevels_fb_connect_skey'),
-      );
-      $fb = new Facebook($init_params);
+        if (idevels_fb_connect_facebook_client_load_include()) {
+            // Load the configuration.
+            $config = \Drupal::config('idevels_fb_connect.settings');
+            $init_params = array(
+            'appId' => $config->get('idevels_fb_connect_appid'),
+            'secret' => $config->get('idevels_fb_connect_skey'),
+            );
+            $fb = new Facebook($init_params);
+        }
     }
-  }
 
-  return $fb;
+    return $fb;
 }
 
 /**
  * Generates a unique username for drupal site based on fb username.
  */
-function idevels_fb_connect_unique_user_name($fb_name, $i = 0) {
-  $trimmed_name = '';
-  $user_to_load = '';
-  if ($i == 0) {
-    $trimmed_name = strtolower(trim(str_replace(' ', '_', $fb_name)));
-    $user_to_load = $trimmed_name;
-  }
-  else {
-    $trimmed_name = $fb_name;
-    $user_to_load = $trimmed_name . "_" . $i;
-  }
+function idevels_fb_connect_unique_user_name($fb_name, $i = 0) 
+{
+    $trimmed_name = '';
+    $user_to_load = '';
+    if ($i == 0) {
+        $trimmed_name = strtolower(trim(str_replace(' ', '_', $fb_name)));
+        $user_to_load = $trimmed_name;
+    }
+    else {
+        $trimmed_name = $fb_name;
+        $user_to_load = $trimmed_name . "_" . $i;
+    }
 
-  //Check if user exists by loading userbyname
-  if (is_object(user_load_by_name($user_to_load))) {
-    $i++;
-    return (idevels_fb_connect_unique_user_name($trimmed_name, $i));
-  }
-  else {
-    return $user_to_load;
-  }
+    //Check if user exists by loading userbyname
+    if (is_object(user_load_by_name($user_to_load))) {
+        $i++;
+        return (idevels_fb_connect_unique_user_name($trimmed_name, $i));
+    }
+    else {
+        return $user_to_load;
+    }
 }
