@@ -1,5 +1,6 @@
 idevels_fb_connect_admin:
   title: Idevels Facebook Connect
-  description: 'Idevels FB Connect module configuration'
+  parent: user.admin_index
+  description: 'Idevels FB Connect module configuration.'
+  weight: 10
   route_name: idevels_fb_connect_admin
-
