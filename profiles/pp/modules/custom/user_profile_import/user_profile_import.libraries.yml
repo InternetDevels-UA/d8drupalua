@@ -1,0 +1,9 @@
+import:
+  version: VERSION
+  js:
+    js/user_import.js: {}
+  css:
+    theme:
+      css/user_import.css: {}
+  dependencies:
+    - core/jquery

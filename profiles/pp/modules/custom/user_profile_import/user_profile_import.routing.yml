@@ -1,18 +1,15 @@
-# Ajax page for import specific user
-
 user_profile_import_arguments:
-  path: 'import_profiles/{page}'
+  path: '/import_profiles/{page}'
   defaults:
-    _content: '\Drupal\user_profile_import\Controller\UserProfileImportController::importProfiles'
+    _controller: 'Drupal\user_profile_import\Controller\UserProfileImportController::importProfiles'
+    _title: 'Import in progress'
   requirements:
     _access: 'TRUE'
-    # _csrf_token: 'TRUE'
-
-# Page for start import profiles
 
 user_profile_import_about:
-  path: 'import_profiles/about'
+  path: '/import_profiles/about'
   defaults:
-    _content: '\Drupal\user_profile_import\Controller\UserProfileImportController::importAbout'
+    _controller: 'Drupal\user_profile_import\Controller\UserProfileImportController::importAbout'
+    _title: 'Import old profiles'
   requirements:
     _permission: 'import profiles'
