@@ -8,6 +8,7 @@ playbooks=(
 /vagrant/puphpet/ansible/php-xdebug.yml \
 /vagrant/puphpet/ansible/mysql.yml \
 /vagrant/puphpet/ansible/memcached.yml \
+/vagrant/puphpet/ansible/vim.yml \
 /vagrant/puphpet/ansible/composer.yml \
 /vagrant/puphpet/ansible/drush.yml \
 )
