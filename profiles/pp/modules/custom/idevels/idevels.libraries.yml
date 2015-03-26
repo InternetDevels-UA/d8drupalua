@@ -1,0 +1,17 @@
+js.createEventForm:
+  dependencies: [core/jquery]
+  js:
+    js/createEventForm.js: {}
+  version: VERSION
+
+js.idevelsAutocomplete:
+  dependencies: [core/jquery]
+  js:
+    js/idevelsAutocomplete.js: {}
+  version: VERSION
+
+js.DatePastFuture:
+  dependencies: [core/jquery]
+  js:
+    js/DatePastFuture.js: {}
+  version: VERSION
