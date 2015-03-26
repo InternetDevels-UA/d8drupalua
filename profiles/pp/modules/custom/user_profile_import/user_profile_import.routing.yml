@@ -4,7 +4,7 @@ user_profile_import_arguments:
     _controller: 'Drupal\user_profile_import\Controller\UserProfileImportController::importProfiles'
     _title: 'Import in progress'
   requirements:
-    _access: 'TRUE'
+    _permission: 'import profiles'
 
 user_profile_import_about:
   path: '/import_profiles/about'
