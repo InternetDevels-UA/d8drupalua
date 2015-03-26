@@ -73,11 +73,7 @@ function idevels_google_login_form_alter(&$form, &$form_state, $form_id) {
       '#limit_validation_errors' => array(),
       '#weight' => 1000,
     );
-    $form['#attached'] = array(
-      'css' => array(
-        drupal_get_path('module', 'idevels_google_login') . '/idevels_google_login.css' => array(),
-      ),
-    );
+    $form['#attached']['library'][] = 'idevels_google_login/google_login';
 
   }
 }

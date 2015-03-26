@@ -56,13 +56,20 @@ class IdevelsLoginSettingsForm extends ConfigFormBase {
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
-    $this->config('idevels_google.system')
+    $this->configFactory()->getEditable('idevels_google.system')
       ->set('idevels_google_login_client_id', $form_state->getValue('idevels_google_login_client_id'))
       ->set('idevels_google_login_client_secret', $form_state->getValue('idevels_google_login_client_secret'))
       ->set('idevels_google_login_developer_key', $form_state->getValue('idevels_google_login_developer_key'))
       ->save();
 
     parent::submitForm($form, $form_state);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function getEditableConfigNames() {
+    return ['idevels_google.system'];
   }
 
 }

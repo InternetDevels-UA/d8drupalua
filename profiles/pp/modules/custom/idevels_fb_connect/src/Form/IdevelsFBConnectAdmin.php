@@ -89,14 +89,21 @@ class IdevelsFBConnectAdmin extends ConfigFormBase {
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
-    $this->config('idevels_fb_connect.settings')->set('idevels_fb_connect_appid', $form_state->getValue('idevels_fb_connect_appid'));
-    $this->config('idevels_fb_connect.settings')->set('idevels_fb_connect_skey', $form_state->getValue('idevels_fb_connect_skey'));
-    $this->config('idevels_fb_connect.settings')->set('idevels_fb_connect_login_only', $form_state->getValue('idevels_fb_connect_login_only'));
-    $this->config('idevels_fb_connect.settings')->set('idevels_fb_connect_post_login_url', $form_state->getValue('idevels_fb_connect_post_login_url'));
-    $this->config('idevels_fb_connect.settings')->set('idevels_fb_connect_user_pictures', $form_state->getValue('idevels_fb_connect_user_pictures'));
-    $this->config('idevels_fb_connect.settings')->set('idevels_fb_connect_picture_dimensions', $form_state->getValue('idevels_fb_connect_picture_dimensions'));
-    $this->config('idevels_fb_connect.settings')->save();
+    $this->configFactory()->getEditable('idevels_fb_connect.settings')->set('idevels_fb_connect_appid', $form_state->getValue('idevels_fb_connect_appid'));
+    $this->configFactory()->getEditable('idevels_fb_connect.settings')->set('idevels_fb_connect_skey', $form_state->getValue('idevels_fb_connect_skey'));
+    $this->configFactory()->getEditable('idevels_fb_connect.settings')->set('idevels_fb_connect_login_only', $form_state->getValue('idevels_fb_connect_login_only'));
+    $this->configFactory()->getEditable('idevels_fb_connect.settings')->set('idevels_fb_connect_post_login_url', $form_state->getValue('idevels_fb_connect_post_login_url'));
+    $this->configFactory()->getEditable('idevels_fb_connect.settings')->set('idevels_fb_connect_user_pictures', $form_state->getValue('idevels_fb_connect_user_pictures'));
+    $this->configFactory()->getEditable('idevels_fb_connect.settings')->set('idevels_fb_connect_picture_dimensions', $form_state->getValue('idevels_fb_connect_picture_dimensions'));
+    $this->configFactory()->getEditable('idevels_fb_connect.settings')->save();
     drupal_set_message($this->t('The configuration options have been saved.'));
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function getEditableConfigNames() {
+    return ['idevels_fb_connect.settings'];
   }
 
 }

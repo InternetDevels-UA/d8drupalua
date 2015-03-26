@@ -38,16 +38,14 @@ function idevels_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_s
     $form['field_city']['widget']['#default_value'] = str_replace('"', '', $form['field_city']['widget']['#default_value']);
     $form['field_event_date']['#attributes']['class'][] = 'future-date';
     $form['field_event_date_end']['#attributes']['class'][] = 'future-date';
-    $form['#attached']['js'] = array(
-      drupal_get_path('module', 'idevels') . '/js/idevelsAutocomplete.js',
-      drupal_get_path('module', 'idevels') . '/js/createEventForm.js',
-      drupal_get_path('module', 'idevels') . '/js/DatePastFuture.js'
-    );
+    $form['#attached']['library'][] = 'idevels/js.createEventForm:';
+    $form['#attached']['library'][] = 'idevels/js.idevelsAutocomplete:';
+    $form['#attached']['library'][] = 'idevels/js.DatePastFuture';
   }
   if ($form_id == 'user_form' || $form_id == 'user_register_form' || $form_id == 'user_register') {
     array_unshift($form['#validate'], 'idevels_validate_pastdate');
     $form['field_birthday']['#attributes']['class'][] = 'past-date';
-    $form['#attached']['js'] = array(drupal_get_path('module', 'idevels') . '/js/DatePastFuture.js');
+    $form['#attached']['library'][] = 'idevels/js.DatePastFuture';
   }
 }
 

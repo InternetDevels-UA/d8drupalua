@@ -1,0 +1,4 @@
+google_login:
+  css:
+    theme:
+      css/idevels_google_login.css: {}

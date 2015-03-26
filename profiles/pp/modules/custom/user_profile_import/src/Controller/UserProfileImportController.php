@@ -8,6 +8,7 @@
 namespace Drupal\user_profile_import\Controller;
 
 use Drupal\Core\Url;
+use Drupal\user\Entity\User;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
@@ -20,7 +21,7 @@ define("AVATARS_FOLDER_D6", "avatars_d6");
 class UserProfileImportController {
 
   /**
-   * Importt profiles for users.
+   * Import profiles for users.
    */
   public function importProfiles($page) {
     // Make sure you don't trust the URL to be safe! Always check for exploits.
@@ -38,7 +39,7 @@ class UserProfileImportController {
 
     while ($row = $result->fetchAssoc()) {
       $uid = (int) $row['uid'];
-      $account = user_load($uid);
+      $account = User::load($uid);
       if ($account) {
         $account->set('field_bio', $row['field_bio_value']);
         $account->set('field_country', strtoupper($row['country']));
@@ -82,7 +83,7 @@ class UserProfileImportController {
   }
 
   /**
-   * Page for start imoprt profi.
+   * Importing profiles starts here.
    */
   public function importAbout() {
     $arguments_url = Url::fromRoute('user_profile_import_arguments', array('page' => '1'));
@@ -106,14 +107,7 @@ class UserProfileImportController {
       $build['#markup'] .= t('<p>Progress</p>') . '<div id="progressBar"><div></div></div>';
       $build['#markup'] .= t('<p>Logs</p>') . '<textarea id="showlogs"></textarea>';
 
-      $build['#attached']['js'] = array(
-        drupal_get_path('module', 'user_profile_import') . '/js/user_import.js' => array(),
-      );
-
-      $build['#attached']['css'] = array(
-        drupal_get_path('module', 'user_profile_import') . '/css/user_import.css' => array(),
-      );
-
+      $build['#attached']['library'][] = 'user_profile_import/import';
     }
     else {
       $build['#markup'] = t('<p>Please import table "content_type_profile_d6" first</p>');
