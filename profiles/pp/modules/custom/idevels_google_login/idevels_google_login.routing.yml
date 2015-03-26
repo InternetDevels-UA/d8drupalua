@@ -6,7 +6,7 @@ idevels_google_login:
   requirements:
     _permission: 'administer site configuration'
 idevels_google_connect_login:
-  path: 'user/idevels_google_login'
+  path: '/user/idevels_google_login'
   defaults:
     _content: 'Drupal\idevels_google_login\Controller\IdevelsGoogleConnectController::unifiedLoginRegister'
     _title: 'Register / Login with Google'
