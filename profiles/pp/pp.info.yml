@@ -26,7 +26,7 @@ dependencies:
 # Custom modules.
   - idevels
   - idevels_fb_connect
-#  - idevels_google_login
+  - idevels_google_login
 #  - user_profile_import
 # Contrib modules.
 #  - admin_menu

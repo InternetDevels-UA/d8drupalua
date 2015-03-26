@@ -6,3 +6,4 @@ dependencies:
     - libraries
 core: '8.x'
 version: 8.x-1.1.
+configure: idevels_google_login

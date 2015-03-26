@@ -1,5 +1,6 @@
 idevels_google_login:
-  title: 'Idevels google Login Settings'
-  parent: system.admin_config_services
+  title: 'Idevels Google Login Settings'
+  parent: user.admin_index
   description: 'Google Authentication for login. This module provides addon feature for login using google'
+  weight: 10
   route_name: idevels_google_login
