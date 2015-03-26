@@ -25,7 +25,7 @@ dependencies:
   - telephone
 # Custom modules.
   - idevels
-#  - idevels_fb_connect
+  - idevels_fb_connect
 #  - idevels_google_login
 #  - user_profile_import
 # Contrib modules.

@@ -5,3 +5,4 @@ package: Authentication
 version: '8.x-1.0-alpha1'
 core: '8.x'
 datestamp: 1415935081
+configure: idevels_fb_connect_admin
