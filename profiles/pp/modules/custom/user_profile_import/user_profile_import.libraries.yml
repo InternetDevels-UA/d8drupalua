@@ -1,5 +1,4 @@
 import:
-  version: VERSION
   js:
     js/user_import.js: {}
   css:

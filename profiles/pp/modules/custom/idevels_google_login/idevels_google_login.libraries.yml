@@ -1,5 +1,4 @@
 google_login:
-  version: VERSION
   css:
     theme:
       css/idevels_google_login.css: {}
