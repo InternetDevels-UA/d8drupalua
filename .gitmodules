@@ -29,3 +29,6 @@
 [submodule "puphpet/ansible/roles/ansible-role-drush"]
 	path = puphpet/ansible/roles/ansible-role-drush
 	url = https://github.com/Obramko/ansible-role-drush.git
+[submodule "twitteroauth"]
+	path = profiles/pp/libraries/twitteroauth
+	url = https://github.com/abraham/twitteroauth.git
