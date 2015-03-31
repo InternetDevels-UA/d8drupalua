@@ -1,0 +1,19 @@
+uuid: 8a3aeadf-d5a1-4543-9f20-32eb354f8268
+langcode: en
+status: true
+dependencies:
+  module:
+    - user
+id: user.field_twitter_user_id
+field_name: field_twitter_user_id
+entity_type: user
+type: integer
+settings:
+  unsigned: false
+  size: normal
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false

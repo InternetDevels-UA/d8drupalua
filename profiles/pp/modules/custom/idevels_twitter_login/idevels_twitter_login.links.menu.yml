@@ -1,0 +1,6 @@
+idevels_twitter_login_settings:
+  title: 'Idevels Twitter Login Settings'
+  parent: user.admin_index
+  description: 'Twitter Authentication for login. This module provides addon feature for login using Twitter'
+  weight: 10
+  route_name: idevels_twitter_login_settings

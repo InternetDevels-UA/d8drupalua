@@ -1,0 +1,32 @@
+<?php
+/**
+ * @file
+ * Twitter Auth Api for drupal.
+ */
+
+/**
+ * Implements hook_libraries_info().
+ */
+function idevels_twitter_login_libraries_info() {
+//  $path = libraries_get_path('twitteroauth');
+//  set_include_path($path . "/src/" . PATH_SEPARATOR . get_include_path());
+  $libraries['twitteroauth'] = array(
+    'name' => 'Twitter OAuth Library',
+    'vendor url' => 'https://twitteroauth.com/',
+    'download url' => 'https://github.com/abraham/twitteroauth',
+    'version' => 'git',
+    'files' => array(
+      'php' => array(
+        'autoload.php',
+      ),
+    ),
+  );
+  return $libraries;
+}
+
+/**
+ * Implements hook_enable().
+ */
+function idevels_twitter_login_enable() {
+
+}
