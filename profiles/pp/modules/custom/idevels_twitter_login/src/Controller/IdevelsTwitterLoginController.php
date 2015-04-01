@@ -12,6 +12,7 @@ use Drupal\Core\Controller\ControllerBase;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
+
 /**
  * Site signup/login using Twitter.
  */
