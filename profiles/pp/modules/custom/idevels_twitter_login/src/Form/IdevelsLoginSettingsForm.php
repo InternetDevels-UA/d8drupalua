@@ -1,10 +1,17 @@
 <?php
 
+/**
+ * @file
+ * Contains IdevelsLoginSettingsForm.
+ */
+
 namespace Drupal\idevels_twitter_login\Form;
 
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
-
+/**
+ * Twitter Login settings form.
+ */
 class IdevelsLoginSettingsForm extends ConfigFormBase {
 
   /**
@@ -48,11 +55,12 @@ class IdevelsLoginSettingsForm extends ConfigFormBase {
 
     parent::submitForm($form, $form_state);
   }
-  
+
   /**
    * {@inheritdoc}
    */
   protected function getEditableConfigNames() {
     return ['idevels_twitter.system'];
   }
+
 }
