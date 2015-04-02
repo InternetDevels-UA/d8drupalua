@@ -9,6 +9,7 @@ namespace Drupal\idevels_twitter_login\Controller;
 
 use Abraham\TwitterOAuth\TwitterOAuth;
 use Drupal\Core\Controller\ControllerBase;
+use Drupal\user\Entity\User;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -18,7 +19,7 @@ use Symfony\Component\HttpFoundation\Session\Session;
 class IdevelsTwitterLoginController extends ControllerBase {
 
   /**
-   * Log in using Twitter. This is a single action for all auth flow.
+   * Log in using Twitter. This is a single action for entire auth flow.
    *
    * @return \Symfony\Component\HttpFoundation\Redirect
    *   The auth page.
@@ -27,9 +28,9 @@ class IdevelsTwitterLoginController extends ControllerBase {
    *   Twitter API error.
    */
   public function unifiedLoginRegister() {
-    $idevels_twitter_login_config = $this->config('idevels_twitter.system');
-    $consumer_key = $idevels_twitter_login_config->get('idevels_twitter_consumer_key');
-    $secret_key = $idevels_twitter_login_config->get('idevels_twitter_consumer_secret');
+    $config = $this->config('idevels_twitter.system');
+    $consumer_key = $config->get('idevels_twitter_consumer_key');
+    $secret_key = $config->get('idevels_twitter_consumer_secret');
     if (!$consumer_key || strlen($consumer_key) == 0) {
       drupal_set_message(t('Missing Twitter consumer key. Please contact site administrator.'), 'error');
       return (new RedirectResponse(\Drupal::url('<front>')));
@@ -40,11 +41,9 @@ class IdevelsTwitterLoginController extends ControllerBase {
     }
     libraries_load('twitteroauth');
 
-    $session = new Session();
-
     if (isset($_GET['oauth_token'])) {
-      $request_token['oauth_token'] = $session->get('oauth_token');
-      $request_token['oauth_token_secret'] = $session->get('oauth_token_secret');
+      $request_token['oauth_token'] = isset($_SESSION['oauth_token']) ? $_SESSION['oauth_token'] : NULL;
+      $request_token['oauth_token_secret'] = isset($_SESSION['oauth_token_secret']) ? $_SESSION['oauth_token_secret'] : NULL;
 
       // This is very, very horrible.
       if ($request_token['oauth_token'] !== $_GET['oauth_token']) {
@@ -66,9 +65,8 @@ class IdevelsTwitterLoginController extends ControllerBase {
           ),
         )
       );
-      $session->set('oauth_token', $request_token['oauth_token']);
-      $session->set('oauth_token_secret', $request_token['oauth_token_secret']);
-      $session->save();
+      $_SESSION['oauth_token'] = $request_token['oauth_token'];
+      $_SESSION['oauth_token_secret'] = $request_token['oauth_token_secret'];
 
       return new RedirectResponse(
         $connection->url(
@@ -88,7 +86,7 @@ class IdevelsTwitterLoginController extends ControllerBase {
    * @return \Drupal\user\Entity\User
    *   Found user or null if none exists.
    */
-  public static function loadUserByTwitterId($id) {
+  private function loadUserByTwitterId($id) {
 
     $user_ids = \Drupal::entityQuery('user')
       ->condition('field_twitter_user_id', $id)
@@ -96,7 +94,7 @@ class IdevelsTwitterLoginController extends ControllerBase {
     if (!$user_ids) {
       return NULL;
     }
-    return entity_load('user', reset($user_ids));
+    return User::load(reset($user_ids));
   }
 
   /**
@@ -112,9 +110,9 @@ class IdevelsTwitterLoginController extends ControllerBase {
    * @return \Drupal\user\Entity\User
    *   Found or newly created user.
    */
-  public static function loadOrRegisterUserByTwitterId($id, TwitterOAuth $connection) {
+  private function loadOrRegisterUserByTwitterId($id, TwitterOAuth $connection) {
 
-    $found_user = self::loadUserByTwitterId($id);
+    $found_user = $this->loadUserByTwitterId($id);
     if ($found_user) {
       return $found_user;
     }

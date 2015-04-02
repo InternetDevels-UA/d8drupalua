@@ -48,7 +48,7 @@ class IdevelsLoginSettingsForm extends ConfigFormBase {
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
-    $this->configFactory()->getEditable('idevels_twitter.system')
+    $this->config('idevels_twitter.system')
       ->set('idevels_twitter_consumer_key', $form_state->getValue('idevels_twitter_consumer_key'))
       ->set('idevels_twitter_consumer_secret', $form_state->getValue('idevels_twitter_consumer_secret'))
       ->save();
