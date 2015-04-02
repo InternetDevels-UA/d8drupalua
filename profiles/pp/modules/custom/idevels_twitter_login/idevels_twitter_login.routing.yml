@@ -1,0 +1,14 @@
+idevels_twitter_login_settings:
+  path: '/admin/config/services/idevels_twitter_login'
+  defaults:
+    _form: 'Drupal\idevels_twitter_login\Form\IdevelsLoginSettingsForm'
+    _title: 'Idevels Twitter Login Settings'
+  requirements:
+    _permission: 'administer site configuration'
+idevels_twitter_login:
+  path: '/user/idevels_twitter_login'
+  defaults:
+    _controller: 'Drupal\idevels_twitter_login\Controller\IdevelsTwitterLoginController::unifiedLoginRegister'
+    _title: 'Register / Login with Twitter'
+  requirements:
+    _role : 'anonymous'
